@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/xml_zahtev"
+    xmlns:obavestenje="http://ftn.uns.ac.rs/xml_obavestenja"
+    xmlns:zahtev="http://ftn.uns.ac.rs/xml_zahtev">
+
+    <xs:import id="obavestenje" namespace="http://ftn.uns.ac.rs/xml_obavestenja"
+        schemaLocation="Lab/fax/XMLProjekat/doc/schema/obavestenje.xsd"/>
+    <xs:element name="Zahtev">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Organ" type="obavestenje:TOrgan"/>
+                <xs:element name="Telo_zahteva" type="zahtev:TTelo_zahteva"/>
+            </xs:sequence>
+            <xs:attribute name="naziv" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TTelo_zahteva">
+        <xs:sequence>
+            <xs:element name="Paragraf" type="zahtev:TParagraf"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TInformacije">
+        <xs:sequence>
+            <xs:element name="Naslov" type="xs:string"/>
+            <xs:element name="Opis" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="Savet" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="TParagraf">
+        <xs:sequence>
+            <xs:element name="Tipovi_zahteva"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TTipovi_zahteva">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="Tip_zahteva" type="zahtev:TTip_zahteva"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="TTip_zahteva">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="Tipovi_dostave" type="zahtev:TTipovi_dostave"/>
+        </xs:sequence>
+        <xs:attribute default="false" name="Odabrano" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="TTipovi_dostave">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="Tip_dostave" type="zahtev:TTip_dostave"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="TTip_dostave">
+        <xs:sequence>
+            <xs:element name="Dodatni_tip" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute default="false" name="Odabrano" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="TDodatne_informacije">
+        <xs:sequence>
+            <xs:element name="Mesto" type="xs:string"/>
+            <xs:element name="Datum" type="obavestenje:TDatum"/>
+            <xs:element name="Podaci_o_traziocu"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Trazilac">
+        <xs:sequence>
+            <xs:element name="Osoba" type="obavestenje:TOsoba"/>
+            <xs:element name="Adresa" type="obavestenje:TAdresa"/>
+            <xs:element name="Kontakt" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
