@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://ftn.uns.ac.rs/xml_zahtev"
-    xmlns:obavestenje="http://ftn.uns.ac.rs/xml_obavestenja"
-    xmlns:zahtev="http://ftn.uns.ac.rs/xml_zahtev">
-
-    <xs:import id="obavestenje" namespace="http://ftn.uns.ac.rs/xml_obavestenja"
-        schemaLocation="Lab/fax/XMLProjekat/doc/schema/obavestenje.xsd"/>
+    targetNamespace="http://ftn.uns.ac.rs/xml_zahtev" xmlns:zahtev="http://ftn.uns.ac.rs/xml_zahtev"
+    xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
+    <xs:import id="opste" namespace="http://ftn.uns.ac.rs/xml_opste" schemaLocation="xml_opste.xsd"/>
     <xs:element name="Zahtev">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Organ" type="obavestenje:TOrgan"/>
+                <xs:element name="Organ" type="opste:TOrgan"/>
                 <xs:element name="Telo_zahteva" type="zahtev:TTelo_zahteva"/>
+                <xs:element name="Dodatne_informacije" type="zahtev:TDodatne_informacije"/>
             </xs:sequence>
             <xs:attribute name="naziv" type="xs:string"/>
         </xs:complexType>
@@ -27,9 +25,9 @@
         </xs:sequence>
         <xs:attribute name="Savet" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="TParagraf">
+    <xs:complexType name="TParagraf" mixed="true">
         <xs:sequence>
-            <xs:element name="Tipovi_zahteva"/>
+            <xs:element name="Tipovi_zahteva" type="zahtev:TTipovi_zahteva"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="TTipovi_zahteva">
@@ -57,14 +55,14 @@
     <xs:complexType name="TDodatne_informacije">
         <xs:sequence>
             <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Datum" type="obavestenje:TDatum"/>
-            <xs:element name="Podaci_o_traziocu"/>
+            <xs:element name="Datum" type="opste:TDatum"/>
+            <xs:element name="Podaci_o_traziocu" type="zahtev:TTrazilac"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="Trazilac">
+    <xs:complexType name="TTrazilac">
         <xs:sequence>
-            <xs:element name="Osoba" type="obavestenje:TOsoba"/>
-            <xs:element name="Adresa" type="obavestenje:TAdresa"/>
+            <xs:element name="Osoba" type="opste:TOsoba"/>
+            <xs:element name="Adresa" type="opste:TAdresa"/>
             <xs:element name="Kontakt" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>

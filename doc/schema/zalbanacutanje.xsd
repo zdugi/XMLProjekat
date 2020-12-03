@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
+    xmlns="http://ftn.uns.ac.rs/xml_obavestenja"
+    xmlns:zalba_na_cutanje="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
+    xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
+
+    <xs:import id="opste" namespace="http://ftn.uns.ac.rs/xml_opste" schemaLocation="xml_opste.xsd"/>
+
+
+    <xs:element name="ZalbaNaCutanje">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Tekst" type="xs:string"/>
+                <xs:element name="Telo_zalbe" type="zalba_na_cutanje:TTelo_Zalbe"/>
+                <xs:element name="Trazilac" type="opste:TTrazilac"/>
+                <xs:element name="Dodatne_informacije" type="opste:TDodatne_informacije"/>
+                <xs:element name="Razlozi_zalbe" type="zalba_na_cutanje:TRazlozi_zalbe"/>
+            </xs:sequence>
+            <xs:attribute name="naziv" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType mixed="true" name="TTelo_Zalbe">
+        <xs:sequence>
+            <xs:element name="ORGAN"/>
+            <xs:element name="Element" type="zalba_na_cutanje:TRazlozi_zalbe"/>
+            <xs:element name="Podaci_o_zahtevu_i_informacija" type="xs:string"/>
+            <xs:element name="Napomena" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TRazlozi_zalbe">
+        <xs:sequence>
+            <xs:element name="Razlog_zalbe">
+                <xs:complexType>
+                    <xs:attribute name="obelezeno" type="xs:boolean"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
