@@ -19,10 +19,31 @@
     </xs:element>
     <xs:complexType mixed="true" name="TTelo_obavestenja">
         <xs:sequence>
-            <xs:element name="Zakon" type="xs:string"/>
-            <xs:element name="Godina" type="xs:gYear"/>
-            <xs:element name="Dan" type="xs:gDay"/>
-            <xs:element name="Vreme" type="xs:time"/>
+            <xs:element name="Zakon" type="opste:TZakon"/>
+            <xs:element name="Godina" type="xs:positiveInteger"/>
+            <xs:element name="Dan">
+                <xs:simpleType>
+                    <xs:restriction base="xs:positiveInteger">
+                        <xs:maxInclusive value="31"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Pocetni_sat">
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minInclusive value="0"/>
+                        <xs:maxInclusive value="23"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Zavrsni_sat">
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minInclusive value="0"/>
+                        <xs:maxInclusive value="23"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
             <xs:element name="Adresa" type="opste:TAdresa"/>
             <xs:element name="Kancelarija" type="xs:positiveInteger"/>
             <xs:element name="Suma" type="xs:double"/>

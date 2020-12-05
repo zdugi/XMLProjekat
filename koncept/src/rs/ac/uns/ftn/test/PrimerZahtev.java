@@ -38,10 +38,12 @@ import rs.ac.uns.ftn.xml_zahtev.Zahtev;
 public class PrimerZahtev {
 
 	public static void main(String[] args) throws JAXBException, DatatypeConfigurationException, FileNotFoundException, SAXException {
+		//todo: read and show real document
+		System.out.println("\n\n\n ======== LOAD AND SHOW REAL DOCUMENT ======= \n\n\n");
 		JAXBContext context = JAXBContext.newInstance("rs.ac.uns.ftn.xml_zahtev");
 		
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		Zahtev zahtev = (Zahtev) unmarshaller.unmarshal(new File("C:\\Users\\Zdravko\\Documents\\Lab\\fax\\XMLProjekat\\data\\xml\\zahtev1.xml"));
+		Zahtev zahtev = (Zahtev) unmarshaller.unmarshal(new File("data\\xml\\zahtev1.xml"));
 		
 		/*
 		JAXBElement<?> ser = (JAXBElement<?>)zahtev.getTeloZahteva().getParagraf().getContent().get(1);
@@ -56,6 +58,8 @@ public class PrimerZahtev {
 		System.out.println(zahtev);*/
 		
 		// Instanciranje Studenti klase posredstvom ObjectFactory-a
+		// CREATE NEW
+		System.out.println("\n\n\n ======== CREATE NEW & VALIDATE ======= \n\n\n");
 		rs.ac.uns.ftn.xml_zahtev.ObjectFactory factoryZahtev = new rs.ac.uns.ftn.xml_zahtev.ObjectFactory();
 		
 		Zahtev noviZahtev = factoryZahtev.createZahtev();
@@ -156,17 +160,17 @@ public class PrimerZahtev {
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
-		marshaller.marshal(noviZahtev, new FileOutputStream("C:\\Users\\Zdravko\\Documents\\Lab\\fax\\XMLProjekat\\data\\xml\\magic.xml"));
+		marshaller.marshal(noviZahtev, new FileOutputStream("data\\xml\\magic.xml"));
 	
 		
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = schemaFactory.newSchema(new File("C:\\Users\\Zdravko\\Documents\\Lab\\fax\\XMLProjekat\\data\\zahtev.xsd"));
+		Schema schema = schemaFactory.newSchema(new File("data\\zahtev.xsd"));
         
 		// Podešavanje unmarshaller-a za XML schema validaciju
 		unmarshaller.setSchema(schema);
         unmarshaller.setEventHandler(new MyValidationEventHandler());
 		
-		Zahtev blackmagic = (Zahtev) unmarshaller.unmarshal(new File("C:\\Users\\Zdravko\\Documents\\Lab\\fax\\XMLProjekat\\data\\xml\\magic.xml"));
+		Zahtev blackmagic = (Zahtev) unmarshaller.unmarshal(new File("data\\xml\\magic.xml"));
 		
 		System.out.println(blackmagic);
 		marshaller.marshal(blackmagic, System.out);
