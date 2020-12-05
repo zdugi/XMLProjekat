@@ -4,9 +4,7 @@
 
     <xs:complexType name="TDatum">
         <xs:sequence>
-            <xs:element name="Dan" type="xs:gDay"/>
-            <xs:element name="Mesec" type="xs:gMonth"/>
-            <xs:element name="Godina" type="xs:gYear"/>
+            <xs:element name="Datum" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -23,8 +21,8 @@
 
     <xs:complexType name="TOrgan">
         <xs:sequence>
-            <xs:element name="Naziv"/>
-            <xs:element name="Adresa" type="opste:TAdresa"/>
+            <xs:element name="Naziv" type="xs:string"/>
+            <xs:element name="Adresa" type="opste:TAdresa" minOccurs="0"/>
             <!-- mozda i ne treba da bude adresa ovde? -->
         </xs:sequence>
     </xs:complexType>
@@ -42,6 +40,7 @@
             <xs:element name="Mesto" type="xs:string"/>
             <xs:element name="Datum" type="opste:TDatum"/>
             <!--<xs:element name="Podaci_o_traziocu"/>-->
+            <xs:element name="Trazilac" type="opste:TTrazilac"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -49,15 +48,27 @@
     <xs:complexType name="TTrazilac">
         <xs:sequence>
             <xs:element name="Osoba" type="opste:TOsoba"/>
-            <xs:element name="Adresa" type="opste:TAdresa"/>
-            <xs:element name="Kontakt" type="xs:string"/>
+            <xs:element name="Adresa" type="opste:TAdresa" minOccurs="0"/>
+            <xs:element name="Kontakt" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="TIdResenja">
         <xs:sequence>
             <xs:element name="Broj" type="xs:string"/>
-            <xs:element name="Godina" type="xs:gYear"/>
+            <xs:element name="Godina" type="xs:positiveInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TZakon">
+        <xs:sequence>
+            <xs:element name="Naziv_zakona" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona"
+                type="opste:TClan_zakona"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TClan_zakona">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Stav_zakona" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

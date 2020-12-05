@@ -7,26 +7,26 @@
         <opste:Naziv>
         </opste:Naziv>
         <opste:Adresa>
-            <opste:Ulica>string</opste:Ulica>
+            <opste:Ulica>Ulica0</opste:Ulica>
             <opste:Broj>50</opste:Broj>
             <opste:Postanski_broj>50</opste:Postanski_broj>
-            <opste:Mesto>string</opste:Mesto>
-            <opste:Drzava>string</opste:Drzava>
+            <opste:Mesto>Mesto0</opste:Mesto>
+            <opste:Drzava>Drzava0</opste:Drzava>
         </opste:Adresa>
     </zahtev:Organ>
     <zahtev:Telo_zahteva>
         <zahtev:Paragraf>
-            kljlkkjlllkj
+        	lkjdsflkjalkfjldkjsafkljsdflkjsdlkjfsdlkfjlksajfsdklfjlksajdfklj
             <zahtev:Tipovi_zahteva>
-                <zahtev:Tip_zahteva>jjjjjjjjjjjjjjjj
+                <zahtev:Tip_zahteva>
                 </zahtev:Tip_zahteva>
-                <zahtev:Tip_zahteva>hhhhhhhhhhhhhhh
+                <zahtev:Tip_zahteva>
                 </zahtev:Tip_zahteva>
             </zahtev:Tipovi_zahteva>
         </zahtev:Paragraf>
     </zahtev:Telo_zahteva>
     <zahtev:Dodatne_informacije>
-        <zahtev:Mesto>string</zahtev:Mesto>
+        <zahtev:Mesto>Mesto0</zahtev:Mesto>
         <zahtev:Datum>
             <opste:Dan>---01</opste:Dan>
             <opste:Mesec>--01</opste:Mesec>
@@ -34,17 +34,17 @@
         </zahtev:Datum>
         <zahtev:Podaci_o_traziocu>
             <zahtev:Osoba>
-                <opste:Ime>string</opste:Ime>
-                <opste:Prezime>string</opste:Prezime>
+                <opste:Ime>Ime0</opste:Ime>
+                <opste:Prezime>Prezime0</opste:Prezime>
             </zahtev:Osoba>
             <zahtev:Adresa>
-                <opste:Ulica>string</opste:Ulica>
+                <opste:Ulica>Ulica1</opste:Ulica>
                 <opste:Broj>50</opste:Broj>
                 <opste:Postanski_broj>50</opste:Postanski_broj>
-                <opste:Mesto>string</opste:Mesto>
-                <opste:Drzava>string</opste:Drzava>
+                <opste:Mesto>Mesto1</opste:Mesto>
+                <opste:Drzava>Drzava1</opste:Drzava>
             </zahtev:Adresa>
-            <zahtev:Kontakt>string</zahtev:Kontakt>
+            <zahtev:Kontakt>Kontakt0</zahtev:Kontakt>
         </zahtev:Podaci_o_traziocu>
     </zahtev:Dodatne_informacije>
 </zahtev:Zahtev>

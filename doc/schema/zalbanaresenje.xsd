@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/xml_zalbanaresenje"
+    xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+    xmlns:zalbanaresenje="http://ftn.uns.ac.rs/xml_zalbanaresenje">
+    <xs:import id="opste" namespace="http://ftn.uns.ac.rs/xml_opste" schemaLocation="xml_opste.xsd"/>
+
+    <xs:element name="ZalbaNaResenje">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tekst"/>
+                <xs:element name="newElement" type="zalbanaresenje:TTelo_Zalbe_Resenje"/>
+                <xs:element name="DodatneInformacije" type="opste:TDodatne_informacije"/>
+                <xs:element name="Trazilac" type="opste:TTrazilac"/>
+                <xs:element name="Napomene">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                            <xs:element name="Napomena" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Naziv" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType mixed="true" name="TTelo_Zalbe_Resenje">
+        <xs:sequence>
+            <xs:element name="PodnosilacZalbe"/>
+            <xs:sequence>
+                <xs:choice>
+                    <xs:element name="ZalilacOrgan" type="opste:TOrgan"/>
+                    <xs:element name="ZalilacOsoba" type="opste:TOsoba"/>
+                </xs:choice>
+                <xs:element name="Adresa" type="opste:TAdresa"/>
+            </xs:sequence>
+            <xs:element name="OrganDonosilacOdluke" type="opste:TOrgan"/>
+            <xs:element name="BrojResenja" type="opste:TIdResenja"/>
+            <xs:element name="OpisZalbe" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

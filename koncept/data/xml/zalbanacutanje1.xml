@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zalba_na_cutanje:ZalbaNaCutanje xmlns:zalba_na_cutanje="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
+ xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_zalba_na_cutanje file:/C:/Users/Zdravko/Documents/Lab/fax/XMLProjekat/doc/schema/zalbanacutanje.xsd">
+    <zalba_na_cutanje:Tekst>Tekst0</zalba_na_cutanje:Tekst>
+    <zalba_na_cutanje:Telo_zalbe>
+        <zalba_na_cutanje:ORGAN>
+        </zalba_na_cutanje:ORGAN>
+        <zalba_na_cutanje:Element>
+            <zalba_na_cutanje:Razlog_zalbe/>
+        </zalba_na_cutanje:Element>
+        <zalba_na_cutanje:Podaci_o_zahtevu_i_informacija>Podaci_o_zahtevu_i_informacija0</zalba_na_cutanje:Podaci_o_zahtevu_i_informacija>
+        <zalba_na_cutanje:Napomena>Napomena0</zalba_na_cutanje:Napomena>
+    </zalba_na_cutanje:Telo_zalbe>
+    <zalba_na_cutanje:Trazilac>
+        <opste:Osoba>
+            <opste:Ime>Ime0</opste:Ime>
+            <opste:Prezime>Prezime0</opste:Prezime>
+        </opste:Osoba>
+        <opste:Adresa>
+            <opste:Ulica>Ulica0</opste:Ulica>
+            <opste:Broj>50</opste:Broj>
+            <opste:Postanski_broj>50</opste:Postanski_broj>
+            <opste:Mesto>Mesto0</opste:Mesto>
+            <opste:Drzava>Drzava0</opste:Drzava>
+        </opste:Adresa>
+        <opste:Kontakt>Kontakt0</opste:Kontakt>
+    </zalba_na_cutanje:Trazilac>
+    <zalba_na_cutanje:Dodatne_informacije>
+        <opste:Mesto>Mesto1</opste:Mesto>
+        <opste:Datum>
+            <opste:Dan>---01</opste:Dan>
+            <opste:Mesec>--01</opste:Mesec>
+            <opste:Godina>2006</opste:Godina>
+        </opste:Datum>
+    </zalba_na_cutanje:Dodatne_informacije>
+    <zalba_na_cutanje:Razlozi_zalbe>
+        <zalba_na_cutanje:Razlog_zalbe/>
+    </zalba_na_cutanje:Razlozi_zalbe>
+</zalba_na_cutanje:ZalbaNaCutanje>

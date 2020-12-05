@@ -8,7 +8,7 @@
             <xs:sequence>
                 <xs:element name="Organ" type="opste:TOrgan"/>
                 <xs:element name="Telo_zahteva" type="zahtev:TTelo_zahteva"/>
-                <xs:element name="Dodatne_informacije" type="zahtev:TDodatne_informacije"/>
+                <xs:element name="Dodatne_informacije" type="opste:TDodatne_informacije"/>
             </xs:sequence>
             <xs:attribute name="naziv" type="xs:string"/>
         </xs:complexType>
@@ -47,17 +47,10 @@
         </xs:sequence>
     </xs:complexType>
     <xs:complexType mixed="true" name="TTip_dostave">
-        <xs:sequence minOccurs="0">
+        <xs:sequence>
             <xs:element name="Dodatni_tip" type="xs:string"/>
         </xs:sequence>
         <xs:attribute default="false" name="Odabrano" type="xs:boolean"/>
-    </xs:complexType>
-    <xs:complexType name="TDodatne_informacije">
-        <xs:sequence>
-            <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Datum" type="opste:TDatum"/>
-            <xs:element name="Podaci_o_traziocu" type="zahtev:TTrazilac"/>
-        </xs:sequence>
     </xs:complexType>
     <xs:complexType name="TTrazilac">
         <xs:sequence>
