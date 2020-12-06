@@ -12,7 +12,6 @@
                 <xs:element name="Adresa_primaoca" type="opste:TAdresa"/>
                 <xs:element name="Telo_zalbe_na_odluku" type="zalbanaresenje:TTelo_Zalbe_Resenje"/>
                 <xs:element name="DodatneInformacije" type="opste:TDodatne_informacije"/>
-                <xs:element name="Trazilac" type="opste:TTrazilac"/>
                 <xs:element name="Napomene">
                     <xs:complexType>
                         <xs:sequence maxOccurs="1" minOccurs="1">
