@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:ZalbaNaResenje xmlns="http://ftn.uns.ac.rs/xml_opste" xmlns:ns2="http://ftn.uns.ac.rs/xml_zalbanaresenje" Naziv="ZALBA  PROTIV  ODLUKE ORGANA  VLASTI KOJOM JE ODBIJEN ILI ODBACEN ZAHTEV ZA PRISTUP INFORMACIJI">
-    <ns2:Primalac>Novi primalac</ns2:Primalac>
-    <ns2:Adresa_primaoca>
-        <Ulica>Bulevar kralja Aleksandra</Ulica>
-        <Broj>15</Broj>
-        <Postanski_broj>11000</Postanski_broj>
-        <Mesto>Beograd</Mesto>
-        <Drzava>Srbija</Drzava>
-    </ns2:Adresa_primaoca>
-    <ns2:Telo_zalbe_na_odluku>ZALBA<ns2:ZalilacOsoba>
-            <Ime>Marko</Ime>
-            <Prezime>Markovic</Prezime>
-        </ns2:ZalilacOsoba>
-        <ns2:Adresa>
-            <Ulica>Bulevar oslobodjenja</Ulica>
-            <Broj>74</Broj>
-            <Postanski_broj>21000</Postanski_broj>
-            <Mesto>Novi Sad</Mesto>
-            <Drzava>Srbija</Drzava>
-        </ns2:Adresa>protiv resenja-zakljucka<ns2:OrganDonosilacOdluke>
-            <Naziv>Agencija za drzavnu upravu</Naziv>
-        </ns2:OrganDonosilacOdluke>
-        <ns2:BrojResenja>
-            <Broj>192-23</Broj>
-            <Godina>2019</Godina>
-        </ns2:BrojResenja>Navedenom odlukom organa vlasti (resenjem, zakljuckom, obavestenjem u pisanoj formi sa elementima odluke) , suprotno zakonu, odbijen-odbacen je moj zahtev koji sam podneo/la-uputio/la dana <ns2:Datum_podnosenja_zahteva>
-            <Datum>11/1/2010</Datum>
-        </ns2:Datum_podnosenja_zahteva>godine i tako mi uskraceno-onemoguceno ostvarivanje ustavnog i zakonskog prava na slobodan pristup informacijama od javnog znacaja. Odluku pobijam u celosti, odnosno u delu kojim<ns2:OpisZalbe> mi je nepravosnazno onemogucen pristup informacijama...</ns2:OpisZalbe>jer nije zasnovana na Zakonu o slobodnom pristupu informacijama od javnog znacaja.&#xD;
+<ZalbaNaResenje xmlns="http://ftn.uns.ac.rs/xml_zalbanaresenje" xmlns:ns2="http://ftn.uns.ac.rs/xml_opste" Naziv="ZALBA  PROTIV  ODLUKE ORGANA  VLASTI KOJOM JE ODBIJEN ILI ODBACEN ZAHTEV ZA PRISTUP INFORMACIJI">
+    <Primalac>Novi primalac</Primalac>
+    <Adresa_primaoca>
+        <ns2:Ulica>Bulevar kralja Aleksandra</ns2:Ulica>
+        <ns2:Broj>15</ns2:Broj>
+        <ns2:Postanski_broj>11000</ns2:Postanski_broj>
+        <ns2:Mesto>Beograd</ns2:Mesto>
+        <ns2:Drzava>Srbija</ns2:Drzava>
+    </Adresa_primaoca>
+    <Telo_zalbe_na_odluku>ZALBA<ZalilacOsoba>
+            <ns2:Ime>Marko</ns2:Ime>
+            <ns2:Prezime>Markovic</ns2:Prezime>
+        </ZalilacOsoba>
+        <Adresa>
+            <ns2:Ulica>Bulevar oslobodjenja</ns2:Ulica>
+            <ns2:Broj>74</ns2:Broj>
+            <ns2:Postanski_broj>21000</ns2:Postanski_broj>
+            <ns2:Mesto>Novi Sad</ns2:Mesto>
+            <ns2:Drzava>Srbija</ns2:Drzava>
+        </Adresa>protiv resenja-zakljucka<OrganDonosilacOdluke>
+            <ns2:Naziv>Agencija za drzavnu upravu</ns2:Naziv>
+        </OrganDonosilacOdluke>
+        <BrojResenja>
+            <ns2:Broj>192-23</ns2:Broj>
+            <ns2:Godina>2019</ns2:Godina>
+        </BrojResenja>Navedenom odlukom organa vlasti (resenjem, zakljuckom, obavestenjem u pisanoj formi sa elementima odluke) , suprotno zakonu, odbijen-odbacen je moj zahtev koji sam podneo/la-uputio/la dana <Datum_podnosenja_zahteva>
+            <ns2:Datum>11/1/2010</ns2:Datum>
+        </Datum_podnosenja_zahteva>godine i tako mi uskraceno-onemoguceno ostvarivanje ustavnog i zakonskog prava na slobodan pristup informacijama od javnog znacaja. Odluku pobijam u celosti, odnosno u delu kojim<OpisZalbe> mi je nepravosnazno onemogucen pristup informacijama...</OpisZalbe>jer nije zasnovana na Zakonu o slobodnom pristupu informacijama od javnog znacaja.&#xD;
 Na osnovu iznetih razloga, predlazem da Poverenik uvazi moju zalbu,  ponisti odluka prvostepenog organa i omoguci mi pristup trazenoj/im  informaciji/ma.&#xD;
- Zalbu podnosim blagovremeno, u zakonskom roku utvrdenom u <ns2:Zakon>
-            <Naziv_zakona>Zakon o slobodnom pristupu informacijama od javnog znacaja</Naziv_zakona>
-        </ns2:Zakon>
-    </ns2:Telo_zalbe_na_odluku>
-    <ns2:DodatneInformacije>
-        <Mesto>Novi Sad</Mesto>
-        <Datum>
-            <Datum>5/12/2020</Datum>
-        </Datum>
-        <Trazilac>
-            <Osoba>
-                <Ime>Marko</Ime>
-                <Prezime>Markovic</Prezime>
-            </Osoba>
-            <Adresa>
-                <Ulica>Bulevar oslobodjenja</Ulica>
-                <Broj>74</Broj>
-                <Postanski_broj>21000</Postanski_broj>
-                <Mesto>Novi Sad</Mesto>
-                <Drzava>Srbija</Drzava>
-            </Adresa>
-            <Kontakt>063/7009-291</Kontakt>
-        </Trazilac>
-    </ns2:DodatneInformacije>
-    <ns2:Napomene>
-        <ns2:Napomena>U zalbi se mora navesti odluka koja se pobija (resenje, zakljucak, obavestenje), naziv organa koji je odluku doneo, kao i broj i datum odluke. Dovoljno je da zalilac navede u zalbi u kom pogledu je nezadovoljan odlukom, s tim da zalbu ne mora posebno obrazloziti. Ako zalbu izjavljuje na ovom obrascu, dodatno obrazlozenje moze  posebno priloziti.</ns2:Napomena>
-        <ns2:Napomena>Uz zalbu obavezno priloziti kopiju podnetog zahteva i dokaz o njegovoj predaji-upucivanju organu kao i kopiju odluke organa koja se osporava zalbom.</ns2:Napomena>
-    </ns2:Napomene>
-</ns2:ZalbaNaResenje>
+ Zalbu podnosim blagovremeno, u zakonskom roku utvrdenom u <Zakon>
+            <ns2:Naziv_zakona>Zakon o slobodnom pristupu informacijama od javnog znacaja</ns2:Naziv_zakona>
+        </Zakon>
+    </Telo_zalbe_na_odluku>
+    <DodatneInformacije>
+        <ns2:Mesto>Novi Sad</ns2:Mesto>
+        <ns2:Datum>
+            <ns2:Datum>5/12/2020</ns2:Datum>
+        </ns2:Datum>
+        <ns2:Trazilac>
+            <ns2:Osoba>
+                <ns2:Ime>Marko</ns2:Ime>
+                <ns2:Prezime>Markovic</ns2:Prezime>
+            </ns2:Osoba>
+            <ns2:Adresa>
+                <ns2:Ulica>Bulevar oslobodjenja</ns2:Ulica>
+                <ns2:Broj>74</ns2:Broj>
+                <ns2:Postanski_broj>21000</ns2:Postanski_broj>
+                <ns2:Mesto>Novi Sad</ns2:Mesto>
+                <ns2:Drzava>Srbija</ns2:Drzava>
+            </ns2:Adresa>
+            <ns2:Kontakt>063/7009-291</ns2:Kontakt>
+        </ns2:Trazilac>
+    </DodatneInformacije>
+    <Napomene>
+        <Napomena>U zalbi se mora navesti odluka koja se pobija (resenje, zakljucak, obavestenje), naziv organa koji je odluku doneo, kao i broj i datum odluke. Dovoljno je da zalilac navede u zalbi u kom pogledu je nezadovoljan odlukom, s tim da zalbu ne mora posebno obrazloziti. Ako zalbu izjavljuje na ovom obrascu, dodatno obrazlozenje moze  posebno priloziti.</Napomena>
+        <Napomena>Uz zalbu obavezno priloziti kopiju podnetog zahteva i dokaz o njegovoj predaji-upucivanju organu kao i kopiju odluke organa koja se osporava zalbom.</Napomena>
+    </Napomene>
+</ZalbaNaResenje>

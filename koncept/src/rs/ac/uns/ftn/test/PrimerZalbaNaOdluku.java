@@ -49,8 +49,8 @@ public class PrimerZalbaNaOdluku {
 		unmarshaller.setSchema(schema);
         unmarshaller.setEventHandler(new MyValidationEventHandler());
 		
-        // original popunjen nekim dummy podacima
-        ZalbaNaResenje zalba1 = (ZalbaNaResenje) unmarshaller.unmarshal(new File("data\\xml\\zalbanaresenje_orig.xml"));
+        // citanje originala
+        ZalbaNaResenje zalba1 = (ZalbaNaResenje) unmarshaller.unmarshal(new File("data\\xml\\zalbanaresenje_original.xml"));
         
         // citanje izmenjene zalbe
         ZalbaNaResenje izmenjena = (ZalbaNaResenje) unmarshaller.unmarshal(new File("data\\xml\\zalbanaresenje_izmenjena.xml"));
@@ -63,9 +63,14 @@ public class PrimerZalbaNaOdluku {
        
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		System.out.println("\n\n===== SHOW ORIGINAL =====\n\n");
 		marshaller.marshal(zalba1, System.out);
 		
+		System.out.println("\n\n===== EDIT =====\n\n");
+		
 		marshaller.marshal(izmenjena, System.out);
+		
+		System.out.println("\n\n===== NEW =====\n\n");
 		
 		marshaller.marshal(nova, System.out);
 		
