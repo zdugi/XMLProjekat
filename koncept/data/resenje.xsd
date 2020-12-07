@@ -18,7 +18,7 @@
     </xs:element>
     <xs:complexType mixed="true" name="TSekcija">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="sekcija" type="resenje:TSekcija"/>
+            <xs:element maxOccurs="unbounded" name="sekcija" type="resenje:TSekcija" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="naziv" type="xs:string"/>
     </xs:complexType>

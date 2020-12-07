@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resenje:Resenje xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+ xmlns:zalba_na_cutanje="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
+ xmlns:resenje="http://ftn.uns.ac.rs/xml_resenje"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_resenje file:/C:/Users/Zdravko/Documents/Lab/fax/XMLProjekat/koncept/data/resenje.xsd">
+    <resenje:Datum>
+        <opste:Datum>9.6.2020.</opste:Datum>
+    </resenje:Datum>
+    <resenje:Zalba>
+        <resenje:Broj>071-01-1114</resenje:Broj>
+        <resenje:Datum>
+            <opste:Datum>1.3.2020.</opste:Datum>
+        </resenje:Datum>
+    </resenje:Zalba>
+    <resenje:Sekcija>
+        Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti, u postupku po žalbi
+        koju je izjavio AA, zbog nepostupanja Učiteljskog fakulteta u Prizrenu sa privremenim sedištem
+            u Leposaviću, ul. Nemanjina bb, po njegovom zahtevu od 16.04.2020. godine za pristup
+        informacijama od javnog značaja, na osnovu člana 35. stav 1. tačka 5. Zakona o slobodnom pristupu
+        informacijama od javnog značaja („Sl. glasnik RS“, br. 120/04, 54/07, 104/09 i 36/10), a u vezi sa
+        članom 4. tačka 22. Zakona o zaštiti podataka o ličnosti („Sl. glasnik RS“, broj 87/18), kao i člana
+        23. i člana 24. stav 4. Zakona o slobodnom pristupu informacijama od javnog značaja i člana 173.
+        stav 2. Zakona o opštem upravnom postupku („Sl. glasnik RS“, br. 18/2016 i 95/2018-autentično
+        tumačenje), donosi
+    </resenje:Sekcija>
+    <resenje:Sekcija naziv="resenje">
+        <resenje:sekcija>
+            Налаже се Учитељском факултету у Призрену са привременим седиштем у Лепосавићу, да
+            без одлагања, а најкасније у року од пет дана од дана пријема овог решења, обавести АА, да ли
+            поседује тражене информације односно документ у коме су исте садржане, и то: Уговор о раду који
+            је као последњи потписан између тог Факултета и ББ, те да му, уколико такав документ поседује
+            достави копију истог електронском поштом на адресу ... или поштом, с тим што ће пре достављања
+            заштитити и учинити недоступним податке о личности којима би се повредило право на приватност
+            лица на које се информације односе, као што су: адреса становања, лични матични број грађана, име
+            оца, радни стаж, просечна оцена студирања и сл. уколико су такви подаци садржани у траженом
+            документу.
+        </resenje:sekcija>
+        <resenje:sekcija>
+            II O izvršenju rešenja Učiteljski fakultet u Prizrenu sa privremenim sedištem u
+            Leposaviću, će obavestiti Poverenika u roku od sedam dana od prijema ovog rešenja.
+        </resenje:sekcija>
+    </resenje:Sekcija>
+    <resenje:Sekcija naziv="obrazlozenje">
+        AA, kao tražilac informacija, izjavio je dana 07.05.2020. godine žalbu Povereniku, zbog
+        nepostupanja Učiteljskog fakulteta u Prizrenu sa privremenim sedištem u Leposaviću po
+        njegovom zahtevu od 16.04.2020. godine za pristup informacijama od javnog značaja i u prilogu
+        dostavio kopiju istog.
+        Postupajući po žalbi, Poverenik je dana 11.05.2020. godine uputio istu na izjašnjenje
+        Učiteljskom fakultetu u Prizrenu sa privremenim sedištem u Leposaviću, kao organu vlasti u
+        smislu člana 3. Zakona o slobodnom pristupu informacijama od javnog značaja i zatražio da se
+        izjasni o navodima žalbe, posebno o razlozima nepostupanja u zakonskom roku po podnetom zahtevu
+        u skladu sa odredbama člana 16. st.1-9. ili st. 10. Zakona, ostavljajući rok od osam dana, povodom
+        čega nije dobio odgovor.
+        Po razmatranju žalbe i ostalih spisa ovog predmeta, doneta je odluka kao u dispozitivu
+        rešenja iz sledećih razloga:
+        Uvidom u spise predmeta utvrđeno je da je AA, dana 16.04.2020. godine, podneo Učiteljskom
+        fakultetu u Prizrenu sa privremenim sedištem u Leposaviću, zahtev za pristup informacijama
+        od javnog značaja, elektronskom poštom, kojim je tražio informacije od javnog značaja, bliže
+        navedene u stavu I dispozitiva ovog rešenja.
+        Takođe je uvidom u spise predmeta utvrđeno da po zahtevu žalioca od 16.04.2020. godine,
+        organ vlasti nije postupio, što je bio dužan da učini bez odlaganja, a najkasnije u roku od 15 dana
+        od prijema zahteva te da žalioca, u smislu člana 16. stav 1. Zakona o slobodnom pristupu
+        informacijama od javnog značaja, obavesti da li poseduje tražene informacije i da mu, ukoliko
+        iste poseduje, stavi na uvid dokument koji iste sadrži odnosno izda mu ili dostavi kopiju
+        dokumenta u kome su tražene informacije sadržane, ili da u suprotnom donese rešenje o odbijanju
+        zahteva, u smislu stava 10. istog člana.
+        Imajući u vidu da organ vlasti po zahtevu žalioca od 16.04.2020. godine nije postupio u
+        skladu sa navedenim odredbama Zakona o slobodnom pristupu informacijama od javnog značaja, a
+        da nije opravdao razloge nepostupanja po podnetom zahtevu, Poverenik je u postupku po žalbi, na
+        osnovu člana 23. i člana 24. st. 1. i 4. Zakona o slobodnom pristupu informacijama od javnog
+        značaja i člana 173. st. 2. Zakona o opštem upravnom postupku, odlučio kao u stavu I dispozitiva
+        ovog rešenja, našavši da je žalba osnovana, odnosno da je nesporno pravo žalioca na tražene
+        informacije u smislu člana 5. Zakona o slobodnom pristupu informacijama od javnog značaja, po
+        kome svako ima pravo da mu bude saopšteno da li organ vlasti poseduje ili mu je dostupna određena
+        informacija od javnog značaja, kao i da mu se informacija, ukoliko je u posedu organa, učini
+        dostupnom, na način kako je to naloženo u stavu I dispozitiva ovog rešenja, što je u skladu sa
+        odredbom člana 12. Zakona o slobodnom pristupu informacijama od javnog značaja, koja predviđa
+        mogućnost izdvajanja tražene informacije od javnog značaja od ostalih informacija sadržanih u
+        dokumentu u koje organ vlasti nije dužan da tražiocu omogući uvid, jer bi se dostupnošću tim
+        informacijama povredilo pravo na privatnost i zaštitu podataka o ličnosti lica na koja se
+        tražene informacije odnose.
+        Učiteljski fakultet u Prizrenu sa privremenim sedištem u Leposaviću, je dužan da o
+        izvršenju rešenja iz stava I dispozitiva, obavesti Poverenika u skladu sa članom 24. stav 3. Zakona
+        o slobodnom pristupu informacijama od javnog značaja.
+        Uputstvo o pravnom sredstvu:
+        Protiv ovog rešenja nije dopuštena žalba već se, u skladu sa Zakonom o upravnim
+        sporovima, može pokrenuti upravni spor tužbom Upravnom sudu u Beogradu, u roku od 30 dana od
+        dana prijema rešenja. Taksa na tužbu iznosi 390,00 dinara.
+    </resenje:Sekcija>
+    <resenje:Poverenik>
+        <opste:Ime>Milan</opste:Ime>
+        <opste:Prezime>Marinović</opste:Prezime>
+    </resenje:Poverenik>
+</resenje:Resenje>
