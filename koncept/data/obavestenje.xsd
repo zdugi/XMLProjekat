@@ -21,6 +21,15 @@
         <xs:sequence>
             <xs:element name="Zakon" type="opste:TZakon"/>
             <xs:element name="Godina" type="xs:positiveInteger"/>
+            <xs:element name="Opis">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="Savet"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="Dan">
                 <xs:simpleType>
                     <xs:restriction base="xs:positiveInteger">
@@ -28,6 +37,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element maxOccurs="1" name="Sati" type="xs:positiveInteger"/>
             <xs:element name="Pocetni_sat">
                 <xs:simpleType>
                     <xs:restriction base="xs:integer">

@@ -16,6 +16,7 @@
     <xs:complexType name="TTelo_zahteva">
         <xs:sequence>
             <xs:element name="Paragraf" type="zahtev:TParagraf"/>
+            <xs:element name="Informacije" type="zahtev:TInformacije"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="TInformacije">
@@ -48,7 +49,7 @@
     </xs:complexType>
     <xs:complexType mixed="true" name="TTip_dostave">
         <xs:sequence>
-            <xs:element name="Dodatni_tip" type="xs:string"/>
+            <xs:element name="Dodatni_tip" type="xs:string" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute default="false" name="Odabrano" type="xs:boolean"/>
     </xs:complexType>

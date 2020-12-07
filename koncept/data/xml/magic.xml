@@ -22,6 +22,10 @@
                 </ns2:Tip_zahteva>
             </ns2:Tipovi_zahteva>
         </ns2:Paragraf>
+        <ns2:Informacije Savet="Hint">
+            <ns2:Naslov>Naslov</ns2:Naslov>
+            <ns2:Opis>Smislen opis</ns2:Opis>
+        </ns2:Informacije>
     </ns2:Telo_zahteva>
     <ns2:Dodatne_informacije>
         <Mesto>Jovanjica</Mesto>

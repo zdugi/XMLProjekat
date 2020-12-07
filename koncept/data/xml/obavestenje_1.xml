@@ -26,7 +26,9 @@
     <ns2:Telo_obavestenja>uvodni tekst<ns2:Zakon>
             <Naziv_zakona>MAGNUM KARTA LIBERTATUM</Naziv_zakona>
         </ns2:Zakon>tekst kojice stojati izmedju<ns2:Godina>2020</ns2:Godina>
+        <ns2:Opis></ns2:Opis>
         <ns2:Dan>31</ns2:Dan>
+        <ns2:Sati>9</ns2:Sati>
         <ns2:Pocetni_sat>8</ns2:Pocetni_sat>traje do<ns2:Zavrsni_sat>12</ns2:Zavrsni_sat>
         <ns2:Adresa>
             <Ulica>ulica</Ulica>

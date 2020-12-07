@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zahtev:Zahtev xmlns:zahtev="http://ftn.uns.ac.rs/xml_zahtev"
+    naziv="ZAHTEV za pristup informaciji od javnog značaja"
+ xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_zahtev file:/C:/Users/Zdravko/Documents/Lab/fax/XMLProjekat/koncept/data/zahtev.xsd">
+    <zahtev:Organ>
+        <opste:Naziv>Naziv0</opste:Naziv>
+        <opste:Adresa>
+            <opste:Ulica>Ulica</opste:Ulica>
+            <opste:Broj>1</opste:Broj>
+            <opste:Postanski_broj>21000</opste:Postanski_broj>
+            <opste:Mesto>Novi Sad</opste:Mesto>
+            <opste:Drzava>Srbija</opste:Drzava>
+        </opste:Adresa>
+    </zahtev:Organ>
+    <zahtev:Telo_zahteva>
+        <zahtev:Paragraf>
+            Na osnovu člana 15. st. 1. Zakona o slobodnom pristupu informacijama od javnog značaja („Službeni glasnik RS“, br. 120/04, 54/07, 104/09 i 36/10), od gore navedenog organa zahtevam:*
+            <zahtev:Tipovi_zahteva>
+                <zahtev:Tip_zahteva>obaveštenje da li poseduje traženu informaciju</zahtev:Tip_zahteva>
+                <zahtev:Tip_zahteva>uvid u dokument koji sadrži traženu informaciju</zahtev:Tip_zahteva>
+                <zahtev:Tip_zahteva>kopiju dokumenta koji sadrži traženu informaciju</zahtev:Tip_zahteva>
+                <zahtev:Tip_zahteva>
+                    dostavljanje kopije dokumenta koji sadrži traženu informaciju
+                    <zahtev:Tipovi_dostave>
+                        <zahtev:Tip_dostave>poštom</zahtev:Tip_dostave>
+                        <zahtev:Tip_dostave>elektronskom poštom</zahtev:Tip_dostave>
+                        <zahtev:Tip_dostave>faksom</zahtev:Tip_dostave>
+                        <zahtev:Tip_dostave>
+                            na drugi način
+                            <zahtev:Dodatni_tip></zahtev:Dodatni_tip>
+                        </zahtev:Tip_dostave>
+                    </zahtev:Tipovi_dostave>
+                </zahtev:Tip_zahteva>
+            </zahtev:Tipovi_zahteva>
+        </zahtev:Paragraf>
+        <zahtev:Informacije Savet="navesti što precizniji opis informacije koja se traži kao i druge podatke koji olakšavaju pronalaženje tražene informacije">
+            <zahtev:Naslov>Ovaj zahtev se odnosi na sledeće informacije</zahtev:Naslov>
+            <zahtev:Opis></zahtev:Opis>
+        </zahtev:Informacije>
+    </zahtev:Telo_zahteva>
+    <zahtev:Dodatne_informacije>
+        <opste:Mesto>Mesto0</opste:Mesto>
+        <opste:Datum>
+            <opste:Datum>Datum0</opste:Datum>
+        </opste:Datum>
+        <opste:Trazilac>
+            <opste:Osoba>
+                <opste:Ime>Ime0</opste:Ime>
+                <opste:Prezime>Prezime0</opste:Prezime>
+            </opste:Osoba>
+        </opste:Trazilac>
+    </zahtev:Dodatne_informacije>
+</zahtev:Zahtev>
