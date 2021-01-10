@@ -34,16 +34,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.exist-db</groupId>
-			<artifactId>exist-core</artifactId>
-			<version>5.0.0</version>
-			<scope>runtime</scope>
-		</dependency>
+
 	</dependencies>
 
 	<build>
