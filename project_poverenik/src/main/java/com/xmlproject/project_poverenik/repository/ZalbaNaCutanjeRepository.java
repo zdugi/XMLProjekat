@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.repository;
 
+import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
 import org.apache.jena.rdf.model.Model;
@@ -12,10 +13,8 @@ import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
-import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import org.springframework.stereotype.Component;
 import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
@@ -28,7 +27,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 @Component

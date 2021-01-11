@@ -6,7 +6,7 @@
 //
 
 
-package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
+package rs.ac.uns.ftn.xml_resenje;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,24 +18,29 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlType;
-import com.xmlproject.project_poverenik.model.xml_opste.*;
+import rs.ac.uns.ftn.xml_opste.TDatum;
+import rs.ac.uns.ftn.xml_opste.TOrgan;
+import rs.ac.uns.ftn.xml_opste.TOsoba;
+import rs.ac.uns.ftn.xml_opste.TZakon;
 
 
 /**
- * <p>Java class for TTelo_Zalbe complex type.
+ * <p>Java class for TUvod complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="TTelo_Zalbe">
+ * &lt;complexType name="TUvod">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;choice>
+ *           &lt;element name="ZalilacOrgan" type="{http://ftn.uns.ac.rs/xml_opste}TOrgan"/>
+ *           &lt;element name="ZalilacOsoba" type="{http://ftn.uns.ac.rs/xml_opste}TOsoba"/>
+ *         &lt;/choice>
  *         &lt;element name="Organ" type="{http://ftn.uns.ac.rs/xml_opste}TOrgan"/>
- *         &lt;element name="Razlozi_zalbe" type="{http://ftn.uns.ac.rs/xml_zalba_na_cutanje}TRazlozi_zalbe"/>
- *         &lt;element name="Datum_podnosenja_zahteva" type="{http://ftn.uns.ac.rs/xml_opste}TDatum"/>
- *         &lt;element name="Podaci_o_zahtevu_i_informacija" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Napomena" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="DatumPodnosenja" type="{http://ftn.uns.ac.rs/xml_opste}TDatum"/>
+ *         &lt;element name="Zakon" type="{http://ftn.uns.ac.rs/xml_opste}TZakon" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -45,17 +50,17 @@ import com.xmlproject.project_poverenik.model.xml_opste.*;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TTelo_Zalbe", propOrder = {
+@XmlType(name = "TUvod", propOrder = {
     "content"
 })
-public class TTeloZalbe {
+public class TUvod {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "Podaci_o_zahtevu_i_informacija", namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", type = JAXBElement.class),
-        @XmlElementRef(name = "Organ", namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", type = JAXBElement.class),
-        @XmlElementRef(name = "Datum_podnosenja_zahteva", namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", type = JAXBElement.class),
-        @XmlElementRef(name = "Napomena", namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", type = JAXBElement.class),
-        @XmlElementRef(name = "Razlozi_zalbe", namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", type = JAXBElement.class)
+        @XmlElementRef(name = "ZalilacOsoba", namespace = "http://ftn.uns.ac.rs/xml_resenje", type = JAXBElement.class),
+        @XmlElementRef(name = "ZalilacOrgan", namespace = "http://ftn.uns.ac.rs/xml_resenje", type = JAXBElement.class),
+        @XmlElementRef(name = "DatumPodnosenja", namespace = "http://ftn.uns.ac.rs/xml_resenje", type = JAXBElement.class),
+        @XmlElementRef(name = "Organ", namespace = "http://ftn.uns.ac.rs/xml_resenje", type = JAXBElement.class),
+        @XmlElementRef(name = "Zakon", namespace = "http://ftn.uns.ac.rs/xml_resenje", type = JAXBElement.class)
     })
     @XmlMixed
     protected List<Serializable> content;
@@ -78,11 +83,11 @@ public class TTeloZalbe {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link TRazloziZalbe }{@code >}
+     * {@link JAXBElement }{@code <}{@link TOsoba }{@code >}
      * {@link JAXBElement }{@code <}{@link TOrgan }{@code >}
      * {@link JAXBElement }{@code <}{@link TDatum }{@code >}
+     * {@link JAXBElement }{@code <}{@link TOrgan }{@code >}
+     * {@link JAXBElement }{@code <}{@link TZakon }{@code >}
      * {@link String }
      * 
      * 

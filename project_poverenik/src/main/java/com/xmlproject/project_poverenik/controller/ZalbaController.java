@@ -1,8 +1,6 @@
 package com.xmlproject.project_poverenik.controller;
 
-import com.xmlproject.project_poverenik.model.Customer;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
-import com.xmlproject.project_poverenik.model.xml_zalbanaresenje.ZalbaNaResenje;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

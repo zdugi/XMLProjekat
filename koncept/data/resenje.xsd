@@ -9,20 +9,43 @@
     <xs:element name="Resenje">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Datum" type="opste:TDatum"/>
-                <xs:element name="Zalba" type="resenje:Zalba"/>
+                <xs:element name="Datum">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="opste:TDatum">
+                                <xs:attribute fixed="pred:datumDonosenja" name="property"/>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Zalba" type="resenje:TZalba"/>
+                <xs:element name="Uvod" type="resenje:TUvod"/>
                 <xs:element maxOccurs="unbounded" name="Sekcija" type="resenje:TSekcija"/>
                 <xs:element name="Poverenik" type="opste:TOsoba"/>
             </xs:sequence>
+            <xs:attribute name="rel" type="xs:string"/>
+            <xs:attribute name="href" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
         </xs:complexType>
     </xs:element>
+    <xs:complexType mixed="true" name="TUvod">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="ZalilacOrgan" type="opste:TOrgan"/>
+                <xs:element name="ZalilacOsoba" type="opste:TOsoba"/>
+            </xs:choice>
+            <xs:element name="Organ" type="opste:TOrgan"/>
+            <xs:element name="DatumPodnosenja" type="opste:TDatum"/>
+            <xs:element maxOccurs="unbounded" name="Zakon" type="opste:TZakon"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType mixed="true" name="TSekcija">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" name="sekcija" type="resenje:TSekcija" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="naziv" type="xs:string"/>
     </xs:complexType>
-    <xs:complexType name="Zalba">
+    <xs:complexType name="TZalba">
         <xs:sequence>
             <xs:element name="Broj" type="xs:string"/>
             <xs:element name="Datum" type="opste:TDatum"/>

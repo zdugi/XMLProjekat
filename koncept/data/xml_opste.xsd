@@ -32,13 +32,22 @@
             <xs:element name="Ime" type="xs:string"/>
             <xs:element name="Prezime" type="xs:string"/>
         </xs:sequence>
+        <xs:attribute name="property" type="xs:string" use="optional"/>
     </xs:complexType>
 
 
     <xs:complexType name="TDodatne_informacije">
         <xs:sequence>
             <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Datum" type="opste:TDatum"/>
+            <xs:element name="Datum">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="opste:TDatum">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
             <!--<xs:element name="Podaci_o_traziocu"/>-->
             <xs:element name="Trazilac" type="opste:TTrazilac"/>
         </xs:sequence>
@@ -51,6 +60,8 @@
             <xs:element name="Adresa" type="opste:TAdresa" minOccurs="0"/>
             <xs:element name="Kontakt" type="xs:string" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="rel" type="xs:string"/>
+        <xs:attribute name="href" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="TIdResenja">
@@ -61,14 +72,8 @@
     </xs:complexType>
     <xs:complexType name="TZakon">
         <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona" type="xs:string"/>
             <xs:element name="Naziv_zakona" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona"
-                type="opste:TClan_zakona"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="TClan_zakona">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="Stav_zakona" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
