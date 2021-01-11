@@ -1,6 +1,6 @@
 package com.xmlproject.project_poverenik.repository;
 
-import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
+import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
 import org.apache.jena.rdf.model.Model;
@@ -12,10 +12,9 @@ import org.apache.jena.update.UpdateRequest;
 import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.stereotype.Component;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
-import org.springframework.stereotype.Component;
 import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
@@ -32,9 +31,8 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 @Component
-public class ZalbaNaCutanjeRepository {
-
-    private static final String ZALBA_NAMED_GRAPH_URI = "/example/zalbanacutanje/metadata";
+public class ResenjeRepository {
+    private static final String RESENJE_NAMED_GRAPH_URI = "/example/resenje/metadata";
 
     @Value("${conn.uri}")
     private String connUri;
@@ -54,10 +52,10 @@ public class ZalbaNaCutanjeRepository {
     @Value("${conn.data.endpoint}")
     private String connDataEndpoint;
 
-    public ZalbaNaCutanje getOne(String id) throws Exception {
+    public Resenje getOne(String id) throws Exception {
 
         // initialize collection and document identifiers
-        String collectionId = "/db/sample/zalbanacutanje";
+        String collectionId = "/db/sample/resenje";
         String documentId = id + ".xml";
 
         System.out.println("\t- collection ID: " + collectionId);
@@ -75,7 +73,7 @@ public class ZalbaNaCutanjeRepository {
         Collection col = null;
         XMLResource res = null;
 
-        ZalbaNaCutanje zalbaNaCutanje = null;
+        Resenje resenje = null;
 
         try {
             // get the collection
@@ -91,14 +89,14 @@ public class ZalbaNaCutanjeRepository {
             } else {
 
                 System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
-                JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje");
+                JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_resenje");
 
                 Unmarshaller unmarshaller = context.createUnmarshaller();
 
-                zalbaNaCutanje = (ZalbaNaCutanje) unmarshaller.unmarshal(res.getContentAsDOM());
+                resenje = (Resenje) unmarshaller.unmarshal(res.getContentAsDOM());
 
                 System.out.println("[INFO] Showing the document as JAXB instance: ");
-                System.out.println(zalbaNaCutanje);
+                System.out.println(resenje);
 
             }
         } finally {
@@ -121,17 +119,17 @@ public class ZalbaNaCutanjeRepository {
             }
         }
 
-        return zalbaNaCutanje;
+        return resenje;
     }
 
 
-    public void save (ZalbaNaCutanje zalbaNaCutanje) throws Exception {
+    public void save (Resenje resenje) throws Exception {
         // generate id for document
-        zalbaNaCutanje.setId(UUID.randomUUID().toString());
+        resenje.setId(UUID.randomUUID().toString());
 
         // initialize collection and document identifiers
-        String collectionId = "/db/sample/zalbanacutanje";
-        String documentId = zalbaNaCutanje.getId() + ".xml";
+        String collectionId = "/db/sample/resenje";
+        String documentId = resenje.getId() + ".xml";
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;
@@ -161,13 +159,13 @@ public class ZalbaNaCutanjeRepository {
             res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
 
             System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
-            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje");
+            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_resenje");
 
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             // marshal the contents to an output stream
-            marshaller.marshal(zalbaNaCutanje, os);
+            marshaller.marshal(resenje, os);
 
             // link the stream to the XML resource
             res.setContent(os);
@@ -177,7 +175,7 @@ public class ZalbaNaCutanjeRepository {
             System.out.println("[INFO] Done.");
 
             ByteArrayOutputStream rdfOutputStream = new ByteArrayOutputStream();
-            marshaller.marshal(zalbaNaCutanje, rdfOutputStream);
+            marshaller.marshal(resenje, rdfOutputStream);
 
             saveRDF(new ByteArrayInputStream(rdfOutputStream.toByteArray()));
 
@@ -278,8 +276,8 @@ public class ZalbaNaCutanjeRepository {
         model.write(System.out, SparqlUtil.RDF_XML);
 
         // Creating the first named graph and updating it with RDF data
-        System.out.println("[INFO] Writing the triples to a named graph \"" + ZALBA_NAMED_GRAPH_URI + "\".");
-        String sparqlUpdate = SparqlUtil.insertData(connDataEndpoint + ZALBA_NAMED_GRAPH_URI, new String(out.toByteArray()));
+        System.out.println("[INFO] Writing the triples to a named graph \"" + RESENJE_NAMED_GRAPH_URI + "\".");
+        String sparqlUpdate = SparqlUtil.insertData(connDataEndpoint + RESENJE_NAMED_GRAPH_URI, new String(out.toByteArray()));
         System.out.println(sparqlUpdate);
 
         // UpdateRequest represents a unit of execution
@@ -290,5 +288,4 @@ public class ZalbaNaCutanjeRepository {
 
         System.out.println("[INFO] End.");
     }
-
 }
