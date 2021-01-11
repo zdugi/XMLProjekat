@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package rs.ac.uns.ftn.xml_zalba_na_cutanje;
+package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;

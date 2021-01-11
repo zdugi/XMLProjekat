@@ -16,13 +16,14 @@ public class ZalbaController {
     private ZalbaNaCutanjeService zalbaNaCutanjeService;
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public String resolve(@RequestBody ZalbaNaCutanje zalbaNaCutanje) {
+    public ResponseEntity<?> resolve(@RequestBody ZalbaNaCutanje zalbaNaCutanje) {
         try {
             zalbaNaCutanjeService.create(zalbaNaCutanje);
+            return new ResponseEntity<>("<Response><Status>OK</Status></Response>", HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return "I'm ok. Status: " + zalbaNaCutanje.getNaziv();
+        return new ResponseEntity<>("<Response><Status>Error</Status></Response>", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_XML_VALUE)

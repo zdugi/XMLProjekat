@@ -27,70 +27,14 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.UUID;
 
 @Component
 public class ZalbaNaCutanjeRepository {
 
     private static final String ZALBA_NAMED_GRAPH_URI = "/example/zalbanacutanje/metadata";
-
-    private static final String XML_FILE_PATH = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<ZalbaNaCutanje xmlns=\"http://ftn.uns.ac.rs/xml_zalba_na_cutanje\"\n" +
-            " xmlns:opste=\"http://ftn.uns.ac.rs/xml_opste\"\n" +
-            " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
-            " xmlns:pred=\"http://www.ftn.uns.ac.rs/rdf/examples/predicate\"\n" +
-            " xsi:schemaLocation=\"http://ftn.uns.ac.rs/xml_zalba_na_cutanje file:/C:/Users/Jovana/Desktop/XMLProjekat/koncept/data/zalbanacutanje.xsd\"\n" +
-            " about=\"http://www.ftn.uns.ac.rs/rdf/examples/person/Petar_Petrovic\">\n" +
-            "    <Primalac>Primalac0</Primalac>\n" +
-            "    <Adresa_primaoca>\n" +
-            "        <opste:Ulica>Ulica0</opste:Ulica>\n" +
-            "        <opste:Broj>50</opste:Broj>\n" +
-            "        <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
-            "        <opste:Mesto property=\"pred:mestoPrimaoca\">Mesto0</opste:Mesto>\n" +
-            "        <opste:Drzava>Drzava0</opste:Drzava>\n" +
-            "    </Adresa_primaoca>\n" +
-            "    <Telo_zalbe>\n" +
-            "        <Organ>\n" +
-            "            <opste:Naziv property=\"pred:Naziv\">Naziv0</opste:Naziv>\n" +
-            "            <opste:Adresa>\n" +
-            "                <opste:Ulica>Ulica1</opste:Ulica>\n" +
-            "                <opste:Broj>50</opste:Broj>\n" +
-            "                <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
-            "                <opste:Mesto>Mesto1</opste:Mesto>\n" +
-            "                <opste:Drzava>Drzava1</opste:Drzava>\n" +
-            "            </opste:Adresa>\n" +
-            "        </Organ>\n" +
-            "        <Razlozi_zalbe>\n" +
-            "            <Razlog_zalbe>Razlog_zalbe0</Razlog_zalbe>\n" +
-            "            <Razlog_zalbe>Razlog_zalbe1</Razlog_zalbe>\n" +
-            "        </Razlozi_zalbe>\n" +
-            "        <Datum_podnosenja_zahteva>\n" +
-            "            <opste:Datum>Datum0</opste:Datum>\n" +
-            "        </Datum_podnosenja_zahteva>\n" +
-            "        <Podaci_o_zahtevu_i_informacija>Podaci_o_zahtevu_i_informacija0</Podaci_o_zahtevu_i_informacija>\n" +
-            "        <Napomena>Napomena0</Napomena>\n" +
-            "    </Telo_zalbe>\n" +
-            "    <Dodatne_informacije>\n" +
-            "        <opste:Mesto>Mesto2</opste:Mesto>\n" +
-            "        <opste:Datum>\n" +
-            "            <opste:Datum>Datum1</opste:Datum>\n" +
-            "        </opste:Datum>\n" +
-            "        <opste:Trazilac>\n" +
-            "            <opste:Osoba>\n" +
-            "                <opste:Ime>Ime0</opste:Ime>\n" +
-            "                <opste:Prezime>Prezime0</opste:Prezime>\n" +
-            "            </opste:Osoba>\n" +
-            "            <opste:Adresa>\n" +
-            "                <opste:Ulica>Ulica2</opste:Ulica>\n" +
-            "                <opste:Broj>50</opste:Broj>\n" +
-            "                <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
-            "                <opste:Mesto>Mesto3</opste:Mesto>\n" +
-            "                <opste:Drzava>Drzava2</opste:Drzava>\n" +
-            "            </opste:Adresa>\n" +
-            "            <opste:Kontakt>Kontakt0</opste:Kontakt>\n" +
-            "        </opste:Trazilac>\n" +
-            "    </Dodatne_informacije>\n" +
-            "</ZalbaNaCutanje>\n";
 
     @Value("${conn.uri}")
     private String connUri;
@@ -182,21 +126,17 @@ public class ZalbaNaCutanjeRepository {
 
 
     public void save (ZalbaNaCutanje zalbaNaCutanje) throws Exception {
+        // generate id for document
+        zalbaNaCutanje.setId(UUID.randomUUID().toString());
+
+        System.out.println("Create entity with ID: " + zalbaNaCutanje.getId());
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/library";
-        String documentId = "2.xml";
-        String filePath = "data/zalbanacutanje.xml";
-
-
-        System.out.println("\t- collection ID: " + collectionId);
-        System.out.println("\t- document ID: " + documentId);
-        System.out.println("\t- file path: " + filePath + "\n");
+        String documentId = zalbaNaCutanje.getId() + ".xml";
 
         // initialize database driver
-        System.out.println("[INFO] Loading driver class: " + connDriver);
         Class<?> cl = DatabaseImpl.class;
-
 
         // encapsulation of the database driver functionality
         Database database = (Database) cl.newInstance();
@@ -238,7 +178,10 @@ public class ZalbaNaCutanjeRepository {
             col.storeResource(res);
             System.out.println("[INFO] Done.");
 
-            saveRDF();
+            ByteArrayOutputStream rdfOutputStream = new ByteArrayOutputStream();
+            marshaller.marshal(zalbaNaCutanje, rdfOutputStream);
+
+            saveRDF(new ByteArrayInputStream(rdfOutputStream.toByteArray()));
 
         } finally {
 
@@ -313,9 +256,7 @@ public class ZalbaNaCutanjeRepository {
         }
     }
 
-    private void saveRDF() throws Exception {
-        String rdfFilePath = "data/rdf/person_metadata.rdf";
-
+    private void saveRDF(InputStream in) throws Exception {
         MetadataExtractor metadataExtractor = new MetadataExtractor();
 
         System.out.println("[INFO] Extracting metadata from RDFa attributes...");
@@ -323,7 +264,7 @@ public class ZalbaNaCutanjeRepository {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
 
         metadataExtractor.extractMetadata(
-                new ByteArrayInputStream(XML_FILE_PATH.getBytes()),
+                in,
                 b);
 
 
@@ -338,16 +279,6 @@ public class ZalbaNaCutanjeRepository {
         System.out.println("[INFO] Rendering model as RDF/XML...");
         model.write(System.out, SparqlUtil.RDF_XML);
 
-        UpdateRequest request = UpdateFactory.create() ;
-        request.add(SparqlUtil.dropAll());
-
-        /*
-         * Create UpdateProcessor, an instance of execution of an UpdateRequest.
-         * UpdateProcessor sends update request to a remote SPARQL update service.
-         */
-        UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, connUpdateEndpoint);
-        processor.execute();
-
         // Creating the first named graph and updating it with RDF data
         System.out.println("[INFO] Writing the triples to a named graph \"" + ZALBA_NAMED_GRAPH_URI + "\".");
         String sparqlUpdate = SparqlUtil.insertData(connDataEndpoint + ZALBA_NAMED_GRAPH_URI, new String(out.toByteArray()));
@@ -356,9 +287,8 @@ public class ZalbaNaCutanjeRepository {
         // UpdateRequest represents a unit of execution
         UpdateRequest update = UpdateFactory.create(sparqlUpdate);
 
-        processor = UpdateExecutionFactory.createRemote(update, connUpdateEndpoint);
+        UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, connUpdateEndpoint);
         processor.execute();
-
 
         System.out.println("[INFO] End.");
     }

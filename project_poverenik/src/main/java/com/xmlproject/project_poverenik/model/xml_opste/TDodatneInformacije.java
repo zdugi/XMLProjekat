@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_opste;
+package com.xmlproject.project_poverenik.model.xml_opste;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -57,7 +57,7 @@ public class TDodatneInformacije {
     @XmlElement(name = "Mesto", required = true)
     protected String mesto;
     @XmlElement(name = "Datum", required = true)
-    protected TDodatneInformacije.Datum datum;
+    protected Datum datum;
     @XmlElement(name = "Trazilac", required = true)
     protected TTrazilac trazilac;
 
@@ -90,10 +90,10 @@ public class TDodatneInformacije {
      * 
      * @return
      *     possible object is
-     *     {@link TDodatneInformacije.Datum }
+     *     {@link Datum }
      *     
      */
-    public TDodatneInformacije.Datum getDatum() {
+    public Datum getDatum() {
         return datum;
     }
 
@@ -102,10 +102,10 @@ public class TDodatneInformacije {
      * 
      * @param value
      *     allowed object is
-     *     {@link TDodatneInformacije.Datum }
+     *     {@link Datum }
      *     
      */
-    public void setDatum(TDodatneInformacije.Datum value) {
+    public void setDatum(Datum value) {
         this.datum = value;
     }
 

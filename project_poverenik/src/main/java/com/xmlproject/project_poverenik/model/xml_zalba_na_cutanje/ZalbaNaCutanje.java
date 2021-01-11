@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_zalba_na_cutanje;
+package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,9 +14,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import rs.ac.uns.ftn.xml_opste.TAdresa;
-import rs.ac.uns.ftn.xml_opste.TDodatneInformacije;
 
+import com.xmlproject.project_poverenik.model.xml_opste.*;
 
 /**
  * <p>Java class for anonymous complex type.

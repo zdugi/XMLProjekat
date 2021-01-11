@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.uns.ac.rs/xml_opste", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package rs.ac.uns.ftn.xml_opste;
+package com.xmlproject.project_poverenik.model.xml_opste;

@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_zalba_na_cutanje;
+package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.XmlValue;
 public class TRazloziZalbe {
 
     @XmlElement(name = "Razlog_zalbe", required = true)
-    protected List<TRazloziZalbe.RazlogZalbe> razlogZalbe;
+    protected List<RazlogZalbe> razlogZalbe;
 
     /**
      * Gets the value of the razlogZalbe property.
@@ -72,13 +72,13 @@ public class TRazloziZalbe {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TRazloziZalbe.RazlogZalbe }
+     * {@link RazlogZalbe }
      * 
      * 
      */
-    public List<TRazloziZalbe.RazlogZalbe> getRazlogZalbe() {
+    public List<RazlogZalbe> getRazlogZalbe() {
         if (razlogZalbe == null) {
-            razlogZalbe = new ArrayList<TRazloziZalbe.RazlogZalbe>();
+            razlogZalbe = new ArrayList<RazlogZalbe>();
         }
         return this.razlogZalbe;
     }

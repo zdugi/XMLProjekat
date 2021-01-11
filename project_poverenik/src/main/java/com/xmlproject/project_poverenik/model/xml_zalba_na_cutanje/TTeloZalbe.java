@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_zalba_na_cutanje;
+package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,9 +18,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlType;
-import rs.ac.uns.ftn.xml_opste.TDatum;
-import rs.ac.uns.ftn.xml_opste.TOrgan;
-
+import com.xmlproject.project_poverenik.model.xml_opste.*;
 
 /**
  * <p>Java class for TTelo_Zalbe complex type.

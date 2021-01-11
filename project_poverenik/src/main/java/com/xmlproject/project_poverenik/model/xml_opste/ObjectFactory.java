@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_opste;
+package com.xmlproject.project_poverenik.model.xml_opste;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
