@@ -1,8 +1,18 @@
 package com.xmlproject.project_poverenik.repository;
 
+import com.xmlproject.project_poverenik.util.MetadataExtractor;
+import com.xmlproject.project_poverenik.util.SparqlUtil;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.update.UpdateExecutionFactory;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
@@ -16,11 +26,73 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 @Component
 public class ZalbaNaCutanjeRepository {
+
+    private static final String ZALBA_NAMED_GRAPH_URI = "/example/zalbanacutanje/metadata";
+
+    private static final String XML_FILE_PATH = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<ZalbaNaCutanje xmlns=\"http://ftn.uns.ac.rs/xml_zalba_na_cutanje\"\n" +
+            " xmlns:opste=\"http://ftn.uns.ac.rs/xml_opste\"\n" +
+            " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+            " xmlns:pred=\"http://www.ftn.uns.ac.rs/rdf/examples/predicate\"\n" +
+            " xsi:schemaLocation=\"http://ftn.uns.ac.rs/xml_zalba_na_cutanje file:/C:/Users/Jovana/Desktop/XMLProjekat/koncept/data/zalbanacutanje.xsd\"\n" +
+            " about=\"http://www.ftn.uns.ac.rs/rdf/examples/person/Petar_Petrovic\">\n" +
+            "    <Primalac>Primalac0</Primalac>\n" +
+            "    <Adresa_primaoca>\n" +
+            "        <opste:Ulica>Ulica0</opste:Ulica>\n" +
+            "        <opste:Broj>50</opste:Broj>\n" +
+            "        <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
+            "        <opste:Mesto property=\"pred:mestoPrimaoca\">Mesto0</opste:Mesto>\n" +
+            "        <opste:Drzava>Drzava0</opste:Drzava>\n" +
+            "    </Adresa_primaoca>\n" +
+            "    <Telo_zalbe>\n" +
+            "        <Organ>\n" +
+            "            <opste:Naziv property=\"pred:Naziv\">Naziv0</opste:Naziv>\n" +
+            "            <opste:Adresa>\n" +
+            "                <opste:Ulica>Ulica1</opste:Ulica>\n" +
+            "                <opste:Broj>50</opste:Broj>\n" +
+            "                <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
+            "                <opste:Mesto>Mesto1</opste:Mesto>\n" +
+            "                <opste:Drzava>Drzava1</opste:Drzava>\n" +
+            "            </opste:Adresa>\n" +
+            "        </Organ>\n" +
+            "        <Razlozi_zalbe>\n" +
+            "            <Razlog_zalbe>Razlog_zalbe0</Razlog_zalbe>\n" +
+            "            <Razlog_zalbe>Razlog_zalbe1</Razlog_zalbe>\n" +
+            "        </Razlozi_zalbe>\n" +
+            "        <Datum_podnosenja_zahteva>\n" +
+            "            <opste:Datum>Datum0</opste:Datum>\n" +
+            "        </Datum_podnosenja_zahteva>\n" +
+            "        <Podaci_o_zahtevu_i_informacija>Podaci_o_zahtevu_i_informacija0</Podaci_o_zahtevu_i_informacija>\n" +
+            "        <Napomena>Napomena0</Napomena>\n" +
+            "    </Telo_zalbe>\n" +
+            "    <Dodatne_informacije>\n" +
+            "        <opste:Mesto>Mesto2</opste:Mesto>\n" +
+            "        <opste:Datum>\n" +
+            "            <opste:Datum>Datum1</opste:Datum>\n" +
+            "        </opste:Datum>\n" +
+            "        <opste:Trazilac>\n" +
+            "            <opste:Osoba>\n" +
+            "                <opste:Ime>Ime0</opste:Ime>\n" +
+            "                <opste:Prezime>Prezime0</opste:Prezime>\n" +
+            "            </opste:Osoba>\n" +
+            "            <opste:Adresa>\n" +
+            "                <opste:Ulica>Ulica2</opste:Ulica>\n" +
+            "                <opste:Broj>50</opste:Broj>\n" +
+            "                <opste:Postanski_broj>50</opste:Postanski_broj>\n" +
+            "                <opste:Mesto>Mesto3</opste:Mesto>\n" +
+            "                <opste:Drzava>Drzava2</opste:Drzava>\n" +
+            "            </opste:Adresa>\n" +
+            "            <opste:Kontakt>Kontakt0</opste:Kontakt>\n" +
+            "        </opste:Trazilac>\n" +
+            "    </Dodatne_informacije>\n" +
+            "</ZalbaNaCutanje>\n";
 
     @Value("${conn.uri}")
     private String connUri;
@@ -33,6 +105,12 @@ public class ZalbaNaCutanjeRepository {
 
     @Value("${conn.driver}")
     private String connDriver;
+
+    @Value("${conn.update.endpoint}")
+    private String connUpdateEndpoint;
+
+    @Value("${conn.data.endpoint}")
+    private String connDataEndpoint;
 
     public ZalbaNaCutanje getOne(String id) throws Exception {
 
@@ -162,6 +240,8 @@ public class ZalbaNaCutanjeRepository {
             col.storeResource(res);
             System.out.println("[INFO] Done.");
 
+            saveRDF();
+
         } finally {
 
             //don't forget to cleanup
@@ -233,6 +313,56 @@ public class ZalbaNaCutanjeRepository {
         } else {
             return col;
         }
+    }
+
+    private void saveRDF() throws Exception {
+        String rdfFilePath = "data/rdf/person_metadata.rdf";
+
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+
+        System.out.println("[INFO] Extracting metadata from RDFa attributes...");
+
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+
+        metadataExtractor.extractMetadata(
+                new ByteArrayInputStream(XML_FILE_PATH.getBytes()),
+                b);
+
+
+        // Creates a default model
+        Model model = ModelFactory.createDefaultModel();
+        model.read(new ByteArrayInputStream(b.toByteArray()),null);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        model.write(out, SparqlUtil.NTRIPLES);
+
+        System.out.println("[INFO] Rendering model as RDF/XML...");
+        model.write(System.out, SparqlUtil.RDF_XML);
+
+        UpdateRequest request = UpdateFactory.create() ;
+        request.add(SparqlUtil.dropAll());
+
+        /*
+         * Create UpdateProcessor, an instance of execution of an UpdateRequest.
+         * UpdateProcessor sends update request to a remote SPARQL update service.
+         */
+        UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, connUpdateEndpoint);
+        processor.execute();
+
+        // Creating the first named graph and updating it with RDF data
+        System.out.println("[INFO] Writing the triples to a named graph \"" + ZALBA_NAMED_GRAPH_URI + "\".");
+        String sparqlUpdate = SparqlUtil.insertData(connDataEndpoint + ZALBA_NAMED_GRAPH_URI, new String(out.toByteArray()));
+        System.out.println(sparqlUpdate);
+
+        // UpdateRequest represents a unit of execution
+        UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+
+        processor = UpdateExecutionFactory.createRemote(update, connUpdateEndpoint);
+        processor.execute();
+
+
+        System.out.println("[INFO] End.");
     }
 
 }

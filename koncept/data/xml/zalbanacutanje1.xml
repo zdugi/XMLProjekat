@@ -2,18 +2,19 @@
 <ZalbaNaCutanje xmlns="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
  xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ftn.uns.ac.rs/xml_zalba_na_cutanje file:/C:/Users/Jovana/Desktop/XMLProjekat/koncept/data/zalbanacutanje.xsd">
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_zalba_na_cutanje file:/C:/Users/Jovana/Desktop/XMLProjekat/koncept/data/zalbanacutanje.xsd"
+ about="http://www.ftn.uns.ac.rs/rdf/examples/person/Petar_Petrovic">
     <Primalac>Primalac0</Primalac>
     <Adresa_primaoca>
         <opste:Ulica>Ulica0</opste:Ulica>
         <opste:Broj>50</opste:Broj>
         <opste:Postanski_broj>50</opste:Postanski_broj>
-        <opste:Mesto>Mesto0</opste:Mesto>
+        <opste:Mesto property="pred:mestoPrimaoca">Mesto0</opste:Mesto>
         <opste:Drzava>Drzava0</opste:Drzava>
     </Adresa_primaoca>
     <Telo_zalbe>
         <Organ>
-            <opste:Naziv>Naziv0</opste:Naziv>
+            <opste:Naziv property="pred:Naziv">Naziv0</opste:Naziv>
             <opste:Adresa>
                 <opste:Ulica>Ulica1</opste:Ulica>
                 <opste:Broj>50</opste:Broj>
