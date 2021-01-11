@@ -3,9 +3,11 @@
     targetNamespace="http://ftn.uns.ac.rs/xml_opste" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
 
     <xs:complexType name="TDatum">
-        <xs:sequence>
-            <xs:element name="Datum" type="xs:string"/>
-        </xs:sequence>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="TAdresa">
@@ -41,15 +43,7 @@
     <xs:complexType name="TDodatne_informacije">
         <xs:sequence>
             <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Datum">
-                <xs:complexType>
-                    <xs:simpleContent>
-                        <xs:extension base="xs:string">
-                            <xs:attribute name="property"/>
-                        </xs:extension>
-                    </xs:simpleContent>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="Datum" type="opste:TDatum"> </xs:element>
             <!--<xs:element name="Podaci_o_traziocu"/>-->
             <xs:element name="Trazilac" type="opste:TTrazilac"/>
         </xs:sequence>

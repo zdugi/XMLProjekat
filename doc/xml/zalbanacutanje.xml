@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ZalbaNaCutanje rel="pred:zalbaZbogCutanja" href="http://localhost:8081/request/1" about="http://localhost:8081/complaint/1" xmlns="http://ftn.uns.ac.rs/xml_zalba_na_cutanje" xmlns:ns2="http://ftn.uns.ac.rs/xml_opste" naziv="ZALBA KADA ORGAN NIJE POSTUPIO/nije postupio u celosti/ PO ZAHTEVU TRAZIOCA U ZAKONSKOM ROKU (CUTANJE UPRAVE)">
+<ZalbaNaCutanje rel="zalbaZbogCutanja" href="http://localhost:8081/request/1" about="http://localhost:8081/complaint/1" xmlns="http://ftn.uns.ac.rs/xml_zalba_na_cutanje" xmlns:ns2="http://ftn.uns.ac.rs/xml_opste" naziv="ZALBA KADA ORGAN NIJE POSTUPIO/nije postupio u celosti/ PO ZAHTEVU TRAZIOCA U ZAKONSKOM ROKU (CUTANJE UPRAVE)">
     <Primalac>Poverenik za informacije od javnog znacaja i zastitu podataka o licnosti</Primalac>
     <Adresa_primaoca>
         <ns2:Ulica>Bulevar kralja Aleksandra</ns2:Ulica>
@@ -16,9 +16,7 @@
             <Razlog_zalbe odabrano="true"> nije postupio</Razlog_zalbe>
             <Razlog_zalbe odabrano="false"> nije postupio u celosti</Razlog_zalbe>
             <Razlog_zalbe odabrano="false"> u zakonskom roku</Razlog_zalbe>
-        </Razlozi_zalbe>po mom zahtevu  za slobodan pristup informacijama od javnog znacaja koji sam podneo  tom organu  dana <Datum_podnosenja_zahteva>
-            <ns2:Datum>13/3/2013</ns2:Datum>
-        </Datum_podnosenja_zahteva>
+        </Razlozi_zalbe>po mom zahtevu  za slobodan pristup informacijama od javnog znacaja koji sam podneo  tom organu  dana <Datum_podnosenja_zahteva>13/3/2013</Datum_podnosenja_zahteva>
 godine, a kojim sam trazio/la da mi se u skladu sa Zakonom o slobodnom pristupu informacijama od javnog znacaja omoguci uvid- kopija dokumenta koji sadrzi informacije  o /u vezi sa :
 	<Podaci_o_zahtevu_i_informacija> informacije koje su trazene</Podaci_o_zahtevu_i_informacija>
 (navesti podatke o zahtevu i informaciji/ama) Na osnovu iznetog, predlazem da Poverenik uvazi moju zalbu i omoguci mi pristup trazenoj/im  informaciji/ma. 

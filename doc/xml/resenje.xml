@@ -3,22 +3,17 @@
  xmlns:zalba_na_cutanje="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
  xmlns:resenje="http://ftn.uns.ac.rs/xml_resenje"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xmlns:pred="http://www.ftn.uns.ac.rs/rdf/sluzba/predicate/"
- rel="pred:resenjaZa" href="http://localhost:8081/complaint/1" about="http://localhost:8081/solution/1">
-    <resenje:Datum property="pred:datumDonosenja">
-        <opste:Datum>9.6.2020.</opste:Datum>
-    </resenje:Datum>
+ rel="resenjaZa" href="http://localhost:8081/complaint/1" about="http://localhost:8081/solution/1">
+    <resenje:Datum property="datumDonosenja">9.6.2020.</resenje:Datum>
     <resenje:Zalba>
         <resenje:Broj>071-01-1114</resenje:Broj>
-        <resenje:Datum>
-            <opste:Datum>1.3.2020.</opste:Datum>
-        </resenje:Datum>
+        <resenje:Datum>1.3.2020.</resenje:Datum>
     </resenje:Zalba>
     <resenje:Uvod>
         Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti, u postupku po žalbi
         koju je izjavio
         <resenje:ZalilacOsoba><opste:Ime>A</opste:Ime><opste:Prezime>A</opste:Prezime></resenje:ZalilacOsoba>, zbog nepostupanja <resenje:Organ><opste:Naziv>Učiteljskog fakulteta u Prizrenu</opste:Naziv></resenje:Organ> sa privremenim sedištem
-        u Leposaviću, ul. Nemanjina bb, po njegovom zahtevu od <resenje:DatumPodnosenja><opste:Datum>16.04.2020.</opste:Datum></resenje:DatumPodnosenja> godine za pristup
+        u Leposaviću, ul. Nemanjina bb, po njegovom zahtevu od <resenje:DatumPodnosenja>16.04.2020.</resenje:DatumPodnosenja> godine za pristup
         informacijama od javnog značaja, na osnovu <resenje:Zakon><opste:Clan_zakona>člana 35. stav 1. tačka 5.</opste:Clan_zakona><opste:Naziv_zakona>Zakona o slobodnom pristupu
         informacijama od javnog značaja („Sl. glasnik RS“, br. 120/04, 54/07, 104/09 i 36/10)</opste:Naziv_zakona></resenje:Zakon>, a u vezi sa
         <resenje:Zakon><opste:Clan_zakona>članom 4. tačka 22.</opste:Clan_zakona><opste:Naziv_zakona>Zakona o zaštiti podataka o ličnosti („Sl. glasnik RS“, broj 87/18)</opste:Naziv_zakona></resenje:Zakon>,
@@ -92,7 +87,7 @@
         sporovima, može pokrenuti upravni spor tužbom Upravnom sudu u Beogradu, u roku od 30 dana od
         dana prijema rešenja. Taksa na tužbu iznosi 390,00 dinara.
     </resenje:Sekcija>
-    <resenje:Poverenik property="pred:izdao">
+    <resenje:Poverenik about="http://localhost:8081/person/1" rel="izdao" href="http://localhost:8081/solution/1">
         <opste:Ime>Milan</opste:Ime>
         <opste:Prezime>Marinović</opste:Prezime>
     </resenje:Poverenik>
