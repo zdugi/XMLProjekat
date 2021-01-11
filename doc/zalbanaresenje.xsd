@@ -8,14 +8,15 @@
     <xs:element name="ZalbaNaResenje">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="tekst"/>
-                <xs:element name="newElement" type="zalbanaresenje:TTelo_Zalbe_Resenje"/>
+                <xs:element name="Primalac" type="xs:string"/>
+                <xs:element name="Adresa_primaoca" type="opste:TAdresa"/>
+                <xs:element name="Telo_zalbe_na_odluku" type="zalbanaresenje:TTelo_Zalbe_Resenje"/>
                 <xs:element name="DodatneInformacije" type="opste:TDodatne_informacije"/>
-                <xs:element name="Trazilac" type="opste:TTrazilac"/>
                 <xs:element name="Napomene">
                     <xs:complexType>
-                        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                            <xs:element name="Napomena" type="xs:string"/>
+                        <xs:sequence maxOccurs="1" minOccurs="1">
+                            <xs:element name="Napomena" type="xs:string" maxOccurs="unbounded"
+                                minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -25,7 +26,6 @@
     </xs:element>
     <xs:complexType mixed="true" name="TTelo_Zalbe_Resenje">
         <xs:sequence>
-            <xs:element name="PodnosilacZalbe"/>
             <xs:sequence>
                 <xs:choice>
                     <xs:element name="ZalilacOrgan" type="opste:TOrgan"/>
@@ -35,7 +35,9 @@
             </xs:sequence>
             <xs:element name="OrganDonosilacOdluke" type="opste:TOrgan"/>
             <xs:element name="BrojResenja" type="opste:TIdResenja"/>
+            <xs:element name="Datum_podnosenja_zahteva" type="opste:TDatum"/>
             <xs:element name="OpisZalbe" type="xs:string"/>
+            <xs:element name="Zakon" type="opste:TZakon"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

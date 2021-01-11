@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Obavestenje xmlns="http://ftn.uns.ac.rs/xml_opste" xmlns:ns2="http://ftn.uns.ac.rs/xml_obavestenja" Broj_predmeta="123-32123" Naziv="Naziv obavestenja">
+    <ns2:Datum>
+        <Datum>12.12.2020</Datum>
+    </ns2:Datum>
+    <ns2:Organ>
+        <Naziv>Naziv organa</Naziv>
+        <Adresa>
+            <Ulica>ulica</Ulica>
+            <Broj>1</Broj>
+            <Postanski_broj>1</Postanski_broj>
+            <Mesto>Mesto</Mesto>
+            <Drzava>DrzavaA</Drzava>
+        </Adresa>
+    </ns2:Organ>
+    <ns2:Podaci_podnosioca>
+        <ns2:Naziv>naziv firme koja podnosi</ns2:Naziv>
+        <ns2:Adresa>
+            <Ulica>ulica</Ulica>
+            <Broj>1</Broj>
+            <Postanski_broj>1</Postanski_broj>
+            <Mesto>Mesto</Mesto>
+            <Drzava>DrzavaA</Drzava>
+        </ns2:Adresa>
+    </ns2:Podaci_podnosioca>
+    <ns2:Telo_obavestenja>uvodni tekst<ns2:Zakon>
+            <Naziv_zakona>MAGNUM KARTA LIBERTATUM</Naziv_zakona>
+        </ns2:Zakon>tekst kojice stojati izmedju<ns2:Godina>2020</ns2:Godina>
+        <ns2:Opis></ns2:Opis>
+        <ns2:Dan>31</ns2:Dan>
+        <ns2:Sati>9</ns2:Sati>
+        <ns2:Pocetni_sat>8</ns2:Pocetni_sat>traje do<ns2:Zavrsni_sat>12</ns2:Zavrsni_sat>
+        <ns2:Adresa>
+            <Ulica>ulica</Ulica>
+            <Broj>1</Broj>
+            <Postanski_broj>1</Postanski_broj>
+            <Mesto>Mesto</Mesto>
+            <Drzava>DrzavaA</Drzava>
+        </ns2:Adresa>
+        <ns2:Kancelarija>12</ns2:Kancelarija>
+        <ns2:Suma>321.21</ns2:Suma>
+    </ns2:Telo_obavestenja>
+    <ns2:Dostavljeno Imenovanom="true" Arhivi="false"/>
+</ns2:Obavestenje>

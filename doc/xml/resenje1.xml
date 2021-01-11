@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resenje:Resenje xmlns:zalba_na_cutanje="http://ftn.uns.ac.rs/xml_zalba_na_cutanje"
+ xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+ xmlns:resenje="http://ftn.uns.ac.rs/xml_resenje"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_resenje file:/C:/Users/Zdravko/Documents/Lab/fax/XMLProjekat/doc/schema/resenje.xsd">
+    <resenje:Datum>
+        <opste:Dan>---01</opste:Dan>
+        <opste:Mesec>--01</opste:Mesec>
+        <opste:Godina>2006</opste:Godina>
+    </resenje:Datum>
+    <resenje:Zalba>
+        <resenje:Broj>Broj0</resenje:Broj>
+        <resenje:Datum>
+            <opste:Dan>---01</opste:Dan>
+            <opste:Mesec>--01</opste:Mesec>
+            <opste:Godina>2006</opste:Godina>
+        </resenje:Datum>
+    </resenje:Zalba>
+    <resenje:Sekcija>
+        <resenje:sekcija>
+            <resenje:sekcija/>
+            <resenje:sekcija/>
+        </resenje:sekcija>
+        <resenje:sekcija>
+            <resenje:sekcija/>
+            <resenje:sekcija/>
+        </resenje:sekcija>
+    </resenje:Sekcija>
+    <resenje:Sekcija>
+        <resenje:sekcija>
+            <resenje:sekcija/>
+            <resenje:sekcija/>
+        </resenje:sekcija>
+        <resenje:sekcija>
+            <resenje:sekcija/>
+            <resenje:sekcija/>
+        </resenje:sekcija>
+    </resenje:Sekcija>
+    <resenje:Poverenik>
+        <opste:Ime>Ime0</opste:Ime>
+        <opste:Prezime>Prezime0</opste:Prezime>
+    </resenje:Poverenik>
+</resenje:Resenje>

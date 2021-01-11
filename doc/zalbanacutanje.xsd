@@ -11,28 +11,36 @@
     <xs:element name="ZalbaNaCutanje">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Tekst" type="xs:string"/>
+                <xs:element name="Primalac" type="xs:string"/>
+                <xs:element name="Adresa_primaoca" type="opste:TAdresa"/>
                 <xs:element name="Telo_zalbe" type="zalba_na_cutanje:TTelo_Zalbe"/>
-                <xs:element name="Trazilac" type="opste:TTrazilac"/>
                 <xs:element name="Dodatne_informacije" type="opste:TDodatne_informacije"/>
-                <xs:element name="Razlozi_zalbe" type="zalba_na_cutanje:TRazlozi_zalbe"/>
             </xs:sequence>
             <xs:attribute name="naziv" type="xs:string"/>
+            <xs:attribute name="rel" type="xs:string"/>
+            <xs:attribute name="href" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
+            <xs:attribute name="id" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType mixed="true" name="TTelo_Zalbe">
         <xs:sequence>
-            <xs:element name="ORGAN"/>
-            <xs:element name="Element" type="zalba_na_cutanje:TRazlozi_zalbe"/>
+            <xs:element name="Organ" type="opste:TOrgan"/>
+            <xs:element name="Razlozi_zalbe" type="zalba_na_cutanje:TRazlozi_zalbe"/>
+            <xs:element name="Datum_podnosenja_zahteva" type="opste:TDatum"/>
             <xs:element name="Podaci_o_zahtevu_i_informacija" type="xs:string"/>
             <xs:element name="Napomena" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="TRazlozi_zalbe">
-        <xs:sequence>
-            <xs:element name="Razlog_zalbe">
+        <xs:sequence maxOccurs="1" minOccurs="1">
+            <xs:element name="Razlog_zalbe" form="qualified" maxOccurs="unbounded" minOccurs="1">
                 <xs:complexType>
-                    <xs:attribute name="obelezeno" type="xs:boolean"/>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute default="false" name="odabrano" type="xs:boolean"/>
+                        </xs:extension>
+                    </xs:simpleContent>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>

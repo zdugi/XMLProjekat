@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<obavestenje:Obavestenje xmlns:obavestenje="http://ftn.uns.ac.rs/xml_obavestenja"
+ xmlns:opste="http://ftn.uns.ac.rs/xml_opste"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ftn.uns.ac.rs/xml_obavestenja file:/C:/Users/Zdravko/Documents/Lab/fax/XMLProjekat/koncept/data/obavestenje.xsd"
+ Broj_predmeta="123-321" Naziv="OBAVEŠTENjE o stavljanju na uvid dokumenta koji sadrži traženu informaciju i o izradi kopije">
+    <obavestenje:Datum>
+        <opste:Datum>12.12.2020.</opste:Datum>
+    </obavestenje:Datum>
+    <obavestenje:Organ>
+        <opste:Naziv>Naziv organa</opste:Naziv>
+        <opste:Adresa>
+            <opste:Ulica>Milosa Crnjanskog</opste:Ulica>
+            <opste:Broj>21</opste:Broj>
+            <opste:Postanski_broj>32123</opste:Postanski_broj>
+            <opste:Mesto>Novi Sad</opste:Mesto>
+            <opste:Drzava>Srbija</opste:Drzava>
+        </opste:Adresa>
+    </obavestenje:Organ>
+    <obavestenje:Podaci_podnosioca>
+        <obavestenje:Naziv>Naziv podnosioca</obavestenje:Naziv>
+        <obavestenje:Adresa>
+            <opste:Ulica>Ulica0</opste:Ulica>
+            <opste:Broj>50</opste:Broj>
+            <opste:Postanski_broj>50</opste:Postanski_broj>
+            <opste:Mesto>Mesto0</opste:Mesto>
+            <opste:Drzava>Drzava0</opste:Drzava>
+        </obavestenje:Adresa>
+    </obavestenje:Podaci_podnosioca>
+    <obavestenje:Telo_obavestenja>
+        <obavestenje:Zakon>
+            <opste:Naziv_zakona>člana 16. st. 1. Zakona o slobodnom pristupu informacijama od javnog značaja</opste:Naziv_zakona>
+        </obavestenje:Zakon>
+        <obavestenje:Godina>50</obavestenje:Godina>
+        god., kojim ste tražili uvid u dokument/e sa informacijama o / u vezi sa:
+        <obavestenje:Opis Savet="opis trayene informacije"></obavestenje:Opis>
+        obaveštavamo vas da dana <obavestenje:Dan>16</obavestenje:Dan>, u časova <obavestenje:Sati>13</obavestenje:Sati>, odnosno u vremenu od
+        <obavestenje:Pocetni_sat>12</obavestenje:Pocetni_sat> do <obavestenje:Zavrsni_sat>18</obavestenje:Zavrsni_sat> časova, u prostorijama organa u <obavestenje:Adresa>
+            <opste:Ulica>Ulica1</opste:Ulica>
+            <opste:Broj>50</opste:Broj>
+            <opste:Postanski_broj>50</opste:Postanski_broj>
+            <opste:Mesto>Mesto1</opste:Mesto>
+            <opste:Drzava>Drzava1</opste:Drzava>
+        </obavestenje:Adresa>, kancelarija br. <obavestenje:Kancelarija>50</obavestenje:Kancelarija> možete izvršiti uvid u dokument/e u kome je sadržana tražena informacija.
+        Tom prilikom, na vaš zahtev, može vam se izdati i kopija dokumenta sa traženom informacijom.
+        Troškovi su utvrđeni Uredbom Vlade Republike Srbije („Sl. glasnik RS“, br. 8/06), i to: kopija strane A4 formata iznosi 3 dinara, A3 formata 6 dinara, CD 35 dinara, diskete 20 dinara, DVD 40 dinara, audio-kaseta – 150 dinara, video-kaseta 300 dinara, pretvaranje jedne strane dokumenta iz fizičkog u elektronski oblik – 30 dinara.
+        Iznos ukupnih troškova izrade kopije dokumenta po vašem zahtevu iznosi <obavestenje:Suma>0</obavestenje:Suma> dinara i uplaćuje se na žiro-račun Budžeta Republike Srbije br. 840-742328-843-30, s pozivom na broj 97 – oznaka šifre opštine/grada gde se nalazi organ vlasti (iz Pravilnika o uslovima i načinu vođenja računa – „Sl. glasnik RS“, 20/07... 40/10). 
+    </obavestenje:Telo_obavestenja>
+    <obavestenje:Dostavljeno Arhivi="true"/>
+</obavestenje:Obavestenje>

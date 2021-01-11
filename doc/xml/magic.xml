@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Zahtev xmlns="http://ftn.uns.ac.rs/xml_opste" xmlns:ns2="http://ftn.uns.ac.rs/xml_zahtev" naziv="Naziv zahteva">
+    <ns2:Organ>
+        <Naziv>Naziv organa</Naziv>
+        <Adresa>
+            <Ulica>Sekspirova</Ulica>
+            <Broj>1000</Broj>
+            <Postanski_broj>21000</Postanski_broj>
+            <Mesto>Novi Sad</Mesto>
+            <Drzava>Srbija</Drzava>
+        </Adresa>
+    </ns2:Organ>
+    <ns2:Telo_zahteva>
+        <ns2:Paragraf>Tekst paragrafa
+<ns2:Tipovi_zahteva>
+                <ns2:Tip_zahteva Odabrano="true">prvi zahtev</ns2:Tip_zahteva>
+                <ns2:Tip_zahteva Odabrano="false">drugi zahtev</ns2:Tip_zahteva>
+                <ns2:Tip_zahteva Odabrano="false">treci zahtev<ns2:Tipovi_dostave>
+                        <ns2:Tip_dostave Odabrano="false">Neki sadrzaj<ns2:Dodatni_tip>vrednost dodatnog tipa</ns2:Dodatni_tip>
+                        </ns2:Tip_dostave>
+                    </ns2:Tipovi_dostave>
+                </ns2:Tip_zahteva>
+            </ns2:Tipovi_zahteva>
+        </ns2:Paragraf>
+        <ns2:Informacije Savet="Hint">
+            <ns2:Naslov>Naslov</ns2:Naslov>
+            <ns2:Opis>Smislen opis</ns2:Opis>
+        </ns2:Informacije>
+    </ns2:Telo_zahteva>
+    <ns2:Dodatne_informacije>
+        <Mesto>Jovanjica</Mesto>
+        <Datum>
+            <Datum>Hallow Vrld</Datum>
+        </Datum>
+        <Trazilac>
+            <Osoba>
+                <Ime>Petar</Ime>
+                <Prezime>Petrovic</Prezime>
+            </Osoba>
+            <Adresa>
+                <Ulica>Sekspirova</Ulica>
+                <Broj>1000</Broj>
+                <Postanski_broj>21000</Postanski_broj>
+                <Mesto>Novi Sad</Mesto>
+                <Drzava>Srbija</Drzava>
+            </Adresa>
+            <Kontakt>123 456</Kontakt>
+        </Trazilac>
+    </ns2:Dodatne_informacije>
+</ns2:Zahtev>
