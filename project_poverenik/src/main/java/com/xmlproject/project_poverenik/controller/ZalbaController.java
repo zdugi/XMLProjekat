@@ -1,14 +1,18 @@
 package com.xmlproject.project_poverenik.controller;
 
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
-import com.xmlproject.project_poverenik.model.xml_zalba_na_odluku.ZalbaNaOdluku;
+import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
+import org.apache.jena.sparql.algebra.Op;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pojo.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/complaint")
@@ -19,7 +23,6 @@ public class ZalbaController {
 
     @Autowired
     private ZalbaNaOdlukuService zalbaNaOdlukuService;
-
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> resolve(@RequestBody ZalbaNaCutanje zalbaNaCutanje) {

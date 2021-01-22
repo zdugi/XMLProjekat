@@ -11,6 +11,7 @@
                 <xs:element name="Dodatne_informacije" type="opste:TDodatne_informacije"/>
             </xs:sequence>
             <xs:attribute name="naziv" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType name="TTelo_zahteva">
@@ -57,7 +58,15 @@
         <xs:sequence>
             <xs:element name="Osoba" type="opste:TOsoba"/>
             <xs:element name="Adresa" type="opste:TAdresa"/>
-            <xs:element name="Kontakt" type="xs:string"/>
+            <xs:element name="Kontakt">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

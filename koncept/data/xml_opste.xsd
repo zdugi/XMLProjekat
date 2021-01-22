@@ -3,9 +3,11 @@
     targetNamespace="http://ftn.uns.ac.rs/xml_opste" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
 
     <xs:complexType name="TDatum">
-        <xs:sequence>
-            <xs:element name="Datum" type="xs:string"/>
-        </xs:sequence>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="TAdresa">
@@ -13,15 +15,39 @@
             <xs:element name="Ulica" type="xs:string"/>
             <xs:element name="Broj" type="xs:positiveInteger"/>
             <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
-            <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Drzava" type="xs:string"/>
+            <xs:element name="Mesto">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Drzava">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
 
     <xs:complexType name="TOrgan">
         <xs:sequence>
-            <xs:element name="Naziv" type="xs:string"/>
+            <xs:element name="Naziv">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="Adresa" type="opste:TAdresa" minOccurs="0"/>
             <!-- mozda i ne treba da bude adresa ovde? -->
         </xs:sequence>
@@ -32,22 +58,16 @@
             <xs:element name="Ime" type="xs:string"/>
             <xs:element name="Prezime" type="xs:string"/>
         </xs:sequence>
-        <xs:attribute name="property" type="xs:string" use="optional"/>
+        <xs:attribute name="about" type="xs:string" use="optional"/>
+        <xs:attribute name="rel" type="xs:string"/>
+        <xs:attribute name="href" type="xs:string"/>
     </xs:complexType>
 
 
     <xs:complexType name="TDodatne_informacije">
         <xs:sequence>
             <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Datum">
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:extension base="opste:TDatum">
-                            <xs:attribute name="property" type="xs:string"/>
-                        </xs:extension>
-                    </xs:complexContent>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="Datum" type="opste:TDatum"> </xs:element>
             <!--<xs:element name="Podaci_o_traziocu"/>-->
             <xs:element name="Trazilac" type="opste:TTrazilac"/>
         </xs:sequence>

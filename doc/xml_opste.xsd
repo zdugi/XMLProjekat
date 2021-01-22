@@ -15,15 +15,39 @@
             <xs:element name="Ulica" type="xs:string"/>
             <xs:element name="Broj" type="xs:positiveInteger"/>
             <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
-            <xs:element name="Mesto" type="xs:string"/>
-            <xs:element name="Drzava" type="xs:string"/>
+            <xs:element name="Mesto">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Drzava">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
 
     <xs:complexType name="TOrgan">
         <xs:sequence>
-            <xs:element name="Naziv" type="xs:string"/>
+            <xs:element name="Naziv">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="Adresa" type="opste:TAdresa" minOccurs="0"/>
             <!-- mozda i ne treba da bude adresa ovde? -->
         </xs:sequence>

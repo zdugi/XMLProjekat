@@ -1,6 +1,6 @@
 package com.xmlproject.project_poverenik.repository;
 
-import com.xmlproject.project_poverenik.model.xml_zalba_na_odluku.ZalbaNaOdluku;
+import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
 import org.apache.jena.rdf.model.Model;

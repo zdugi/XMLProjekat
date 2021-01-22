@@ -37,6 +37,7 @@
 	
 	<target name="generate_classes" depends="init">
 		<xjc schema="${data.dir}/xml_opste.xsd" destdir="${gen.dir}"/>
+		<xjc schema="${data.dir}/zalbanaodluku.xsd" destdir="${gen.dir}"/>
 		<xjc schema="${data.dir}/zalbanacutanje.xsd" destdir="${gen.dir}"/>
 		<xjc schema="${data.dir}/zalbanaresenje.xsd" destdir="${gen.dir}"/>
 		<xjc schema="${data.dir}/obavestenje.xsd" destdir="${gen.dir}"/>
