@@ -22,6 +22,7 @@ public class ZahtevController {
 
     @PostMapping(path="otac", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> createDummy(@RequestBody Otac otac) {
+
         //otac.dete = new Dete();
         //otac.dete.ime = "Zdravko";
         //otac.dete.prezime = "Dugonjic";
@@ -32,6 +33,7 @@ public class ZahtevController {
     public ResponseEntity<?> createRequest(@RequestBody ZahtevDokumentDTO zahtevDokumentDTO) {
         try {
             zahtevService.create(zahtevDokumentDTO);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,10 +1,10 @@
-const HomePage = Vue.component("home-page", {
+const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
     template: `
     <div>
         <div class="editor-box">
-                <h2>Slanje zahteva za pristup informacijama od javnog znacaja</h2>
+                <h2>Slanje zalbe na cutanje</h2>
                 <div id="editor"></div>
-                <button v-on:click="submit()">Posalji zahtev</button>
+                <button v-on:click="submit()">Posalji zalbu na cutanje</button>
         </div>
     </div>
     `,
@@ -12,13 +12,13 @@ const HomePage = Vue.component("home-page", {
         submit() {
             var xml=Xonomy.harvest();
             console.log(xml)
-            axios.post("/api/request", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
-            alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.')})
+            axios.post("/api/complaint", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
+            alert('Zalba uspesno podnesena. Dobicete odgovor od poverenika putem elektronske poste.')})
         }
     },
     data() {
         return {
-            message: 'Hello World!'
+            message: 'Hello World!!!'
         }
     },
     mounted() {
@@ -30,9 +30,7 @@ const HomePage = Vue.component("home-page", {
                 console.log("I be validatin' now!")
             },
             elements: {
-                "zahtev": {
-                    hasText: false
-                },
+
                 "organ": {
                     hasText: false,
                     attributes: {
@@ -40,6 +38,47 @@ const HomePage = Vue.component("home-page", {
                             asker: Xonomy.askString
                         }
                     }
+                },
+
+                "podaciOZahtevuIInformacijama": {
+                    hasText: false
+                },
+
+                "datumPodnosenja": {
+                    attributes: {
+                        "datumPodnosenjaA": {
+                            asker: Xonomy.askString
+                        }
+                    }
+                },
+                "podaciOZahtevuIInformacijama": {
+                },
+                "dodatneInformacije": {
+                    attributes: {
+                        "datum": {
+                            asker: Xonomy.askString
+                        },
+                        "mesto": {
+                            asker: Xonomy.askString
+                        }
+                    }
+                },
+                "trazilac": {
+                    attributes: {
+                          "kontakt": {
+                      asker: Xonomy.askString
+                    }}
+
+                },
+                "osoba": {
+                    attributes: {
+                        "ime": {
+                         asker: Xonomy.askString
+                       },
+                       "prezime": {
+                          asker: Xonomy.askString
+                       }
+                   }
                 },
                 "adresa": {
                     attributes: {
@@ -71,13 +110,7 @@ const HomePage = Vue.component("home-page", {
                         }
                     }
                 },
-                "opis": {
-                    attributes: {
-                        "tekst": {
-                            asker: Xonomy.askLongString
-                        }
-                    }
-                },
+
                 "mestoPodnosenja": {
                     attributes: {
                         "naziv": {
@@ -94,7 +127,12 @@ const HomePage = Vue.component("home-page", {
         `
 
         var xml =
-        `<zahtev><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><zahtevam><opcija cekiran='true' tekst='обавештење да ли поседује тражену информацију;'/><opcija cekiran='false' tekst='увид у документ који садржи тражену информацију;'/><opcija cekiran='false' tekst='копију документа који садржи тражену информацију;'/><opcija cekiran='false' tekst='достављање копије документа који садржи тражену информацију'><dostava cekiran='false' tekst='поштом'/><dostava cekiran='false' tekst='електронском поштом'/><dostava cekiran='false' tekst='⁫факсом'/><dostava cekiran='false' tekst='на други начин' dodatno=''/></opcija><opis tekst='ovde ide opis informacije...'/></zahtevam><mestoPodnosenja naziv='' /></zahtev>`;
+          `<zalbaNaCutanje><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><datumPodnosenja datumPodnosenjaA=''></datumPodnosenja><podaciOZahtevuIInformacijama></podaciOZahtevuIInformacijama>
+               <dodatneInformacije mesto="" datum=""><trazilac kontakt=""><osoba ime="" prezime=""></osoba></trazilac></dodatneInformacije>
+               <opcije><opcija cekiran='true' tekst='није поступио;'/><opcija cekiran='false' tekst='није поступио у целости;'/><opcija cekiran='false' tekst= "није поступио у законском року"/></opcije>
+               <mestoPodnosenja naziv='' />
+           </zalbaNaCutanje>
+                  `
         var editor = document.getElementById("editor");
         Xonomy.setMode("laic");
         Xonomy.render(xml, editor, docSpec);
