@@ -27,7 +27,7 @@ public class ZalbaController {
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> resolve(@RequestBody ZalbaNaCutanjeDTO zalbaNaCutanje) {
         try {
-            
+            zalbaNaCutanjeService.create(zalbaNaCutanje);
             return new ResponseEntity<>("<Response><Status>OK</Status></Response>", HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
