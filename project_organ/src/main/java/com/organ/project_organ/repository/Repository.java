@@ -23,10 +23,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public abstract class Repository<T1> {
     private final String NAMED_GRAPH_URI;
@@ -56,6 +53,53 @@ public abstract class Repository<T1> {
         this.NAMED_GRAPH_URI = graphURI;
         this.COLLECTION_ID = collectionId;
         this.INSTANCE_PATH = instancePath;
+    }
+
+    public StringWriter getOneXMLStream(String id) throws Exception {
+        // initialize collection and document identifiers
+        String collectionId = this.COLLECTION_ID;
+        String documentId = id;
+
+        System.out.println("\t- collection ID: " + collectionId);
+        System.out.println("\t- document ID: " + documentId + "\n");
+
+        // initialize database driver
+        System.out.println("[INFO] Loading driver class: " + connDriver);
+        Class<?> cl = DatabaseImpl.class;
+
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource res = null;
+
+        T1 obj = null;
+
+        // get the collection
+        System.out.println("[INFO] Retrieving the collection: " + collectionId);
+        col = DatabaseManager.getCollection(connUri + collectionId);
+        col.setProperty(OutputKeys.INDENT, "yes");
+
+        System.out.println("[INFO] Retrieving the document: " + documentId);
+        res = (XMLResource)col.getResource(documentId);
+
+        JAXBContext context = JAXBContext.newInstance(this.INSTANCE_PATH);
+
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        obj = (T1) unmarshaller.unmarshal(res.getContentAsDOM());
+
+        StringWriter os = new StringWriter();
+
+        // marshal the contents to an output stream
+        marshaller.marshal(obj, os);
+
+        return os;
     }
 
 

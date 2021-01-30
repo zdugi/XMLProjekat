@@ -10,16 +10,48 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import com.organ.project_organ.model.xml_opste.*;
 import org.xmldb.api.base.XMLDBException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+
 @Service
 public class ZahtevService {
     @Autowired
     public ZahtevRepository zahtevRepository;
+
+    public ZahtevService() {
+        /* Inicijalizacija DOM fabrike */
+        documentFactory = DocumentBuilderFactory.newInstance();
+        documentFactory.setNamespaceAware(true);
+        documentFactory.setIgnoringComments(true);
+        documentFactory.setIgnoringElementContentWhitespace(true);
+
+        /* Inicijalizacija Transformer fabrike */
+        transformerFactory = TransformerFactory.newInstance();
+    }
 
     public void create(ZahtevDokumentDTO zahtev) throws Exception {
         //TODO check
@@ -174,4 +206,95 @@ public class ZahtevService {
     public String[] getList() throws XMLDBException, IllegalAccessException, InstantiationException {
         return zahtevRepository.listResources();
     }
+
+    public ByteArrayOutputStream generatePDF(String requestId, String xslPath) throws IOException, DocumentException {
+        // Step 1
+        Document document = new Document();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        // Step 2
+        PdfWriter writer = PdfWriter.getInstance(document, out);
+
+        // Step 3
+        document.open();
+
+        ByteArrayInputStream stream = new ByteArrayInputStream(generateHTML(requestId, xslPath).toString().getBytes());
+
+        // Step 4
+        XMLWorkerHelper.getInstance().parseXHtml(writer, document, stream);
+
+        // Step 5
+        document.close();
+
+        return out;
+    }
+
+    public org.w3c.dom.Document buildDocument(InputStream is) {
+
+        org.w3c.dom.Document document = null;
+        try {
+
+            DocumentBuilder builder = documentFactory.newDocumentBuilder();
+            document = builder.parse(is);
+
+            if (document != null)
+                System.out.println("[INFO] File parsed with no errors.");
+            else
+                System.out.println("[WARN] Document is null.");
+
+        } catch (Exception e) {
+            return null;
+
+        }
+
+        return document;
+    }
+
+    public StringWriter generateHTML(String requestId, String xslPath) throws FileNotFoundException {
+
+        try {
+            StringWriter os = zahtevRepository.getOneXMLStream(requestId);
+
+            StringWriter htmlOutput = new StringWriter();
+
+            // Initialize Transformer instance
+            StreamSource transformSource = new StreamSource(new File(xslPath));
+            Transformer transformer = transformerFactory.newTransformer(transformSource);
+            transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // Generate XHTML
+            transformer.setOutputProperty(OutputKeys.METHOD, "xhtml");
+
+            // Transform DOM to HTML
+            DOMSource source = new DOMSource(buildDocument(new ByteArrayInputStream(os.toString().getBytes())));
+            StreamResult result = new StreamResult(htmlOutput);
+            transformer.transform(source, result);
+
+            return htmlOutput;
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerFactoryConfigurationError e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static DocumentBuilderFactory documentFactory;
+
+    private static TransformerFactory transformerFactory;
+
+    public static final String INPUT_FILE = "src/main/resources/bookstore.xml";
+
+    public static final String XSL_FILE = "src/main/resources/zahtev_temp.xsl";
+
+    public static final String HTML_FILE = "src/main/resources/bookstore.html";
+
+    public static final String OUTPUT_FILE = "src/main/resources/bookstore.pdf";
 }
