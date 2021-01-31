@@ -6,7 +6,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
         "organ",
-        "opcije",
+        "opcija",
         "datumPodnosenja",
         "podaciOZahtevuIInformacijama",
         "dodatneInformacije"
@@ -18,7 +18,7 @@ public class ZalbaNaCutanjeDTO {
     public OrganDTO organ;
 
     @XmlElement
-    public List<OpcijaDTO> opcije;
+    public List<OpcijaDTO> opcija;
 
     @XmlElement
     public DatumPodnosenjaDTO datumPodnosenja;

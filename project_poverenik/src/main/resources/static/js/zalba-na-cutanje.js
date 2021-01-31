@@ -129,7 +129,7 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
         var xml =
           `<zalbaNaCutanje><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><datumPodnosenja datumPodnosenjaA=''></datumPodnosenja><podaciOZahtevuIInformacijama></podaciOZahtevuIInformacijama>
                <dodatneInformacije mesto="" datum=""><trazilac kontakt=""><osoba ime="" prezime=""></osoba></trazilac></dodatneInformacije>
-               <opcije><opcija cekiran='true' tekst='није поступио;'/><opcija cekiran='false' tekst='није поступио у целости;'/><opcija cekiran='false' tekst= "није поступио у законском року"/></opcije>
+               <opcija cekiran='true' tekst='није поступио;'/><opcija cekiran='false' tekst='није поступио у целости;'/><opcija cekiran='false' tekst= "није поступио у законском року"/>
                <mestoPodnosenja naziv='' />
            </zalbaNaCutanje>
                   `
