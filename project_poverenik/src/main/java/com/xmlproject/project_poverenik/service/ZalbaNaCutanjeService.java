@@ -70,11 +70,11 @@ public class ZalbaNaCutanjeService {
         TRazloziZalbe.RazlogZalbe razlogZalbe3 = new TRazloziZalbe.RazlogZalbe();
 
         razlogZalbe1.setValue("није поступио");
-        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcije.get(0).cekiran);
+        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcija.get(0).cekiran);
         razlogZalbe1.setValue("није поступио у целости");
-        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcije.get(1).cekiran);
+        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcija.get(1).cekiran);
         razlogZalbe1.setValue("није поступио у законском року");
-        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcije.get(2).cekiran);
+        razlogZalbe1.setOdabrano(zalbaNaCutanje.opcija.get(2).cekiran);
 
         tRazloziZalbe.getRazlogZalbe().add(razlogZalbe1);
         tRazloziZalbe.getRazlogZalbe().add(razlogZalbe2);
@@ -140,9 +140,9 @@ public class ZalbaNaCutanjeService {
 
         // id setup
         String id = UUID.randomUUID().toString();
-        newZalba.setAbout("http://localhost:8081/request/" + id);
+        newZalba.setAbout("http://localhost:8081/complaint/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/request/" + id);
+        trazilac.setHref("http://localhost:8081/complaint/" + id);
 
         zalbaNaCutanjeRepository.save(newZalba);
     }
