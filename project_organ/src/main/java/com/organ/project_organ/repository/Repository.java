@@ -3,6 +3,10 @@ package com.organ.project_organ.repository;
 import com.organ.project_organ.model.xml_zahtev.Zahtev;
 import com.organ.project_organ.util.MetadataExtractor;
 import com.organ.project_organ.util.SparqlUtil;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateExecutionFactory;
@@ -11,6 +15,8 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
+import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.beans.factory.annotation.Value;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
@@ -102,6 +108,38 @@ public abstract class Repository<T1> {
         return os;
     }
 
+    public ByteArrayOutputStream getOneMetadataRDF(String id) throws Exception {
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        metadataExtractor.extractMetadata(
+                new ByteArrayInputStream(getOneXMLStream(id).toString().getBytes()),
+                out);
+
+        return out;
+    }
+
+    public ByteArrayOutputStream getOneMetadataJSON(String id) throws Exception {
+        Model model = ModelFactory.createDefaultModel();
+
+        String rdfFilePath = "gen/contacts.rdf";
+
+        // Automatic extraction of RDF triples from XML file
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        System.out.println("[INFO] Extracting metadata from RDFa attributes...");
+
+        InputStream in = new ByteArrayInputStream(getOneMetadataRDF(id).toString().getBytes());
+        model.read(in, null);
+
+        System.out.println("[INFO] Extracted metadata as RDF/XML...");
+        model.write(out, "JSON-LD");
+
+        return out;
+    }
 
     public T1 getOneXML(String id) throws Exception {
 
@@ -173,6 +211,23 @@ public abstract class Repository<T1> {
         return obj;
     }
 
+    public ByteArrayOutputStream queryRDF(String queryStr) {
+        String sparqlQuery = SparqlUtil.selectData(this.connDataEndpoint + this.NAMED_GRAPH_URI, "?s ?p ?o");
+
+        // Create a QueryExecution that will access a SPARQL service over HTTP
+        QueryExecution query = QueryExecutionFactory.sparqlService("http://localhost:8080/fuseki/EDataset/query", sparqlQuery);
+
+        // Query the collection, dump output response as XML
+        ResultSet results = query.execSelect();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        ResultSetFormatter.outputAsXML(out, results);
+
+        query.close() ;
+
+        return out;
+    }
 
     public void save (String id, Zahtev zahtev) throws Exception {
         // initialize collection and document identifiers
