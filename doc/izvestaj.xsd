@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/xml_izvestaj"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+    xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
+    <xs:import id="opste" namespace="http://ftn.uns.ac.rs/xml_opste" schemaLocation="xml_opste.xsd"/>
+
+    <xs:element name="Izvestaj">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="PodnetiZahtevi">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:integer">
+                                <xs:attribute name="property" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="OdbijeniZahtevi">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:integer">
+                                <xs:attribute name="property" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="SadrzinaOdbijenihZalbi">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="0"
+                                name="SadrzinaOdbijeneZalbe" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="DatumPodnosenja" type="opste:TDatum"/>
+            </xs:sequence>
+            <xs:attribute name="about" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

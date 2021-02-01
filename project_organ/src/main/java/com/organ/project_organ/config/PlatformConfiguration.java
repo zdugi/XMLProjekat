@@ -1,5 +1,6 @@
 package com.organ.project_organ.config;
 
+import com.organ.project_organ.repository.impl.IzvestajRepository;
 import com.organ.project_organ.repository.impl.ZahtevRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,22 @@ public class PlatformConfiguration {
             "/example/zahtev/metadata",
                 "/db/sample/zahtev",
                 "com.organ.project_organ.model.xml_zahtev",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public IzvestajRepository izvestajRepository() {
+        String textContainQuery = "xquery version \"3.1\";\n" +
+                "for izvestaj in collection(\"/db/sample/izvestaj/\")\n" +
+                "where fn:contains(lower-case(izvestaj), lower-case(\"%s\"))\n" +
+                "return\n" +
+                "    substring-after(base-uri(izvestaj), \"izvestaj/\")";
+
+        return new IzvestajRepository(
+                "/example/izvestaj/metadata",
+                "/db/sample/izvestaj",
+                "com.organ.project_organ.model.xml_izvestaj",
                 textContainQuery
         );
     }

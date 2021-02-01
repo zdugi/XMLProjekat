@@ -331,7 +331,7 @@ public abstract class Repository<T1> {
         return resourcesListDTO;
     }
 
-    public void save (String id, Zahtev zahtev) throws Exception {
+    public void save (String id, T1 obj) throws Exception {
         // initialize collection and document identifiers
         String collectionId = this.COLLECTION_ID;
         String documentId = id;
@@ -370,7 +370,7 @@ public abstract class Repository<T1> {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             // marshal the contents to an output stream
-            marshaller.marshal(zahtev, os);
+            marshaller.marshal(obj, os);
 
             // link the stream to the XML resource
             res.setContent(os);
@@ -380,7 +380,7 @@ public abstract class Repository<T1> {
             System.out.println("[INFO] Done.");
 
             ByteArrayOutputStream rdfOutputStream = new ByteArrayOutputStream();
-            marshaller.marshal(zahtev, rdfOutputStream);
+            marshaller.marshal(obj, rdfOutputStream);
 
             saveRDF(new ByteArrayInputStream(rdfOutputStream.toByteArray()));
 
