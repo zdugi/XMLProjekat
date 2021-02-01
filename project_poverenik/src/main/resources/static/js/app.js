@@ -5,7 +5,9 @@ const router = new VueRouter({
         { path: '/login', component: LoginPage },
         { path: '/zalba-na-cutanje', component: ZalbaNaCutanje },
         { path: '/zalba-na-odluku', component: ZalbaNaOdluku },
-        { path: '/', component: SearchPage }
+        { path: '/search', component: RequestsSearchPage },
+        { path: '/advance-search', component: RequestsAdvanceSearchPage },
+        { path: '/', component: RequestsTablePage }
     ]
 })
 

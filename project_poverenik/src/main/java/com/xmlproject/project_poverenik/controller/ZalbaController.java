@@ -1,18 +1,27 @@
 package com.xmlproject.project_poverenik.controller;
 
+import com.itextpdf.text.DocumentException;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
-import org.apache.jena.sparql.algebra.Op;
+import com.xmlproject.project_poverenik.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pojo.*;
+import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsAdvanceSearchQuery;
+import pojo.ComplaintsListDTO;
+import pojo.ZalbaNaCutanjeDTO;
+import pojo.ZalbaNaOdlukuDTO;
 
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/complaint")
@@ -46,6 +55,74 @@ public class ZalbaController {
             return new ResponseEntity<>(zalbaNaCutanje, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestsIDList() {
+        try {
+            return new ResponseEntity<>(Converter.fromStringArray(zalbaNaCutanjeService.getList()), HttpStatus.OK);
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> getRequestPDF(@PathVariable("id") String id) throws IOException, DocumentException {
+        ByteArrayInputStream bis =
+                new ByteArrayInputStream(
+                        zalbaNaCutanjeService.generatePDF(id).toByteArray());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=request.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
+
+    @GetMapping(path = "/xhtml/{id}")
+    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException {
+        return new ResponseEntity<>(
+                zalbaNaCutanjeService.generateHTML(id).toString(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/rdf/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestRDF(@PathVariable String id) throws Exception {
+        return new ResponseEntity<>(zalbaNaCutanjeService.getOneRDF(id).toString(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/json/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
+        return new ResponseEntity<>(zalbaNaCutanjeService.getOneJSON(id).toString(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> simpleSearch(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+
+        ComplaintsListDTO resources = zalbaNaCutanjeService.searchText(query);
+
+        if (resources == null)
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity(resources, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody ComplaintsAdvanceSearchQuery query) {
+        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
+                query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
     }
 
     @PostMapping(value="/resolution", consumes = MediaType.APPLICATION_XML_VALUE)
