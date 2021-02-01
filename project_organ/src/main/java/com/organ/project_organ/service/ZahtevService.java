@@ -202,7 +202,50 @@ public class ZahtevService extends AbsService {
         return zahtevRepository.getOneMetadataRDF(id);
     }
 
+    @Override
     public ByteArrayOutputStream getOneJSON(String id) throws Exception {
         return zahtevRepository.getOneMetadataJSON(id);
+    }
+
+    public ResourcesListDTO searchText(String query) {
+        try {
+            return zahtevRepository.searchText(query);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ByteArrayOutputStream queryRDF(RequestsAdvanceSearchQuery query) {
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fuseki/EDataset/data/example/zahtev/metadata>\n" +
+                "WHERE {\n" +
+                "  ?subject <http://localhost/predikati/podnosenje> ?datumPodnosenja .\n" +
+                "  ?subject <http://localhost/predikati/upucujeSe> ?organKomeSeUpucuje .\n" +
+                "  ?subject <http://localhost/predikati/mestoOrgana> ?mestoOrgana .\n" +
+                "  ?subject <http://localhost/predikati/drzavaOrgana> ?drzavaOrgana .\n" +
+                "  ?subject <http://localhost/predikati/potrazuje> ?trazilac .\n" +
+                "  FILTER (regex(str(?datumPodnosenja), \"%s\")) .\n" +
+                "  FILTER (regex(str(?organKomeSeUpucuje), \"%s\")) .\n" +
+                "  FILTER (regex(str(?mestoOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?drzavaOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?trazilac), \"%s\")) .\n" +
+                "}\n" +
+                "LIMIT 100";
+
+        // NO ESCAPE!
+        sparqlQuery = String.format(
+                sparqlQuery,
+                query.submissionDateRegex,
+                query.authorityRegex,
+                query.placeRegex,
+                query.stateRegex,
+                query.applicantRegex);
+
+        return zahtevRepository.queryRDF(sparqlQuery);
     }
 }

@@ -81,4 +81,25 @@ public class ZahtevController {
     public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(zahtevService.getOneJSON(id).toString(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> simpleSearch(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+
+        ResourcesListDTO resources = zahtevService.searchText(query);
+
+        if (resources == null)
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity(resources, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody RequestsAdvanceSearchQuery query) {
+        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
+            query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(zahtevService.queryRDF(query).toString(), HttpStatus.OK);
+    }
 }

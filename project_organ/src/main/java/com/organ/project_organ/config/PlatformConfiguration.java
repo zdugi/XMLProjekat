@@ -8,10 +8,17 @@ import org.springframework.context.annotation.Configuration;
 public class PlatformConfiguration {
     @Bean
     public ZahtevRepository zahtevRepository() {
+        String textContainQuery = "xquery version \"3.1\";\n" +
+                "for $zahtev in collection(\"/db/sample/zahtev/\")\n" +
+                "where fn:contains(lower-case($zahtev), lower-case(\"%s\"))\n" +
+                "return\n" +
+                "    substring-after(base-uri($zahtev), \"zahtev/\")";
+
         return new ZahtevRepository(
             "/example/zahtev/metadata",
                 "/db/sample/zahtev",
-                "com.organ.project_organ.model.xml_zahtev"
+                "com.organ.project_organ.model.xml_zahtev",
+                textContainQuery
         );
     }
 }

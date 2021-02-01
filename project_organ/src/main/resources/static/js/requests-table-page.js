@@ -1,4 +1,4 @@
-const SearchPage = Vue.component("search-page-component", {
+const RequestsTablePage = Vue.component("requests-table-page-component", {
     data () {
         return {
             requests: []
