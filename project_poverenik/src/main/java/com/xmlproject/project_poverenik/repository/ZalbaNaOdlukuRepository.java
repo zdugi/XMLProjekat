@@ -161,7 +161,7 @@ public class ZalbaNaOdlukuRepository {
             res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
 
             System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
-            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalba_na_odluku");
+            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalbanaodluku");
 
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
