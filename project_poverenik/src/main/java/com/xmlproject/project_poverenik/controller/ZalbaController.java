@@ -49,7 +49,7 @@ public class ZalbaController {
     }
 
     @PostMapping(value="/resolution", consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> resolve1(@RequestBody ZalbaNaOdluku zalbaNaOdluku) {
+    public ResponseEntity<?> resolve1(@RequestBody ZalbaNaOdlukuDTO zalbaNaOdluku) {
         try {
             zalbaNaOdlukuService.create(zalbaNaOdluku);
             return new ResponseEntity<>("<Response><Status>OK</Status></Response>", HttpStatus.OK);
