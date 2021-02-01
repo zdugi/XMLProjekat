@@ -14,7 +14,7 @@ const HomePage = Vue.component("home-page", {
             console.log(xml)
             axios.post("/api/requests", xml, {headers: {'Content-Type': 'application/xml'}}).then(
             response => {
-                alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
+                alert('Zahtev uspesno primljen. Dobicete odgovor od službenika putem elektronske pošte.');
             },
             error => {
                 alert('Doslo je do greske prilikom slanja zahteva.');
