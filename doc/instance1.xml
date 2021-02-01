@@ -1,0 +1,11 @@
+<ns2:Izvestaj xmlns:pred="http://localhost/predikati/" xmlns:ns2="http://ftn.uns.ac.rs/xml_izvestaj" about="http://localhost:8081/report/471c0939-191a-4b53-9bda-d2560454a664">
+    <ns2:PodnetiZahtevi property="pred:brojPod">666</ns2:PodnetiZahtevi>
+    <ns2:OdbijeniZahtevi property="pred:odbijeniZahtevi">1</ns2:OdbijeniZahtevi>
+    <ns2:SadrzinaOdbijenihZalbi>
+        <ns2:SadrzinaOdbijeneZalbe>Zalba 1</ns2:SadrzinaOdbijeneZalbe>
+        <ns2:SadrzinaOdbijeneZalbe>Zalba 2</ns2:SadrzinaOdbijeneZalbe>
+        <ns2:SadrzinaOdbijeneZalbe>Zalba 3</ns2:SadrzinaOdbijeneZalbe>
+        <ns2:SadrzinaOdbijeneZalbe>Zalba 4</ns2:SadrzinaOdbijeneZalbe>
+    </ns2:SadrzinaOdbijenihZalbi>
+    <ns2:DatumPodnosenja>01-02-2021</ns2:DatumPodnosenja>
+</ns2:Izvestaj>
