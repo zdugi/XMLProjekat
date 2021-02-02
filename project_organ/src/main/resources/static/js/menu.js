@@ -5,6 +5,11 @@ Vue.component('menu-component', {
         <li><router-link to="/create">Podnosenje zahteva</router-link></li>
         <li><router-link to="/search">Pretraga zahteva</router-link></li>
         <li><router-link to="/advance-search">Napredna pretraga zahteva</router-link></li>
+        <li>/</li>
+        <li><router-link to="/reports">Izvestaji</router-link></li>
+        <li><router-link to="/reports-search">Pretraga izvestaja</router-link></li>
+        <li><router-link to="/reports-advance-search">Napredna pretraga izvestaja</router-link></li>
+        <li>/</li>
         <li><a href="#logout">Odjavi se</a></li>
     </ul>
     `

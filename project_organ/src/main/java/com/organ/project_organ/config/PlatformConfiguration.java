@@ -26,10 +26,10 @@ public class PlatformConfiguration {
     @Bean
     public IzvestajRepository izvestajRepository() {
         String textContainQuery = "xquery version \"3.1\";\n" +
-                "for izvestaj in collection(\"/db/sample/izvestaj/\")\n" +
-                "where fn:contains(lower-case(izvestaj), lower-case(\"%s\"))\n" +
+                "for $izvestaj in collection(\"/db/sample/izvestaj/\")\n" +
+                "where fn:contains(lower-case($izvestaj), lower-case(\"%s\"))\n" +
                 "return\n" +
-                "    substring-after(base-uri(izvestaj), \"izvestaj/\")";
+                "    substring-after(base-uri($izvestaj), \"izvestaj/\")";
 
         return new IzvestajRepository(
                 "/example/izvestaj/metadata",
