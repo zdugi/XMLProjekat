@@ -135,7 +135,7 @@ public class ZalbaNaCutanjeRepository extends Repository<ZalbaNaCutanje> {
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/zalbanacutanje";
-        String documentId = id;
+        String documentId = id + ".xml";
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;

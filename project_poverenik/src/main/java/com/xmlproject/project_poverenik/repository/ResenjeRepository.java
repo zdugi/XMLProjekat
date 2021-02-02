@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.repository;
 
 import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
+import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
 import org.apache.jena.rdf.model.Model;
@@ -31,7 +32,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 @Component
-public class ResenjeRepository {
+public class ResenjeRepository extends Repository<Resenje>{
     private static final String RESENJE_NAMED_GRAPH_URI = "/example/resenje/metadata";
 
     @Value("${conn.uri}")
@@ -51,6 +52,10 @@ public class ResenjeRepository {
 
     @Value("${conn.data.endpoint}")
     private String connDataEndpoint;
+
+    public ResenjeRepository(String graphURI, String collectionId, String instancePath, String xqueryTextContain) {
+        super(graphURI, collectionId, instancePath, xqueryTextContain);
+    }
 
     public Resenje getOne(String id) throws Exception {
 
@@ -123,13 +128,13 @@ public class ResenjeRepository {
     }
 
 
-    public void save (Resenje resenje) throws Exception {
+    public void save (String id, Resenje resenje) throws Exception {
         // generate id for document
-        resenje.setId(UUID.randomUUID().toString());
+        resenje.setId(id);
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/resenje";
-        String documentId = resenje.getId() + ".xml";
+        String documentId = id + ".xml";
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;
