@@ -9,7 +9,7 @@
         namespace = "http://ftn.uns.ac.rs/xml_zahtev",
         elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
         xmlns = {
-                @XmlNs(prefix = "pred", namespaceURI = "http://localhost/predikati")
+                @XmlNs(prefix = "pred", namespaceURI = "http://localhost/predikati/")
         })
 package com.xmlproject.project_poverenik.model.xml_zahtev;
 

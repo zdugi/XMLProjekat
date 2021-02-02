@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/xml_korisnik"
+    xmlns:korisnik="http://ftn.uns.ac.rs/xml_korisnik" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
+
+    <xs:import namespace="http://ftn.uns.ac.rs/xml_opste" schemaLocation="xml_opste.xsd"/>
+    <xs:element name="Korisnik">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Licne_informacije" type="korisnik:TLicne_Informacije"/>
+                <xs:element name="Autorizacija_Informacije"
+                    type="korisnik:TAutorizacija_Informacije"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TLicne_Informacije">
+        <xs:sequence>
+            <xs:element name="Osoba" type="opste:TOsoba"/>
+            <xs:element name="Adresa" type="opste:TAdresa"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TAutorizacija_Informacije">
+        <xs:sequence>
+            <xs:element name="Username" type="xs:string"/>
+            <xs:element name="Password" type="xs:string"/>
+            <xs:element name="Role" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

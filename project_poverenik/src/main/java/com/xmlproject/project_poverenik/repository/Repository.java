@@ -3,8 +3,13 @@ package com.xmlproject.project_poverenik.repository;
 import com.xmlproject.project_poverenik.model.xml_zahtev.Zahtev;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -13,20 +18,18 @@ import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.xmldb.api.DatabaseManager;
-import org.xmldb.api.base.Collection;
-import org.xmldb.api.base.Database;
-import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.base.*;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import org.xmldb.api.modules.XQueryService;
+import pojo.ComplaintsListDTO;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.ArrayList;
 
 public abstract class Repository<T1> {
     private final String NAMED_GRAPH_URI;
@@ -51,12 +54,122 @@ public abstract class Repository<T1> {
     @Value("${conn.data.endpoint}")
     private String connDataEndpoint;
 
+    @Value("${conn.query.endpoint}")
+    private String queryEndpoint;
 
-    public Repository(String graphURI, String collectionId, String instancePath) {
+    private String xqueryTextContain;
+
+
+    public Repository(
+            String graphURI,
+            String collectionId,
+            String instancePath,
+            String xqueryTextContain) {
         this.NAMED_GRAPH_URI = graphURI;
         this.COLLECTION_ID = collectionId;
         this.INSTANCE_PATH = instancePath;
+        this.xqueryTextContain = xqueryTextContain;
     }
+
+    public ByteArrayOutputStream queryRDF(String sparqlQuery) {
+        QueryExecution query = QueryExecutionFactory.sparqlService(queryEndpoint, sparqlQuery);
+
+        ResultSet results = query.execSelect();
+
+        String varName;
+        RDFNode varValue;
+
+        // Query the collection, dump output response as XML
+        results = query.execSelect();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        ResultSetFormatter.outputAsXML(out, results);
+
+        query.close();
+
+        return out;
+    }
+
+    public StringWriter getOneXMLStream(String id) throws Exception {
+        // initialize collection and document identifiers
+        String collectionId = this.COLLECTION_ID;
+        String documentId = id;
+
+        System.out.println("\t- collection ID: " + collectionId);
+        System.out.println("\t- document ID: " + documentId + "\n");
+
+        // initialize database driver
+        System.out.println("[INFO] Loading driver class: " + connDriver);
+        Class<?> cl = DatabaseImpl.class;
+
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource res = null;
+
+        T1 obj = null;
+
+        // get the collection
+        System.out.println("[INFO] Retrieving the collection: " + collectionId);
+        col = DatabaseManager.getCollection(connUri + collectionId);
+        col.setProperty(OutputKeys.INDENT, "yes");
+
+        System.out.println("[INFO] Retrieving the document: " + documentId);
+        res = (XMLResource)col.getResource(documentId);
+
+        JAXBContext context = JAXBContext.newInstance(this.INSTANCE_PATH);
+
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        obj = (T1) unmarshaller.unmarshal(res.getContentAsDOM());
+
+        StringWriter os = new StringWriter();
+
+        // marshal the contents to an output stream
+        marshaller.marshal(obj, os);
+
+        return os;
+    }
+    public ByteArrayOutputStream getOneMetadataRDF(String id) throws Exception {
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        metadataExtractor.extractMetadata(
+                new ByteArrayInputStream(getOneXMLStream(id).toString().getBytes()),
+                out);
+
+        return out;
+    }
+
+    public ByteArrayOutputStream getOneMetadataJSON(String id) throws Exception {
+        Model model = ModelFactory.createDefaultModel();
+
+        String rdfFilePath = "gen/contacts.rdf";
+
+        // Automatic extraction of RDF triples from XML file
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        System.out.println("[INFO] Extracting metadata from RDFa attributes...");
+
+        InputStream in = new ByteArrayInputStream(getOneMetadataRDF(id).toString().getBytes());
+        model.read(in, null);
+
+        System.out.println("[INFO] Extracted metadata as RDF/XML...");
+        model.write(out, "JSON-LD");
+
+        return out;
+    }
+
 
 
     public T1 getOnXML(String id) throws Exception {
@@ -127,6 +240,74 @@ public abstract class Repository<T1> {
         }
 
         return obj;
+    }
+
+    public ComplaintsListDTO searchText(String queryStr) throws IllegalAccessException, InstantiationException, XMLDBException {
+        ComplaintsListDTO resourcesListDTO = new ComplaintsListDTO();
+        resourcesListDTO.complaint = new ArrayList<>();
+
+        // initialize database driver
+        Class<?> cl = DatabaseImpl.class;
+
+        // encapsulation of the database driver functionality
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        // entry point for the API which enables you to get the Collection reference
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+
+        try {
+            col = DatabaseManager.getCollection(connUri + COLLECTION_ID);
+
+            // get an instance of xquery service
+            XQueryService xqueryService = (XQueryService) col.getService("XQueryService", "1.0");
+            xqueryService.setProperty("indent", "yes");
+
+            // make the service aware of namespaces
+            //xqueryService.setNamespace("b", TARGET_NAMESPACE);
+
+            /*String xqueryExpression = "xquery version \"3.1\";\n" +
+                    "for $zahtev in collection(\"/db/sample/zahtev/\")\n" +
+                    "where fn:contains($zahtev, \"Jojo\")\n" +
+                    "return\n" +
+                    "    substring-after(base-uri($zahtev), \"zahtev/\")";*/
+
+            // compile and execute the expression
+            CompiledExpression compiledXquery = xqueryService.compile(String.format(this.xqueryTextContain, queryStr));
+            ResourceSet result = xqueryService.execute(compiledXquery);
+
+            ResourceIterator i = result.getIterator();
+            Resource res = null;
+
+            while (i.hasMoreResources()) {
+
+                try {
+                    res = i.nextResource();
+                    resourcesListDTO.complaint.add(res.getContent().toString());
+
+                } finally {
+
+                    // don't forget to cleanup resources
+                    try {
+                        ((EXistResource) res).freeResources();
+                    } catch (XMLDBException xe) {
+                        xe.printStackTrace();
+                    }
+                }
+            }
+        } finally {
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+
+        return resourcesListDTO;
     }
 
 
@@ -254,6 +435,21 @@ public abstract class Repository<T1> {
         } else {
             return col;
         }
+    }
+
+    public String[] listComplaints() throws XMLDBException, IllegalAccessException, InstantiationException {
+        // initialize collection and document identifiers
+        String collectionId = this.COLLECTION_ID;
+        Class<?> cl = DatabaseImpl.class;
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = DatabaseManager.getCollection(connUri + collectionId);
+        col.setProperty(OutputKeys.INDENT, "yes");
+
+        return col.listResources();
     }
 
     private void saveRDF(InputStream in) throws Exception {

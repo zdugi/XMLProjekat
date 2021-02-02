@@ -5,5 +5,14 @@
 // Generated on: 2021.01.22 at 12:08:29 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://ftn.uns.ac.rs/xml_zalba_na_cutanje",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+            @XmlNs(prefix = "pred", namespaceURI = "http://localhost/predikati/")
+        })
 package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
+
+import javax.xml.bind.annotation.XmlNs;
+
+

@@ -5,5 +5,13 @@
 // Generated on: 2021.01.22 at 12:32:14 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.uns.ac.rs/xml_zalbanaodluku", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://ftn.uns.ac.rs/xml_zalbanaodluku",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://localhost/predikati/")
+        }
+)
 package com.xmlproject.project_poverenik.model.xml_zalbanaodluku;
+
+import javax.xml.bind.annotation.XmlNs;
