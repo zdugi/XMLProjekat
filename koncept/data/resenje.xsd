@@ -12,7 +12,16 @@
                 <xs:element name="Datum" type="opste:TDatum"> </xs:element>
                 <xs:element name="Zalba" type="resenje:TZalba"/>
                 <xs:element name="Uvod" type="resenje:TUvod"/>
-                <xs:element maxOccurs="unbounded" name="Sekcija" type="resenje:TSekcija"/>
+                <xs:element name="Resenje_Ukratko">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="prihvaceno" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Obrazlozenje" type="xs:string"/>
                 <xs:element name="Poverenik" type="opste:TOsoba"/>
             </xs:sequence>
             <xs:attribute name="rel" type="xs:string"/>

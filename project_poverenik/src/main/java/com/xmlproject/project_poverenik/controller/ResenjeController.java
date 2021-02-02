@@ -28,7 +28,7 @@ public class ResenjeController {
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getZalba(@PathVariable String id) {
+    public ResponseEntity<?> getResenje(@PathVariable String id) {
         Resenje resenje = null;
         try {
             resenje = resenjeService.getOne(id);
