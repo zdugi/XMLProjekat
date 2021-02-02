@@ -1,5 +1,6 @@
 package com.organ.project_organ.repository;
 
+import com.organ.project_organ.model.xml_obavestenja.Obavestenje;
 import com.organ.project_organ.model.xml_zahtev.Zahtev;
 import com.organ.project_organ.util.MetadataExtractor;
 import com.organ.project_organ.util.SparqlUtil;
@@ -174,7 +175,7 @@ public abstract class Repository<T1> {
     }
 
 
-    public void save (String id, Zahtev zahtev) throws Exception {
+    public void save (String id, T1 zahtev) throws Exception {
         // initialize collection and document identifiers
         String collectionId = this.COLLECTION_ID;
         String documentId = id;
@@ -350,4 +351,6 @@ public abstract class Repository<T1> {
 
         System.out.println("[INFO] End.");
     }
+
+
 }

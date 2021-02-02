@@ -167,7 +167,7 @@ public class ZahtevService {
         TDatum datum = new TDatum();
 
         datum.setValue("[ovde ce se generisati vrednost]");
-        datum.setProperty("podnosenje");
+        datum.setProperty("pred:podnosenje");
 
         TOsoba osoba = new TOsoba();
         osoba.setIme("[osoba iz sesije]");
