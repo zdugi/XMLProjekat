@@ -8,6 +8,8 @@ Vue.component('menu-component', {
         <li><a href="#logout">Odjavi se</a></li>
         <li><router-link to="/zalba-na-cutanje">Zalba</router-link></li>
         <li><router-link to="/zalba-na-odluku">Zalba na odluku</router-link></li>
+         <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
+         <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
     </ul>
     `
 })

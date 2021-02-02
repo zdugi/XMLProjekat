@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.service;
 
+import com.itextpdf.text.DocumentException;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ObjectFactory;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.TTeloZalbeOdluka;
@@ -7,18 +8,31 @@ import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsAdvanceSearchQuery;
+import pojo.ComplaintsListDTO;
 import pojo.ZalbaNaOdlukuDTO;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.UUID;
 
 @Service
-public class ZalbaNaOdlukuService {
+public class ZalbaNaOdlukuService extends AbsService{
 
     @Autowired
     private ZalbaNaOdlukuRepository zalbaNaOdlukuRepository;
+
+    public ZalbaNaOdlukuService() {
+        //Repository repository, String xslPath, String fontPath
+        super("src/main/resources/zalba_na_odluku_temp.xsl","src/main/resources/FreeSans.ttf");
+                            // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    }
 
     public void create (ZalbaNaOdlukuDTO zalbaNaOdlukuDTO) throws Exception {
 
@@ -62,19 +76,19 @@ public class ZalbaNaOdlukuService {
 
         TAdresa.Drzava drzava1 = new TAdresa.Drzava();
         drzava1.setProperty("pred:drzavaOrgana1");
-        drzava1.setValue("Србија");
+        drzava1.setValue("Србија na vodi");
         adresa1.setDrzava(drzava1);
 
         TAdresa.Mesto mesto1 = new TAdresa.Mesto();
         mesto1.setProperty("pred:mestoOrgana1");
-        mesto1.setValue("Београд");
-        adresa1.setMesto(mesto);
+        mesto1.setValue("Београд na vodi");
+        adresa1.setMesto(mesto1);
         adresa1.setPostanskiBroj(BigInteger.valueOf(11000L));
         adresa1.setUlica("Булевар краља Александра");
         adresa1.setBroj(BigInteger.valueOf(15L));
 
         JAXBElement<TAdresa> adresa1J = new JAXBElement<TAdresa>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "Adresa"), TAdresa.class, adresa1);
-        teloZalbeOdluka.getContent().add(adresa1J);
+        //teloZalbeOdluka.getContent().add(adresa1J);   // necu jos da stavim adresu
 
         teloZalbeOdluka.getContent().add("protiv resenja-zakljucka");
 
@@ -83,7 +97,10 @@ public class ZalbaNaOdlukuService {
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
         naziv.setValue(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv);
-        organDonosilacOdluke.setAdresa(adresa1);    // na primjer, treba izvuci
+        //organDonosilacOdluke.setAdresa(adresa1);    // na primjer, treba izvuci
+                                                        // ovde je bila greska
+        System.out.println(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv + "\n\n\n\n\n\n");
+        organDonosilacOdluke.setNaziv(naziv);
 
         JAXBElement<TOrgan> organDonosilacOdluke1 = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "OrganDonosilacOdluke"), TOrgan.class, organDonosilacOdluke);
 
@@ -119,6 +136,7 @@ public class ZalbaNaOdlukuService {
 
         datumDI.setValue("[ovde ce se generisati vrednost]");
         datumDI.setProperty("pred:podnosenje");
+        tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
         osoba.setIme("[osoba iz sesije]");
@@ -141,18 +159,90 @@ public class ZalbaNaOdlukuService {
 
         zalbaNaOdluku.setDodatneInformacije(tDodatneInformacije);
 
-        //zalbaNaOdluku.setNapomene();
+        zalbaNaOdluku.setNaziv(" ЖАЛБА  ПРОТИВ  ОДЛУКЕ ОРГАНА  ВЛАСТИ КОЈОМ ЈЕ \n" +
+                "ОДБИЈЕН ИЛИ ОДБАЧЕН ЗАХТЕВ ЗА ПРИСТУП ИНФОРМАЦИЈИ\n");
+
+        ZalbaNaOdluku.Napomene napomene = new ZalbaNaOdluku.Napomene();
+        napomene.getNapomena().add("У жалби се мора навести одлука која се побија (решење, закључак, обавештење), назив органа који је одлуку донео, као и број и датум одлуке. Довољно је да жалилац наведе у жалби у ком погледу је незадовољан одлуком, с тим да жалбу не мора посебно образложити. Ако жалбу изјављује на овом обрасцу, додатно образложење може  посебно приложити. ");
+        napomene.getNapomena().add("•\tУз жалбу обавезно приложити копију поднетог захтева и доказ о његовој предаји-упућивању органу као и копију одлуке органа која се оспорава жалбом.");
+        zalbaNaOdluku.setNapomene(napomene);
 
         String id = UUID.randomUUID().toString();
         zalbaNaOdluku.setAbout("http://localhost:8081/complaint/resolution/" + id);
+        trazilac.setRel("pred:potrazuje");
+        trazilac.setHref("http://localhost:8081/complaint/" + id);
 
 
 
-        zalbaNaOdlukuRepository.save(zalbaNaOdluku);
+        zalbaNaOdlukuRepository.save(id, zalbaNaOdluku);
     }
 
     public ZalbaNaOdluku getOne (String id) throws Exception {
         return zalbaNaOdlukuRepository.getOne(id);
+    }
+
+    public StringWriter generateHTML(String id) throws FileNotFoundException {
+        return this.generateHTML(id, zalbaNaOdlukuRepository);
+    }
+
+    public String[] getList() throws XMLDBException, IllegalAccessException, InstantiationException {
+        return zalbaNaOdlukuRepository.listComplaints();
+    }
+
+    public ByteArrayOutputStream generatePDF(String id) throws IOException, DocumentException {
+        return this.generatePDF(id, zalbaNaOdlukuRepository);
+    }
+
+    @Override
+    public ByteArrayOutputStream getOneRDF(String id) throws Exception {
+        return zalbaNaOdlukuRepository.getOneMetadataRDF(id);
+    }
+
+    @Override
+    public ByteArrayOutputStream getOneJSON(String id) throws Exception {
+        return zalbaNaOdlukuRepository.getOneMetadataJSON(id);
+    }
+
+    public ComplaintsListDTO searchText(String query) {
+        try {
+            return zalbaNaOdlukuRepository.searchText(query);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ByteArrayOutputStream queryRDF(ComplaintsAdvanceSearchQuery query) {
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fuseki/EDataset/data/example/zalbanaodluku/metadata>\n" +
+                "WHERE {\n" +
+                "  ?subject <http://localhost/predikati/podnosenje> ?datumPodnosenja .\n" +
+                "  ?subject <http://localhost/predikati/upucujeSe> ?organKomeSeUpucuje .\n" +
+                "  ?subject <http://localhost/predikati/mestoOrgana> ?mestoOrgana .\n" +
+                "  ?subject <http://localhost/predikati/drzavaOrgana> ?drzavaOrgana .\n" +
+                "  ?subject <http://localhost/predikati/potrazuje> ?trazilac .\n" +
+                "  FILTER (regex(str(?datumPodnosenja), \"%s\")) .\n" +
+                "  FILTER (regex(str(?organKomeSeUpucuje), \"%s\")) .\n" +
+                "  FILTER (regex(str(?mestoOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?drzavaOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?trazilac), \"%s\")) .\n" +
+                "}\n" +
+                "LIMIT 100";
+
+        // NO ESCAPE!
+        sparqlQuery = String.format(
+                sparqlQuery,
+                query.submissionDateRegex,
+                query.authorityRegex,
+                query.placeRegex,
+                query.stateRegex,
+                query.applicantRegex);
+
+        return zalbaNaOdlukuRepository.queryRDF(sparqlQuery);
     }
 
 }
