@@ -2,6 +2,7 @@ package com.xmlproject.project_poverenik.config;
 
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
+import com.xmlproject.project_poverenik.security.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,6 +38,23 @@ public class PlatformConfiguration {
                 "/example/zalba_na_odluku/metadata",
                 "/db/sample/zalbanaodluku",
                 "com.xmlproject.project_poverenik.model.xml_zalbanaodluku",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public UserRepository userRepository() {
+        System.out.println("OVO JE INSTANCIRANO");
+        String textContainQuery = "xquery version \"3.1\";\n" +
+                "for $korisnik in collection(\"/db/sample/korisnik/\")\n" +
+                "where fn:contains(lower-case($korisnik), lower-case(\"%s\"))\n" +
+                "return\n" +
+                "    substring-after(base-uri($korisnik), \"korisnik/\")";
+
+        return new UserRepository(
+                "/example/korisnik/metadata",
+                "/db/sample/korisnik",
+                "com.xmlproject.project_poverenik.model.xml_korisnik",
                 textContainQuery
         );
     }

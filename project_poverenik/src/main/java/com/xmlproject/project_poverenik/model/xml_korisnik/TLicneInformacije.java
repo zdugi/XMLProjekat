@@ -6,14 +6,14 @@
 //
 
 
-package rs.ac.uns.ftn.xml_korisnik;
+package com.xmlproject.project_poverenik.model.xml_korisnik;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import rs.ac.uns.ftn.xml_opste.TAdresa;
-import rs.ac.uns.ftn.xml_opste.TOsoba;
+import com.xmlproject.project_poverenik.model.xml_opste.TAdresa;
+import com.xmlproject.project_poverenik.model.xml_opste.TOsoba;
 
 
 /**

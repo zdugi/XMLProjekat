@@ -311,7 +311,7 @@ public abstract class Repository<T1> {
     }
 
 
-    public void save (String id, Zahtev zahtev) throws Exception {
+    public void save (String id, T1 zahtev) throws Exception {
         // initialize collection and document identifiers
         String collectionId = this.COLLECTION_ID;
         String documentId = id;

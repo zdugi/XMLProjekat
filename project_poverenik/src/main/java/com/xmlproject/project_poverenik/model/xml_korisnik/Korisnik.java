@@ -6,7 +6,10 @@
 //
 
 
-package rs.ac.uns.ftn.xml_korisnik;
+package com.xmlproject.project_poverenik.model.xml_korisnik;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +17,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -43,7 +50,7 @@ import javax.xml.bind.annotation.XmlType;
     "autorizacijaInformacije"
 })
 @XmlRootElement(name = "Korisnik")
-public class Korisnik {
+public class Korisnik implements UserDetails {
 
     @XmlElement(name = "Licne_informacije", required = true)
     protected TLicneInformacije licneInformacije;
@@ -51,6 +58,19 @@ public class Korisnik {
     protected TAutorizacijaInformacije autorizacijaInformacije;
     @XmlAttribute(name = "id")
     protected String id;
+
+    public class Auth implements GrantedAuthority {
+        private String name;
+
+        public Auth(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getAuthority() {
+            return name;
+        }
+    }
 
     /**
      * Gets the value of the licneInformacije property.
@@ -124,4 +144,40 @@ public class Korisnik {
         this.id = value;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<String> list = new ArrayList<>();
+        list.add(this.getAutorizacijaInformacije().getRole());
+        return list.stream().map(Auth::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.getAutorizacijaInformacije().password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getAutorizacijaInformacije().username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
