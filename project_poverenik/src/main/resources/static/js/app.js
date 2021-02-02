@@ -9,6 +9,9 @@ const router = new VueRouter({
         { path: '/advance-search', component: RequestsAdvanceSearchPage },
         { path: '/search-complaint-res', component: ComplaintResolutionSearchPage },
         { path: '/advance-search-complaint-res', component: ComplaintResolutionAdvanceSearchPage },
+         { path: '/complaint-res-list', component: ComplaintResolutionTablePage },
+        { path: '/create-resolution', component: NewResolutionPage },
+        { path: '/resolution-list', component: ResolutionTablePage },
         { path: '/', component: RequestsTablePage }
     ]
 })

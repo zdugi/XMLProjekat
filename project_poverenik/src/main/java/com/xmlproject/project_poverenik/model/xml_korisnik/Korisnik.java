@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_korisnik;
+package com.xmlproject.project_poverenik.model.xml_korisnik;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

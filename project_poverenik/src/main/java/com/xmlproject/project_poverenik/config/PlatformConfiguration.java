@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.config;
 
+import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,23 @@ public class PlatformConfiguration {
                 "/example/zalba_na_odluku/metadata",
                 "/db/sample/zalbanaodluku",
                 "com.xmlproject.project_poverenik.model.xml_zalbanaodluku",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public ResenjeRepository resenjeRepository() {
+        System.out.println("OVO JE INSTANCIRANO");
+        String textContainQuery = "xquery version \"3.1\";\n" +
+                "for $resenje in collection(\"/db/sample/resenje/\")\n" +
+                "where fn:contains(lower-case($resenje), lower-case(\"%s\"))\n" +
+                "return\n" +
+                "    substring-after(base-uri($resenje), \"resenje/\")";
+
+        return new ResenjeRepository(
+                "/example/resenje/metadata",
+                "/db/sample/resenje",
+                "com.xmlproject.project_poverenik.model.xml_resenje",
                 textContainQuery
         );
     }

@@ -89,6 +89,7 @@ public class ZalbaNaOdlukuRepository extends Repository<ZalbaNaOdluku>{
             col.setProperty(OutputKeys.INDENT, "yes");
 
             System.out.println("[INFO] Retrieving the document: " + documentId);
+
             res = (XMLResource)col.getResource(documentId);
 
             if(res == null) {
@@ -96,7 +97,7 @@ public class ZalbaNaOdlukuRepository extends Repository<ZalbaNaOdluku>{
             } else {
 
                 System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
-                JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalba_na_odluku");
+                JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalbanaodluku");
 
                 Unmarshaller unmarshaller = context.createUnmarshaller();
 
@@ -136,7 +137,7 @@ public class ZalbaNaOdlukuRepository extends Repository<ZalbaNaOdluku>{
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/zalbanaodluku";
-        String documentId = id; //zalbaNaOdluku.getId() + ".xml";
+        String documentId = id + ".xml"; //zalbaNaOdluku.getId() + ".xml";
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;
