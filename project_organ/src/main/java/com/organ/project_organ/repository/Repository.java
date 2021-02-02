@@ -1,5 +1,6 @@
 package com.organ.project_organ.repository;
 
+import com.organ.project_organ.model.xml_obavestenja.Obavestenje;
 import com.organ.project_organ.model.xml_zahtev.Zahtev;
 import com.organ.project_organ.pojo.ResourcesListDTO;
 import com.organ.project_organ.util.MetadataExtractor;
@@ -331,7 +332,9 @@ public abstract class Repository<T1> {
         return resourcesListDTO;
     }
 
+
     public void save (String id, T1 obj) throws Exception {
+
         // initialize collection and document identifiers
         String collectionId = this.COLLECTION_ID;
         String documentId = id;
@@ -507,4 +510,6 @@ public abstract class Repository<T1> {
 
         System.out.println("[INFO] End.");
     }
+
+
 }

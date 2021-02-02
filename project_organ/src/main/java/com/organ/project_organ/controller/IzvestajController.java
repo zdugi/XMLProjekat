@@ -1,6 +1,9 @@
 package com.organ.project_organ.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.organ.project_organ.pojo.ReportsAdvanceSearchQuery;
+import com.organ.project_organ.pojo.RequestsAdvanceSearchQuery;
+import com.organ.project_organ.pojo.ResourcesListDTO;
 import com.organ.project_organ.repository.impl.IzvestajRepository;
 import com.organ.project_organ.service.IzvestajService;
 import com.organ.project_organ.util.Converter;
@@ -24,7 +27,7 @@ public class IzvestajController {
     @Autowired
     private IzvestajService izvestajService;
 
-    @GetMapping(path = "generate", produces = MediaType.APPLICATION_XML_VALUE)
+    @PostMapping(path = "generate", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> generateReport() throws Exception {
         return new ResponseEntity("<Response>" + izvestajService.generateReport() + "</Response>", HttpStatus.OK);
     }
@@ -75,4 +78,25 @@ public class IzvestajController {
     public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(izvestajService.getOneJSON(id).toString(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> simpleSearch(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+
+        ResourcesListDTO resources = izvestajService.searchText(query);
+
+        if (resources == null)
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity(resources, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody ReportsAdvanceSearchQuery query) {
+        if (query.numberOfDeclinedRegex.isEmpty() && query.numberOfSubmittedRegex.isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(izvestajService.queryRDF(query).toString(), HttpStatus.OK);
+    }
+
 }
