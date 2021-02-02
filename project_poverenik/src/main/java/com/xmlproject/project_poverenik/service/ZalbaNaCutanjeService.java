@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.service;
 
+import com.itextpdf.text.DocumentException;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_opste.TTrazilac;
 import com.xmlproject.project_poverenik.model.xml_zahtev.*;
@@ -10,20 +11,33 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanj
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.xmlproject.project_poverenik.service.*;
+import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsAdvanceSearchQuery;
+import pojo.ComplaintsListDTO;
 import pojo.DostavaDTO;
 import pojo.ZalbaNaCutanjeDTO;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ZalbaNaCutanjeService {
+public class ZalbaNaCutanjeService extends AbsService {
 
     @Autowired
     private ZalbaNaCutanjeRepository zalbaNaCutanjeRepository;
+
+    public ZalbaNaCutanjeService() {
+        //Repository repository, String xslPath, String fontPath
+        super("src/main/resources/zalba_na_cutanje_temp.xsl","src/main/resources/FreeSans.ttf");
+    }
 
     public void create (ZalbaNaCutanjeDTO zalbaNaCutanje) throws Exception {
         ObjectFactory factory = new ObjectFactory();
@@ -84,8 +98,8 @@ public class ZalbaNaCutanjeService {
         tTeloZalbe.getContent().add(razloziZalbeTelo);
 
         String tekst = "по мом захтеву за слободан приступ информацијама од јавног значаја који сам поднео том органу дана по мом захтеву за слободан приступ информацијама од јавног значаја који сам поднео том органу  дана ";
-        JAXBElement<String> stringTelo = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst);
-        tTeloZalbe.getContent().add(stringTelo);
+        //JAXBElement<String> stringTelo = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst);
+        tTeloZalbe.getContent().add(tekst);
 
         TDatum datum = new TDatum();
         datum.setValue(zalbaNaCutanje.datumPodnosenja.datumPodnosenjaA);
@@ -93,21 +107,23 @@ public class ZalbaNaCutanjeService {
         tTeloZalbe.getContent().add(datumTelo);
 
         String tekst1 = "године, а којим сам тражио/ла да ми се у складу са Законом о слободном приступу информацијама од јавног значаја омогући увид- копија документа који садржи информације  о /у вези са :";
-        JAXBElement<String> stringTelo1 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst1);
-        tTeloZalbe.getContent().add(stringTelo1);
+        //JAXBElement<String> stringTelo1 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst1);
+        tTeloZalbe.getContent().add(tekst1);
 
-        JAXBElement<String> stringTelo2 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Podaci_o_zahtevu_i_informacija"), String.class, zalbaNaCutanje.podaciOZahtevuIInformacijama);
+        JAXBElement<String> stringTelo2 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Podaci_o_zahtevu_i_informacija"), String.class, zalbaNaCutanje.podaciOZahtevuIInformacijama.podaci);
         tTeloZalbe.getContent().add(stringTelo2);
 
         String tekst2 = "(навести податке о захтеву и информацији/ама)\n" +
                 "\n" +
                 "На основу изнетог, предлажем да Повереник уважи моју жалбу и омогући ми приступ траженој/им информацији/ма.";
-        JAXBElement<String> stringTelo3 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst2);
-        tTeloZalbe.getContent().add(stringTelo3);
+        //JAXBElement<String> stringTelo3 = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst2);
+        tTeloZalbe.getContent().add(tekst2);
 
         String napomena = "Напомена: Код жалбе због непоступању по захтеву у целости, треба приложити и добијени одговор органа власти.";
         JAXBElement<String> napomenaTelo = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Napomena"), String.class, napomena);
         tTeloZalbe.getContent().add(napomenaTelo);
+
+        newZalba.setTeloZalbe(tTeloZalbe);
 
         TDodatneInformacije tDodatneInformacije = new TDodatneInformacije();
 
@@ -115,6 +131,8 @@ public class ZalbaNaCutanjeService {
 
         datumDI.setValue("[ovde ce se generisati vrednost]");
         datumDI.setProperty("pred:podnosenje");
+
+        tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
         osoba.setIme("[osoba iz sesije]");
@@ -144,11 +162,75 @@ public class ZalbaNaCutanjeService {
         trazilac.setRel("pred:potrazuje");
         trazilac.setHref("http://localhost:8081/complaint/" + id);
 
-        zalbaNaCutanjeRepository.save(newZalba);
+
+        zalbaNaCutanjeRepository.save(id, newZalba);
     }
 
     public ZalbaNaCutanje getOne (String id) throws Exception {
         return zalbaNaCutanjeRepository.getOne(id);
     }
 
+    public StringWriter generateHTML(String id) throws FileNotFoundException {
+        return this.generateHTML(id, zalbaNaCutanjeRepository);
+    }
+
+    public String[] getList() throws XMLDBException, IllegalAccessException, InstantiationException {
+        return zalbaNaCutanjeRepository.listComplaints();
+    }
+
+    public ByteArrayOutputStream generatePDF(String id) throws IOException, DocumentException {
+        return this.generatePDF(id, zalbaNaCutanjeRepository);
+    }
+
+    @Override
+    public ByteArrayOutputStream getOneRDF(String id) throws Exception {
+        return zalbaNaCutanjeRepository.getOneMetadataRDF(id);
+    }
+
+    @Override
+    public ByteArrayOutputStream getOneJSON(String id) throws Exception {
+        return zalbaNaCutanjeRepository.getOneMetadataJSON(id);
+    }
+
+    public ComplaintsListDTO searchText(String query) {
+        try {
+            return zalbaNaCutanjeRepository.searchText(query);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ByteArrayOutputStream queryRDF(ComplaintsAdvanceSearchQuery query) {
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fuseki/EDataset/data/example/zalbanacutanje/metadata>\n" +
+                "WHERE {\n" +
+                "  ?subject <http://localhost/predikati/podnosenje> ?datumPodnosenja .\n" +
+                "  ?subject <http://localhost/predikati/upucujeSe> ?organKomeSeUpucuje .\n" +
+                "  ?subject <http://localhost/predikati/mestoOrgana> ?mestoOrgana .\n" +
+                "  ?subject <http://localhost/predikati/drzavaOrgana> ?drzavaOrgana .\n" +
+                "  ?subject <http://localhost/predikati/potrazuje> ?trazilac .\n" +
+                "  FILTER (regex(str(?datumPodnosenja), \"%s\")) .\n" +
+                "  FILTER (regex(str(?organKomeSeUpucuje), \"%s\")) .\n" +
+                "  FILTER (regex(str(?mestoOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?drzavaOrgana), \"%s\")) .\n" +
+                "  FILTER (regex(str(?trazilac), \"%s\")) .\n" +
+                "}\n" +
+                "LIMIT 100";
+
+        // NO ESCAPE!
+        sparqlQuery = String.format(
+                sparqlQuery,
+                query.submissionDateRegex,
+                query.authorityRegex,
+                query.placeRegex,
+                query.stateRegex,
+                query.applicantRegex);
+
+        return zalbaNaCutanjeRepository.queryRDF(sparqlQuery);
+    }
 }

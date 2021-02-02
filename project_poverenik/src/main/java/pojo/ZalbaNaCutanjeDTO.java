@@ -24,7 +24,7 @@ public class ZalbaNaCutanjeDTO {
     public DatumPodnosenjaDTO datumPodnosenja;
 
     @XmlElement(name = "podaciOZahtevuIInformacijama")
-    public String podaciOZahtevuIInformacijama;
+    public PodaciOZahtevuIInformacijamaDTO podaciOZahtevuIInformacijama;
 
     @XmlElement
     public DodatneInformacijeDTO dodatneInformacije;

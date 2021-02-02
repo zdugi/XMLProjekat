@@ -32,7 +32,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 @Component
-public class ZalbaNaCutanjeRepository {
+public class ZalbaNaCutanjeRepository extends Repository<ZalbaNaCutanje> {
 
     private static final String ZALBA_NAMED_GRAPH_URI = "/example/zalbanacutanje/metadata";
 
@@ -53,6 +53,10 @@ public class ZalbaNaCutanjeRepository {
 
     @Value("${conn.data.endpoint}")
     private String connDataEndpoint;
+
+    public ZalbaNaCutanjeRepository(String graphURI, String collectionId, String instancePath, String xqueryTextContain) {
+        super(graphURI, collectionId, instancePath, xqueryTextContain);
+    }
 
     public ZalbaNaCutanje getOne(String id) throws Exception {
 
@@ -125,13 +129,13 @@ public class ZalbaNaCutanjeRepository {
     }
 
 
-    public void save (ZalbaNaCutanje zalbaNaCutanje) throws Exception {
+    public void save (String id, ZalbaNaCutanje zalbaNaCutanje) throws Exception {
         // generate id for document
-        zalbaNaCutanje.setId(UUID.randomUUID().toString());
+        zalbaNaCutanje.setId(id);
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/zalbanacutanje";
-        String documentId = zalbaNaCutanje.getId() + ".xml";
+        String documentId = id;
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ZahtevRepository extends Repository<Zahtev> {
 
-    public ZahtevRepository(String graphURI, String collectionId, String instancePath) {
-        super(graphURI, collectionId, instancePath);
+    public ZahtevRepository(String graphURI, String collectionId, String instancePath, String xqueryTextContain) {
+        super(graphURI, collectionId, instancePath, xqueryTextContain);
     }
 }

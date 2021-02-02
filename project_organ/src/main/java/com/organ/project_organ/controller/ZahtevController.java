@@ -13,26 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 
+import javax.print.attribute.standard.Media;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 
 @RestController
 @RequestMapping("/api/requests")
 public class ZahtevController {
     @Autowired
     private ZahtevService zahtevService;
-
-    @PostMapping(path="otac", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> createDummy(@RequestBody Otac otac) {
-        //otac.dete = new Dete();
-        //otac.dete.ime = "Zdravko";
-        //otac.dete.prezime = "Dugonjic";
-        return new ResponseEntity<Otac>(otac, HttpStatus.OK);
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> createRequest(@RequestBody ZahtevDokumentDTO zahtevDokumentDTO) {
@@ -46,7 +36,7 @@ public class ZahtevController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getRequests() {
+    public ResponseEntity<?> getRequestsIDList() {
         try {
             return new ResponseEntity<>(Converter.fromStringArray(zahtevService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {
@@ -60,27 +50,14 @@ public class ZahtevController {
         return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> getPDF() throws IOException, DocumentException {
-        /*
-        try {
-            StringWriter sw = zahtevService.generateHTML("3f4004c9-257f-463c-8b53-6db5a0e9fb49", "src/main/resources/zahtev_temp.xsl");
-            zahtevService.generatePDF("src/main/resources/bookstore.pdf");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>("Hello World", HttpStatus.OK);
-         */
+    @RequestMapping(value = "/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> getRequestPDF(@PathVariable("id") String id) throws IOException, DocumentException {
         ByteArrayInputStream bis =
                 new ByteArrayInputStream(
-                        zahtevService.generatePDF(
-                                "3f4004c9-257f-463c-8b53-6db5a0e9fb49",
-                                "src/main/resources/zahtev_temp.xsl").toByteArray());
+                        zahtevService.generatePDF(id).toByteArray());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+        headers.add("Content-Disposition", "inline; filename=request.pdf");
 
         return ResponseEntity
                 .ok()
@@ -89,12 +66,40 @@ public class ZahtevController {
                 .body(new InputStreamResource(bis));
     }
 
-    @GetMapping(path = "/html")
-    public ResponseEntity<?> getHTML() throws FileNotFoundException {
+    @GetMapping(path = "/xhtml/{id}")
+    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException {
         return new ResponseEntity<>(
-                zahtevService.generateHTML(
-                        "3f4004c9-257f-463c-8b53-6db5a0e9fb49",
-                        "src/main/resources/zahtev_temp.xsl").toString(), HttpStatus.OK);
+                zahtevService.generateHTML(id).toString(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/rdf/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestRDF(@PathVariable String id) throws Exception {
+        return new ResponseEntity<>(zahtevService.getOneRDF(id).toString(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/json/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
+        return new ResponseEntity<>(zahtevService.getOneJSON(id).toString(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> simpleSearch(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+
+        ResourcesListDTO resources = zahtevService.searchText(query);
+
+        if (resources == null)
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity(resources, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody RequestsAdvanceSearchQuery query) {
+        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
+            query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(zahtevService.queryRDF(query).toString(), HttpStatus.OK);
+    }
 }

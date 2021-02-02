@@ -41,7 +41,13 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
                 },
 
                 "podaciOZahtevuIInformacijama": {
-                    hasText: false
+                    hasText: false,
+                    attributes: {
+                        "podaci": {
+                            asker: Xonomy.askLongString
+                        }
+                    }
+
                 },
 
                 "datumPodnosenja": {
@@ -50,8 +56,6 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
                             asker: Xonomy.askString
                         }
                     }
-                },
-                "podaciOZahtevuIInformacijama": {
                 },
                 "dodatneInformacije": {
                     attributes: {
@@ -127,7 +131,7 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
         `
 
         var xml =
-          `<zalbaNaCutanje><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><datumPodnosenja datumPodnosenjaA=''></datumPodnosenja><podaciOZahtevuIInformacijama></podaciOZahtevuIInformacijama>
+          `<zalbaNaCutanje><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><datumPodnosenja datumPodnosenjaA=''></datumPodnosenja><podaciOZahtevuIInformacijama podaci=''></podaciOZahtevuIInformacijama>
                <dodatneInformacije mesto="" datum=""><trazilac kontakt=""><osoba ime="" prezime=""></osoba></trazilac></dodatneInformacije>
                <opcija cekiran='true' tekst='није поступио;'/><opcija cekiran='false' tekst='није поступио у целости;'/><opcija cekiran='false' tekst= "није поступио у законском року"/>
                <mestoPodnosenja naziv='' />

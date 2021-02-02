@@ -28,6 +28,8 @@ public class SparqlUtil {
 
 	/* An XML serialization format for RDF data */
 	public static final String RDF_XML = "RDF/XML";
+
+	public static final String JSON_LD = "JSON-LD";
 	
 	public static String dropAll() {
 		return DROP_ALL;

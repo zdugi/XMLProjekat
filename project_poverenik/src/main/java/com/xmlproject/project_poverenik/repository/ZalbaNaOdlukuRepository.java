@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.repository;
 
+import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
@@ -32,7 +33,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 @Component
-public class ZalbaNaOdlukuRepository {
+public class ZalbaNaOdlukuRepository extends Repository<ZalbaNaOdluku>{
 
     private static final String ZALBA_NAMED_GRAPH_URI = "/example/zalbanaodluku/metadata";
 
@@ -53,6 +54,10 @@ public class ZalbaNaOdlukuRepository {
 
     @Value("${conn.data.endpoint}")
     private String connDataEndpoint;
+
+    public ZalbaNaOdlukuRepository(String graphURI, String collectionId, String instancePath, String xqueryTextContain) {
+        super(graphURI, collectionId, instancePath, xqueryTextContain);
+    }
 
     public ZalbaNaOdluku getOne(String id) throws Exception {
 
@@ -125,13 +130,13 @@ public class ZalbaNaOdlukuRepository {
     }
 
 
-    public void save (ZalbaNaOdluku zalbaNaOdluku) throws Exception {
+    public void save (String id, ZalbaNaOdluku zalbaNaOdluku) throws Exception {
         // generate id for document
-        zalbaNaOdluku.setId(UUID.randomUUID().toString());
+        zalbaNaOdluku.setId(id);
 
         // initialize collection and document identifiers
         String collectionId = "/db/sample/zalbanaodluku";
-        String documentId = zalbaNaOdluku.getId() + ".xml";
+        String documentId = id; //zalbaNaOdluku.getId() + ".xml";
 
         // initialize database driver
         Class<?> cl = DatabaseImpl.class;
@@ -161,7 +166,7 @@ public class ZalbaNaOdlukuRepository {
             res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
 
             System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
-            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalba_na_odluku");
+            JAXBContext context = JAXBContext.newInstance("com.xmlproject.project_poverenik.model.xml_zalbanaodluku");
 
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

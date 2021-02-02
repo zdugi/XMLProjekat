@@ -14,7 +14,7 @@ const HomePage = Vue.component("home-page", {
             console.log(xml)
             axios.post("/api/requests", xml, {headers: {'Content-Type': 'application/xml'}}).then(
             response => {
-                alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
+                alert('Zahtev uspesno primljen. Dobicete odgovor od službenika putem elektronske pošte.');
             },
             error => {
                 alert('Doslo je do greske prilikom slanja zahteva.');
@@ -89,6 +89,20 @@ const HomePage = Vue.component("home-page", {
                             asker: Xonomy.askString
                         }
                     }
+                },
+                "dostava": {
+                    attributes: {
+                        "cekiran": {
+                            asker: Xonomy.askPicklist,
+                            askerParameter: [
+                            {value: "true"},
+                            {value: "false"}
+                            ]
+                        },
+                        "dodatno": {
+                            asker: Xonomy.askString
+                        }
+                    }
                 }
             }
         };
@@ -99,7 +113,7 @@ const HomePage = Vue.component("home-page", {
         `
 
         var xml =
-        `<zahtev><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><zahtevam><opcija cekiran='true' tekst='обавештење да ли поседује тражену информацију;'/><opcija cekiran='false' tekst='увид у документ који садржи тражену информацију;'/><opcija cekiran='false' tekst='копију документа који садржи тражену информацију;'/><opcija cekiran='false' tekst='достављање копије документа који садржи тражену информацију'><dostava cekiran='false' tekst='поштом'/><dostava cekiran='false' tekst='електронском поштом'/><dostava cekiran='false' tekst='⁫факсом'/><dostava cekiran='false' tekst='на други начин' dodatno=''/></opcija><opis tekst='ovde ide opis informacije...'/></zahtevam><mestoPodnosenja naziv='' /></zahtev>`;
+        `<zahtev><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><zahtevam><opcija cekiran='true' tekst='obaveštenje da li poseduje traženu informaciju;'/><opcija cekiran='false' tekst='uvid u dokument koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='kopiju dokumenta koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='dostavljanje kopije dokumenta koji sadrži traženu informaciju'><dostava cekiran='false' tekst='poštom'/><dostava cekiran='false' tekst='elektronskom poštom'/><dostava cekiran='false' tekst='faksom'/><dostava cekiran='false' tekst='na drugi način:' dodatno=''/></opcija><opis tekst='Ovde unesite na koje informacije se zahtev odnosi....'/></zahtevam><mestoPodnosenja naziv='' /></zahtev>`;
         var editor = document.getElementById("editor");
         Xonomy.render(xml, editor, docSpec);
     }
