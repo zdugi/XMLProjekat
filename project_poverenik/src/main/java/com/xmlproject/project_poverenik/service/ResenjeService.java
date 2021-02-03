@@ -68,7 +68,11 @@ public class ResenjeService extends AbsService {
 
         if (zalbaNaCutanje != null) {
             zalbaNaCutanje.setPrihvacena(prihvacena);
+            zalbaNaCutanjeService.setPrihvaceno(idZalbe, prihvacena);
             // ovo treba sacuvati
+            //<xupdate:element name="zalbaNaCutanje">
+            //<xupdate:attribute name="prihvacena">true</xupdate:attribute>
+            //</xupdate:element>
         }
         else {
             zalbaNaOdluku.setPrihvacena(prihvacena);

@@ -74,7 +74,8 @@ public class ZalbaNaCutanje {
     protected String id;
     @XmlAttribute(name = "prihvacena")
     protected Boolean prihvacena;
-
+    @XmlAttribute(name = "status")
+    protected String status;
     /**
      * Gets the value of the primalac property.
      * 
@@ -299,4 +300,10 @@ public class ZalbaNaCutanje {
         this.prihvacena = prihvacena;
     }
 
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status){
+        this.status = status;
+    }
 }

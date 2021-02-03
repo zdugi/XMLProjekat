@@ -46,6 +46,8 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         newZalba.setPrimalac("Повереник за иинформације од јавног значаја и заштиту података о личности");
 
+        newZalba.setStatus("nova");
+
         TAdresa adresa = new TAdresa();
         adresa.setBroj(BigInteger.valueOf(Long.valueOf(zalbaNaCutanje.organ.adresa.broj)));
 
@@ -232,5 +234,17 @@ public class ZalbaNaCutanjeService extends AbsService {
                 query.applicantRegex);
 
         return zalbaNaCutanjeRepository.queryRDF(sparqlQuery);
+    }
+
+    public void setPrihvaceno(String id, boolean prihvaceno){
+        try {
+            zalbaNaCutanjeRepository.setPrihvaceno(id, prihvaceno);
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }
