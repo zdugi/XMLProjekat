@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -60,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated().and()
                 .cors()
@@ -73,10 +72,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring()
-                .antMatchers(HttpMethod.POST, "/api/auth/login", "/api/complaint/**");
+                .antMatchers(HttpMethod.POST, "/api/auth/login");
         //.antMatchers(HttpMethod.POST, "/cultural-offers/search");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
-                "/**/*.css", "/**/*.js", "/api/complaint/**"
+                "/**/*.css", "/**/*.js", "/api/complaint/simple-search"
         );
     }
 

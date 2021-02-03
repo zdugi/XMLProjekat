@@ -8,11 +8,12 @@ Vue.component('menu-component', {
          <li><router-link to='/create-resolution'>Kreiraj resenje</router-link></li>
         <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
          <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
+         <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
         <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
         <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
 
          <li><a href="#logout">Odjavi se</a></li>
-          <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
+
     </ul>
     `
 })
