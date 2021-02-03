@@ -18,7 +18,7 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
     },
     data() {
         return {
-            message: 'Hello World!!!'
+            koSeZali: 0
         }
     },
     mounted() {
@@ -28,8 +28,36 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
             },
             validate: function (obj) {
                 console.log("I be validatin' now!")
+                // ovde da ih postavim
+                let element = document.getElementById("xonomy40");
+                let el = document.querySelector("#xonomy40 > div > div");
+                let chosen = el.getAttribute("data-value");
+                if (chosen === "Osoba"){
+                    let element123 = document.getElementById("xonomy79").style.display = "none";
+                    let element123333 = document.getElementById("xonomy59").style.display = "display";
+                    console.log(element123);
+                    console.log(element123333);
+                }
+                else if (chosen === "Organ"){
+                    let element456 = document.getElementById("xonomy59").style.display = "none";
+                    let element12312 = document.getElementById("xonomy79").style.display = "display";
+                }
+                else {
+                    //document.getElementById("xonomy79").style.display = "none";
+                    //document.getElementById("xonomy59").style.display = "none";
+                }
+                console.log(element);
             },
             elements: {
+                "idZahteva": {
+                    hasText: true,
+                    asker: Xonomy.askString
+                },
+                "podnosilac": {
+                hasText: true,
+                asker: Xonomy.askPicklist,
+                askerParameter: ["Osoba", "Organ"],
+                },
                 "zalilac": {
                     hasText: false,
                     attributes: {
@@ -42,6 +70,12 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
                    }
                 },
                 "organZalilac": {
+                    isInvisible: function(){
+                        console.log(3);
+                        //console.log(koSeZali + " ko se zali");
+                        //return 3 < 4;
+                        return false;
+                    },
                     hasText: false,
                     attributes: {
                         "naziv": {
@@ -49,14 +83,7 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
                         }
                     }
                 },
-                "organNaKogaSeZali": {
-                    hasText: false,
-                    attributes: {
-                        "naziv": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
+
                 "brojResenja":{
                     hasText: false,
                     attributes: {
@@ -68,34 +95,12 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
                         }
                     }
                 },
-                "datumPodnosenja": {
-                    attributes: {
-                        "datumPodnosenjaA": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
+
                 "opisZalbe": {
                     hasText: true,
                     asker: Xonomy.askString
                 },
-                "dodatneInformacije": {
-                    attributes: {
-                        "datum": {
-                            asker: Xonomy.askString
-                        },
-                        "mesto": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
-                "trazilac": {
-                    attributes: {
-                          "kontakt": {
-                      asker: Xonomy.askString
-                    }}
 
-                },
                 "osoba": {
                     attributes: {
                         "ime": {
@@ -124,16 +129,9 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
                             asker: Xonomy.askString
                          }
                     }
-                },
-
-                "mestoPodnosenja": {
-                    attributes: {
-                        "naziv": {
-                            asker: Xonomy.askString
-                        }
-                    }
                 }
-            }
+
+             }
         };
 
         var xml2 =
@@ -143,29 +141,27 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
 
         var xml =
           `<zalbaNaOdluku>
+                <idZahteva></idZahteva>
+                <podnosilac></podnosilac>
                <zalilac ime="" prezime=""></zalilac>
                <organZalilac naziv=''>
                    <adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' />
                </organZalilac>
-                <organNaKogaSeZali naziv=''>
-                   <adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' />
-               </organNaKogaSeZali>
-               <brojResenja broj="" godina=""></brojResenja>
-               <datumPodnosenja datumPodnosenjaA=''></datumPodnosenja>
-               <opisZalbe></opisZalbe>
-               <dodatneInformacije mesto="" datum="">
-                   <trazilac kontakt="">
-                       <osoba ime="" prezime=""></osoba>
-                       <adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' />
-                   </trazilac>
-               </dodatneInformacije>
 
-               <mestoPodnosenja naziv='' />
-           </zalbaNaOdluku>
+               <brojResenja broj="" godina=""></brojResenja>
+                <opisZalbe></opisZalbe>
+               </zalbaNaOdluku>
                   `
         var editor = document.getElementById("editor");
-        Xonomy.setMode("laic");
+
         Xonomy.render(xml, editor, docSpec);
-        Xonomy.setMode("laic");
-    }
+
+        $(document).on("xonomy-click-element", function(event, jsMe){
+        console.log("nesto se desilo");
+        console.log(jsMe); });
+
+        $(document).on("xonomy-click-attribute", function(event, jsMe){ console.log(jsMe); });
+
+
+        }
 })

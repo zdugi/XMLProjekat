@@ -51,8 +51,11 @@ public class ZalbaNaCutanjeService extends AbsService {
         status.setValue("нова");
         newZalba.setStatus(status);
 
+        System.out.println(zalbaNaCutanje.idZahteva + " je poslati id zahteva.");
+
+        // adresa primaoca, hardkodovana
         TAdresa adresa = new TAdresa();
-        adresa.setBroj(BigInteger.valueOf(Long.valueOf(zalbaNaCutanje.organ.adresa.broj)));
+        adresa.setBroj(BigInteger.valueOf(15L));
 
         TAdresa.Drzava drzava = new TAdresa.Drzava();
         drzava.setProperty("pred:drzavaOrgana");
@@ -74,10 +77,11 @@ public class ZalbaNaCutanjeService extends AbsService {
         tTeloZalbe.getContent().add("У складу са чланом 22. Закона о слободном приступу информацијама од јавног значаја подносим: " +
                 "Ж А Л Б У против");
 
+        // ovo treba da dobavim iz zahteva
         TOrgan organ = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue(zalbaNaCutanje.organ.naziv);
+        naziv.setValue("Назив органа из захтева");
         organ.setNaziv(naziv);
 
         JAXBElement<TOrgan> organTelo = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Organ"), TOrgan.class, organ);
@@ -106,8 +110,10 @@ public class ZalbaNaCutanjeService extends AbsService {
         //JAXBElement<String> stringTelo = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst);
         tTeloZalbe.getContent().add(tekst);
 
+
+        // ovaj datum izvlacim iz zahteva
         TDatum datum = new TDatum();
-        datum.setValue(zalbaNaCutanje.datumPodnosenja.datumPodnosenjaA);
+        datum.setValue("датум из захтева");
         JAXBElement<TDatum> datumTelo = new JAXBElement<TDatum>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Datum_podnosenja_zahteva"), TDatum.class, datum);
         tTeloZalbe.getContent().add(datumTelo);
 
@@ -146,7 +152,7 @@ public class ZalbaNaCutanjeService extends AbsService {
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue(zalbaNaCutanje.dodatneInformacije.mesto);
+        mestoDI.setValue("Ово је место, не знам гдје да га ставим. Да корисник унесе, да се хардкодује?");
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
