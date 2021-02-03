@@ -1,8 +1,9 @@
 const router = new VueRouter({
     mode: 'hash',
     routes: [
-        { path: '/create', component: HomePage },
-        { path: '/login', component: LoginPage },
+        { path: '/requests-table-page', component: RequestsTablePage },
+        { path: '/poverenik', component: PoverenikPage },
+        { path: '/gradjanin', component: GradjaninPage },
         { path: '/zalba-na-cutanje', component: ZalbaNaCutanje },
         { path: '/zalba-na-odluku', component: ZalbaNaOdluku },
         { path: '/search', component: RequestsSearchPage },
@@ -12,7 +13,7 @@ const router = new VueRouter({
          { path: '/complaint-res-list', component: ComplaintResolutionTablePage },
         { path: '/create-resolution', component: NewResolutionPage },
         { path: '/resolution-list', component: ResolutionTablePage },
-        { path: '/', component: RequestsTablePage }
+        { path: '/', component: LoginPage }
     ]
 })
 
