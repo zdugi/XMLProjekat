@@ -1,6 +1,5 @@
 package com.xmlproject.project_poverenik.repository;
 
-import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.util.MetadataExtractor;
 import com.xmlproject.project_poverenik.util.SparqlUtil;
@@ -12,6 +11,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 import org.exist.xmldb.DatabaseImpl;
 import org.exist.xmldb.EXistResource;
+import org.exist.xupdate.XUpdateProcessor;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.xmldb.api.DatabaseManager;
@@ -21,6 +21,7 @@ import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import org.xmldb.api.modules.XUpdateQueryService;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -295,6 +296,61 @@ public class ZalbaNaOdlukuRepository extends Repository<ZalbaNaOdluku>{
         processor.execute();
 
         System.out.println("[INFO] End.");
+    }
+    public void setPrihvaceno(String id, String status) throws XMLDBException, IllegalAccessException, InstantiationException {
+        // update zalba
+        String collectionId = "/db/sample/zalbanaodluku";
+        Class<?> cl = DatabaseImpl.class;
+
+        // encapsulation of the database driver functionality
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        // entry point for the API which enables you to get the Collection reference
+        DatabaseManager.registerDatabase(database);
+
+        // a collection of Resources stored within an XML database
+        Collection col = null;
+        XMLResource res = null;
+        OutputStream os = new ByteArrayOutputStream();
+
+        try {
+            System.out.println("MOZEEEEEEEEEEEEEEEEE");
+            System.out.println("[INFO] Retrieving the collection: " + collectionId);
+            col = getOrCreateCollection(collectionId);
+
+
+            String tm = " <ns2:Status property=\"pred:status\">"+ status + "</ns2:Status>";
+            String xupdate = "<xu:update:element name=\"ZalbaNaOdluku\"> " +
+                    "<xu:update:attribute name=\"prihvacena\">true</xu:update:attribute>" +
+                    "</xu:update:element>";
+            XUpdateQueryService xupdateService = (XUpdateQueryService) col.getService("XUpdateQueryService", "1.0");
+            xupdateService.setProperty("indent", "yes");
+            String contextXPath4 = "/ZalbaNaOdluku/@status";
+            String contextXPath5 = "/ZalbaNaOdluku/Status";
+
+            String Update = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
+                    + "\" xmlns=\"" + "http://ftn.uns.ac.rs/xml_zalbanaodluku" + "\">" + "<xu:update select=\"%1$s\">%2$s</xu:update>"
+                    + "</xu:modifications>";
+            //long mods1 = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath4, "prihvacena"));
+            long mods2 = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath5, status));
+            //long mods = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath5, tm));
+
+
+
+            //XUpdateQueryService service =
+            //        (XUpdateQueryService) col.getService("XUpdateQueryService", "1.0");
+            //service.update(xupdate);
+        }
+        catch (XMLDBException e) {
+            System.err.println("XML:DB Exception occured " + e.errorCode + " " +
+                    e.getMessage());
+        }
+        finally {
+            if (col != null) {
+                col.close();
+            }
+        }
     }
 
 }

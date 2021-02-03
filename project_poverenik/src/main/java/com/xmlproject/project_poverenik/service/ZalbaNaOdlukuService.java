@@ -2,6 +2,7 @@ package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
+import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ObjectFactory;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.TTeloZalbeOdluka;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
@@ -42,6 +43,11 @@ public class ZalbaNaOdlukuService extends AbsService{
 
         zalbaNaOdluku.setPrimalac("Повереник за иинформације од јавног значаја и заштиту података о личности");
 
+        ZalbaNaOdluku.Status status = new ZalbaNaOdluku.Status();
+        status.setProperty("pred:status");
+        status.setValue("нова");
+        zalbaNaOdluku.setStatus(status);
+
         TAdresa adresa = new TAdresa();
         adresa.setBroj(BigInteger.valueOf(Long.valueOf(15000)));
 
@@ -49,6 +55,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         drzava.setProperty("pred:drzavaOrgana");
         drzava.setValue("Србија");
         adresa.setDrzava(drzava);
+
 
         TAdresa.Mesto mesto = new TAdresa.Mesto();
         mesto.setProperty("pred:mestoOrgana");
@@ -243,6 +250,17 @@ public class ZalbaNaOdlukuService extends AbsService{
                 query.applicantRegex);
 
         return zalbaNaOdlukuRepository.queryRDF(sparqlQuery);
+    }
+    public void setPrihvaceno(String id, String status){
+        try {
+            zalbaNaOdlukuRepository.setPrihvaceno(id, status);
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
 }
