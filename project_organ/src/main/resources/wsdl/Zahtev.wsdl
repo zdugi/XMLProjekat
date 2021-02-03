@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ZahtevService" targetNamespace="http://soap.spring.com/ws/request" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.spring.com/ws/request" xmlns:ns1="http://ftn.uns.ac.rs/xml_zahtev" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:ns1="http://ftn.uns.ac.rs/xml_opste" xmlns:tns="http://ftn.uns.ac.rs/xml_zahtev" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_zahtev" version="1.0">
+
+  <xs:import namespace="http://ftn.uns.ac.rs/xml_opste"/>
+
+  <xs:element name="Zahtev" type="tns:request"/>
+
+  <xs:complexType name="request">
+    <xs:sequence>
+      <xs:element name="Organ" type="ns1:TOrgan"/>
+      <xs:element name="Telo_zahteva" type="tns:TTelo_zahteva"/>
+      <xs:element name="Dodatne_informacije" type="ns1:TDodatne_informacije"/>
+    </xs:sequence>
+    <xs:attribute name="naziv" type="xs:string"/>
+    <xs:attribute name="about" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TTelo_zahteva">
+    <xs:sequence>
+      <xs:element name="Paragraf" type="tns:TParagraf"/>
+      <xs:element name="Informacije" type="tns:TInformacije"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TParagraf">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Tipovi_zahteva" type="tns:TTipovi_zahteva"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TTrazilac">
+    <xs:sequence>
+      <xs:element name="Osoba" type="ns1:TOsoba"/>
+      <xs:element name="Adresa" type="ns1:TAdresa"/>
+      <xs:element name="Kontakt">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TTip_dostave">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Dodatni_tip" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="Odabrano" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="TTipovi_zahteva">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Tip_zahteva" type="tns:TTip_zahteva"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TTip_zahteva">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Tipovi_dostave" type="tns:TTipovi_dostave"/>
+    </xs:sequence>
+    <xs:attribute name="Odabrano" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="TInformacije">
+    <xs:sequence>
+      <xs:element name="Naslov" type="xs:string"/>
+      <xs:element name="Opis" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="Savet" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TTipovi_dostave">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Tip_dostave" type="tns:TTip_dostave"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:tns="http://ftn.uns.ac.rs/xml_opste" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_opste" version="1.0">
+
+  <xs:complexType name="TOrgan">
+    <xs:sequence>
+      <xs:element name="Naziv">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TAdresa">
+    <xs:sequence>
+      <xs:element name="Ulica" type="xs:string"/>
+      <xs:element name="Broj" type="xs:positiveInteger"/>
+      <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
+      <xs:element name="Mesto">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Drzava">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TOsoba">
+    <xs:sequence>
+      <xs:element name="Ime" type="xs:string"/>
+      <xs:element name="Prezime" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="about" type="xs:string"/>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TDodatne_informacije">
+    <xs:sequence>
+      <xs:element name="Mesto" type="xs:string"/>
+      <xs:element name="Datum" type="tns:TDatum"/>
+      <xs:element name="Trazilac" type="tns:TTrazilac"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TDatum">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="property" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="TTrazilac">
+    <xs:sequence>
+      <xs:element name="Osoba" type="tns:TOsoba"/>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+      <xs:element minOccurs="0" name="Kontakt" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TIdResenja">
+    <xs:sequence>
+      <xs:element name="Broj" type="xs:string"/>
+      <xs:element name="Godina" type="xs:positiveInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TZakon">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona" type="xs:string"/>
+      <xs:element name="Naziv_zakona" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getRequest">
+    <wsdl:part name="id" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRequestResponse">
+    <wsdl:part name="return" type="ns1:request">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ZahtevInterface">
+    <wsdl:operation name="getRequest">
+      <wsdl:input name="getRequest" message="tns:getRequest">
+    </wsdl:input>
+      <wsdl:output name="getRequestResponse" message="tns:getRequestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZahtevServiceSoapBinding" type="tns:ZahtevInterface">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getRequest">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getRequest">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/request"/>
+      </wsdl:input>
+      <wsdl:output name="getRequestResponse">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/request"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZahtevService">
+    <wsdl:port name="ZahtevPort" binding="tns:ZahtevServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ZahtevPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

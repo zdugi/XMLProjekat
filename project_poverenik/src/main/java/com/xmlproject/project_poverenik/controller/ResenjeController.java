@@ -6,6 +6,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanj
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import com.xmlproject.project_poverenik.service.ResenjeService;
 import com.xmlproject.project_poverenik.util.Converter;
+import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -14,17 +15,43 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsAdvanceSearchQuery;
+import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
 
+import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 @RestController
 @RequestMapping("/api/solution")
 public class ResenjeController {
     @Autowired
     private ResenjeService resenjeService;
+
+    //TODO: boilerplate
+    @GetMapping(path = "/request/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestOverSOAP(@PathVariable String id) {
+        try {
+            URL wsdlLocation = new URL("http://localhost:8089/ws/request?wsdl");
+            QName serviceName = new QName("http://soap.spring.com/ws/request", "ZahtevService");
+            QName portName = new QName("http://soap.spring.com/ws/request", "ZahtevPort");
+
+            javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+            ZahtevInterface zahtevInterface = service.getPort(portName, ZahtevInterface.class);
+
+            return new ResponseEntity<>(zahtevInterface.getRequest(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Dosle je do greske prilikom pribavljanja zahteva putem WS. (ovo se desava i kad zahtev ne postoji, vraca null)");
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // END
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)    //treba dto
     public ResponseEntity<?> createResenje(@RequestBody ResenjeDTO resenje) {
@@ -97,6 +124,25 @@ public class ResenjeController {
         return new ResponseEntity<>(resenjeService.getOneJSON(id).toString(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> simpleSearch(@RequestParam String query) {
+        if (query == null || query.trim().isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
 
+        ComplaintsListDTO resources = resenjeService.searchText(query);
+
+        if (resources == null)
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity(resources, HttpStatus.OK);
+    }
+
+    /*@PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody ComplaintsAdvanceSearchQuery query) {
+        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
+                query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+            return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(resenjeService.queryRDF(query).toString(), HttpStatus.OK);
+    }*/
 
 }

@@ -94,7 +94,7 @@ public class IzvestajController {
 
     @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> advanceSearch(@RequestBody ReportsAdvanceSearchQuery query) {
-        if (query.numberOfDeclinedRegex.isEmpty() && query.numberOfSubmittedRegex.isEmpty())
+        if (query.numberOfDeclinedRegex.isEmpty() && query.numberOfSubmittedRegex.isEmpty() && query.dateRegex.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(izvestajService.queryRDF(query).toString(), HttpStatus.OK);
     }

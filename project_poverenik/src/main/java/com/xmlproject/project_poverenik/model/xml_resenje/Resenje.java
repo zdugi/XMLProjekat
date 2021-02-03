@@ -60,6 +60,7 @@ import com.xmlproject.project_poverenik.model.xml_opste.TOsoba;
 @XmlType(name = "", propOrder = {
     "datum",
     "zalba",
+        "zalbaPrihvacena",
     "uvod",
     "resenjeUkratko",
     "obrazlozenje",
@@ -76,6 +77,8 @@ public class Resenje {
     protected TUvod uvod;
     @XmlElement(name = "Resenje_Ukratko", required = true)
     protected Resenje.ResenjeUkratko resenjeUkratko;
+    @XmlElement(name = "Zalba_Prihvacena", required = true)
+    protected Resenje.ZalbaPrihvacena zalbaPrihvacena;
     @XmlElement(name = "Obrazlozenje", required = true)
     protected String obrazlozenje;
     @XmlElement(name = "Poverenik", required = true)
@@ -407,5 +410,71 @@ public class Resenje {
         }
 
     }
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "ZalbaPrihvacena", propOrder = {
+            "value"
+    })
+    public static class ZalbaPrihvacena {
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
 
+        /**
+         * Gets the value of the value property.
+         *
+         * @return
+         *     possible object is
+         *     {@link String }
+         *
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the prihvaceno property.
+         *
+         * @return
+         *     possible object is
+         *     {@link Boolean }
+         *
+         */
+        public String getProperty() {
+            return property;
+        }
+
+        /**
+         * Sets the value of the prihvaceno property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link Boolean }
+         *
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+    public ZalbaPrihvacena getZalbaPrihvacena() {
+        return zalbaPrihvacena;
+    }
+
+    public void setZalbaPrihvacena(ZalbaPrihvacena zalbaPrihvacena) {
+        this.zalbaPrihvacena = zalbaPrihvacena;
+    }
 }

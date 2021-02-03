@@ -5,5 +5,12 @@
 // Generated on: 2021.02.02 at 05:25:05 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.uns.ac.rs/xml_resenje", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package rs.ac.uns.ftn.xml_resenje;
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://ftn.uns.ac.rs/xml_resenje",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://localhost/predikati/")
+        })
+package com.xmlproject.project_poverenik.model.xml_resenje;
+
+import javax.xml.bind.annotation.XmlNs;
