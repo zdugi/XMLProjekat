@@ -64,10 +64,10 @@ public class ResenjeService extends AbsService {
         }
         System.out.println(zalbaNaCutanje + " " + zalbaNaOdluku);
 
-        boolean prihvacena = resenjeDTO.prihvacena == "prihvacena";
+        String prihvacena = resenjeDTO.prihvacena;
 
         if (zalbaNaCutanje != null) {
-            zalbaNaCutanje.setPrihvacena(prihvacena);
+            //zalbaNaCutanje.setPrihvacena(prihvacena);
             zalbaNaCutanjeService.setPrihvaceno(idZalbe, prihvacena);
             // ovo treba sacuvati
             //<xupdate:element name="zalbaNaCutanje">
@@ -75,7 +75,7 @@ public class ResenjeService extends AbsService {
             //</xupdate:element>
         }
         else {
-            zalbaNaOdluku.setPrihvacena(prihvacena);
+            //zalbaNaOdluku.setPrihvacena(prihvacena);
         }
 
         ObjectFactory factory = new ObjectFactory();
@@ -104,7 +104,7 @@ public class ResenjeService extends AbsService {
         Resenje.ResenjeUkratko resenjeUkratko = new Resenje.ResenjeUkratko();
         //resenjeUkratko.setValue("pred:prihvaceno");
         //resenjeUkratko.setPrihvaceno();
-        resenjeUkratko.setPrihvaceno(prihvacena);
+        //resenjeUkratko.setPrihvaceno(prihvacena);
         resenjeUkratko.setValue(resenjeDTO.resenje_ukratko);
         resenje.setResenjeUkratko(resenjeUkratko);
         resenje.setObrazlozenje(resenjeDTO.obrazlozenje);

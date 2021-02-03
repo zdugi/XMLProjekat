@@ -8,13 +8,10 @@
 
 package com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
 import com.xmlproject.project_poverenik.model.xml_opste.*;
+import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
 
 
 /**
@@ -49,7 +46,8 @@ import com.xmlproject.project_poverenik.model.xml_opste.*;
     "primalac",
     "adresaPrimaoca",
     "teloZalbe",
-    "dodatneInformacije"
+    "dodatneInformacije",
+        "status"
 })
 @XmlRootElement(name = "ZalbaNaCutanje")
 public class ZalbaNaCutanje {
@@ -74,8 +72,11 @@ public class ZalbaNaCutanje {
     protected String id;
     @XmlAttribute(name = "prihvacena")
     protected Boolean prihvacena;
-    @XmlAttribute(name = "status")
-    protected String status;
+    @XmlElement(name = "Status", required = true)
+    protected ZalbaNaCutanje.Status status;
+    //@XmlAttribute(name = "status")
+    //protected String status;
+
     /**
      * Gets the value of the primalac property.
      * 
@@ -300,10 +301,77 @@ public class ZalbaNaCutanje {
         this.prihvacena = prihvacena;
     }
 
-    public String getStatus() {
+    /*public String getStatus() {
         return status;
     }
     public void setStatus(String status){
+        this.status = status;
+    }*/
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "Status", propOrder = {
+            "value"
+    })
+    public static class Status {
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         *
+         * @return
+         *     possible object is
+         *     {@link String }
+         *
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the prihvaceno property.
+         *
+         * @return
+         *     possible object is
+         *     {@link Boolean }
+         *
+         */
+        public String getProperty() {
+            return property;
+        }
+
+        /**
+         * Sets the value of the prihvaceno property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link Boolean }
+         *
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
         this.status = status;
     }
 }
