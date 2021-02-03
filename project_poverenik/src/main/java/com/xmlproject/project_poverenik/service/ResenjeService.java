@@ -64,10 +64,10 @@ public class ResenjeService extends AbsService {
         }
         System.out.println(zalbaNaCutanje + " " + zalbaNaOdluku);
 
-        boolean prihvacena = resenjeDTO.prihvacena == "prihvacena";
+        String prihvacena = resenjeDTO.prihvacena;
 
         if (zalbaNaCutanje != null) {
-            zalbaNaCutanje.setPrihvacena(prihvacena);
+            //zalbaNaCutanje.setPrihvacena(prihvacena);
             zalbaNaCutanjeService.setPrihvaceno(idZalbe, prihvacena);
             // ovo treba sacuvati
             //<xupdate:element name="zalbaNaCutanje">
@@ -75,7 +75,7 @@ public class ResenjeService extends AbsService {
             //</xupdate:element>
         }
         else {
-            zalbaNaOdluku.setPrihvacena(prihvacena);
+            //zalbaNaOdluku.setPrihvacena(prihvacena);
         }
 
         ObjectFactory factory = new ObjectFactory();
@@ -89,7 +89,10 @@ public class ResenjeService extends AbsService {
 
         // na resnje property jel odobrava ili ne
         // set na zalbu jel odobrena ili ne
-
+        Resenje.ZalbaPrihvacena zalbaPrihvacena = new Resenje.ZalbaPrihvacena();
+        zalbaPrihvacena.setProperty("pred:prihvacena");
+        zalbaPrihvacena.setValue(resenjeDTO.prihvacena);
+        resenje.setZalbaPrihvacena(zalbaPrihvacena);
 
 
         TZalba zalba = new TZalba();
@@ -101,7 +104,7 @@ public class ResenjeService extends AbsService {
         Resenje.ResenjeUkratko resenjeUkratko = new Resenje.ResenjeUkratko();
         //resenjeUkratko.setValue("pred:prihvaceno");
         //resenjeUkratko.setPrihvaceno();
-        resenjeUkratko.setPrihvaceno(prihvacena);
+        //resenjeUkratko.setPrihvaceno(prihvacena);
         resenjeUkratko.setValue(resenjeDTO.resenje_ukratko);
         resenje.setResenjeUkratko(resenjeUkratko);
         resenje.setObrazlozenje(resenjeDTO.obrazlozenje);
@@ -164,14 +167,20 @@ public class ResenjeService extends AbsService {
         JAXBElement<TOsoba> zalilacOsobaJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_resenje", "ZalilacOsoba"), TOsoba.class, zalilac);
         tUvod.getContent().add(zalilacOsobaJ);
         //tUvod.getContent().add("због недобијања тражених информација по његовом захтеву за приступ информацијама од јавног значаја поднетом");
-
+        tUvod.getContent().add(" против ");
         // zbog nepostupanja ako je zalba na cutanje
         JAXBElement<TOrgan> organDonosilacOdlukeJ = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_resenje", "Organ"), TOrgan.class, organDonosilacOdluke);
 
+
         tUvod.getContent().add(organDonosilacOdlukeJ);
         // broj zalbe, datum zalbe
-        tUvod.getContent().add("због недобијања тражених информација по његовом захтеву за приступ информацијама од јавног\n" +
-                "значаја");         // mozda i ovo sa fronta da se posalje
+        if (zalbaNaCutanje != null) {
+            tUvod.getContent().add("због недобијања тражених информација по његовом захтеву за приступ информацијама од јавног значаја");
+        }
+        else {
+            tUvod.getContent().add("због непоступања по његовом захтеву за приступ информацијама од јавног значаја");
+        }
+                // mozda i ovo sa fronta da se posalje
         TDatum datumPodnosenjaZahteva = new TDatum();
         datumPodnosenjaZahteva.setProperty("pred:datumPodnosenjaZahteva");
         datumPodnosenjaZahteva.setValue("datum podnosenja zahteva, to mi treba iz soapa");
@@ -206,7 +215,7 @@ public class ResenjeService extends AbsService {
         zakonJ = new JAXBElement<TZakon>(new QName("http://ftn.uns.ac.rs/xml_resenje", "Zakon"),  TZakon.class, zakon4);
 
         tUvod.getContent().add(zakonJ);
-        tUvod.getContent().add("доноси");
+        tUvod.getContent().add(", доноси");
 
         // resenje i obrazlozenje
 

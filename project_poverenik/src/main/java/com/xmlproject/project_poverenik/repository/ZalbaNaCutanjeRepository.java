@@ -298,7 +298,7 @@ public class ZalbaNaCutanjeRepository extends Repository<ZalbaNaCutanje> {
         System.out.println("[INFO] End.");
     }
 
-    public void setPrihvaceno(String id, boolean prihvaceno) throws XMLDBException, IllegalAccessException, InstantiationException {
+    public void setPrihvaceno(String id, String status) throws XMLDBException, IllegalAccessException, InstantiationException {
         // update zalba
         String collectionId = "/db/sample/zalbanacutanje";
         Class<?> cl = DatabaseImpl.class;
@@ -321,18 +321,23 @@ public class ZalbaNaCutanjeRepository extends Repository<ZalbaNaCutanje> {
             col = getOrCreateCollection(collectionId);
 
 
-
+            String tm = " <ns2:Status property=\"pred:status\">"+ status + "</ns2:Status>";
             String xupdate = "<xu:update:element name=\"ZalbaNaCutanje\"> " +
                     "<xu:update:attribute name=\"prihvacena\">true</xu:update:attribute>" +
                     "</xu:update:element>";
             XUpdateQueryService xupdateService = (XUpdateQueryService) col.getService("XUpdateQueryService", "1.0");
             xupdateService.setProperty("indent", "yes");
             String contextXPath4 = "/ZalbaNaCutanje/@status";
+            String contextXPath5 = "/ZalbaNaCutanje/Status";
 
             String Update = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
                     + "\" xmlns=\"" + "http://ftn.uns.ac.rs/xml_zalba_na_cutanje" + "\">" + "<xu:update select=\"%1$s\">%2$s</xu:update>"
                     + "</xu:modifications>";
-            long mods = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath4, "prihvacena"));
+            //long mods1 = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath4, "prihvacena"));
+            long mods2 = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath5, status));
+            //long mods = xupdateService.updateResource(id + ".xml", String.format(Update, contextXPath5, tm));
+
+
 
             //XUpdateQueryService service =
             //        (XUpdateQueryService) col.getService("XUpdateQueryService", "1.0");
