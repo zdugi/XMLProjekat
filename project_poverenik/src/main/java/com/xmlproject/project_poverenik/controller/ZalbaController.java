@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
@@ -166,23 +167,20 @@ public class ZalbaController {
         return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "resolution/user", produces = MediaType.APPLICATION_XML_VALUE)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/resolution/user", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestsIDListUser() {
         Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.authorityRegex = "";
+        query.placeRegex = "";
+        query.stateRegex = "";
+        query.submissionDateRegex = "";
         query.applicantRegex = userDetails.getId();
-        zalbaNaOdlukuService.queryRDF(query).toString();
-        try {
-            return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
-        } catch (XMLDBException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+        return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
 
-        return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "resolution/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)

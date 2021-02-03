@@ -10,9 +10,10 @@ const ZalbaNaOdluku = Vue.component("zalba-na-odluku", {
     `,
     methods: {
         submit() {
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
             var xml=Xonomy.harvest();
             console.log(xml)
-            axios.post("/api/complaint/resolution", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
+            axios.post("/api/complaint/resolution", xml, {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(response => {
             alert('Zalba NA ODLUKU uspesno podnesena. Dobicete odgovor od poverenika putem elektronske poste.')})
         }
     },

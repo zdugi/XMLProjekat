@@ -178,9 +178,9 @@ public class ZalbaNaOdlukuService extends AbsService{
         zalbaNaOdluku.setNapomene(napomene);
 
         String id = UUID.randomUUID().toString();
-        zalbaNaOdluku.setAbout("http://localhost:8081/korisnik/" + userDetails.getId());
+        zalbaNaOdluku.setAbout("http://localhost:8081/complaint/resolution/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/complaint/resolution/" + id);
+        trazilac.setHref("http://localhost:8081/korisnik/" + userDetails.getId());
 
 
 

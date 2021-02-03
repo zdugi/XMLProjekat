@@ -45,7 +45,7 @@ public class AuthenticationController {
             , consumes = MediaType.APPLICATION_XML_VALUE,produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> logIn(@RequestBody KorisnikLoginDTO authenticationRequest) {
 
-        try{
+
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.email,
                             authenticationRequest.password));
@@ -59,10 +59,7 @@ public class AuthenticationController {
 
             // Vrati token kao odgovor na uspesnu autentifikaciju
             return ResponseEntity.ok(new KorisnikTokenStateDTO(jwt, expiresIn));
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.ok("");
-        }
+
 
 
 
