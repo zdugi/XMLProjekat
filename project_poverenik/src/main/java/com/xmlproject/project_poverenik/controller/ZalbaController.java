@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
@@ -151,6 +153,25 @@ public class ZalbaController {
 
     @GetMapping(value = "resolution", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestsIDList2() {
+        try {
+            return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "resolution/user", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestsIDListUser() {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.applicantRegex = userDetails.getId();
+        zalbaNaOdlukuService.queryRDF(query).toString();
         try {
             return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {

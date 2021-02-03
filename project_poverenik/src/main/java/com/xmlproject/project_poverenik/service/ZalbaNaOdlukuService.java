@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ObjectFactory;
@@ -8,6 +9,7 @@ import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.TTeloZalbeOdluka
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
@@ -36,6 +38,7 @@ public class ZalbaNaOdlukuService extends AbsService{
     }
 
     public void create (ZalbaNaOdlukuDTO zalbaNaOdlukuDTO) throws Exception {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         ObjectFactory factory = new ObjectFactory();
 
@@ -175,9 +178,9 @@ public class ZalbaNaOdlukuService extends AbsService{
         zalbaNaOdluku.setNapomene(napomene);
 
         String id = UUID.randomUUID().toString();
-        zalbaNaOdluku.setAbout("http://localhost:8081/complaint/resolution/" + id);
+        zalbaNaOdluku.setAbout("http://localhost:8081/korisnik/" + userDetails.getId());
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/complaint/" + id);
+        trazilac.setHref("http://localhost:8081/complaint/resolution/" + id);
 
 
 

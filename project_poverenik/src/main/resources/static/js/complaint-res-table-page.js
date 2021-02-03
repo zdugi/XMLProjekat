@@ -23,6 +23,8 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
     </div>
     `,
     mounted() {
+    var currentRole = JSON.parse(localStorage.getItem('currentUser')).roles;
+    if(currentRole == "ROLE_POVERENIK"){
     axios.get("/api/complaint/resolution", {headers: {'Content-Type': 'application/xml'}}).then(
                 response => {
                     //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
@@ -36,5 +38,21 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 error => {
                     alert('Doslo je do greske prilikom slanja zalbe na odluku.');
                 });
+    }else{
+    axios.get("/api/complaint/resolution/user", {headers: {'Content-Type': 'application/xml'}}).then(
+                    response => {
+                        //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
+                        xmlDoc = $.parseXML(response.data);
+                        console.log(xmlDoc);
+                        var self = this;
+                        $(xmlDoc).find('complaint').each(function(){
+                             self.complaints.push($(this).text());
+                        });
+                    },
+                    error => {
+                        alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                    });
+
+    }
     }
 })
