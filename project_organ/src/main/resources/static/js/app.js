@@ -9,7 +9,8 @@ const router = new VueRouter({
         { path: '/advance-search', component: RequestsAdvanceSearchPage },
         { path: '/reports-advance-search', component: ReportsAdvanceSearchPage },
         { path: '/reports', component: ListCreateReportPage },
-        { path: '/', component: RequestsTablePage }
+        { path: '/', component: RequestsTablePage },
+        { path: '/list-obavestenje', component: RequestsTablePageObavestenje }
     ]
 })
 

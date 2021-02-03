@@ -10,4 +10,7 @@ public class ReportsAdvanceSearchQuery {
 
     @XmlElement
     public String numberOfDeclinedRegex;
+
+    @XmlElement
+    public String dateRegex;
 }

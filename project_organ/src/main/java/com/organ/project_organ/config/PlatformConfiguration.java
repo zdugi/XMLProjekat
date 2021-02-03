@@ -44,7 +44,6 @@ public class PlatformConfiguration {
 
     @Bean
     public ObavestenjeRepository obavestenjeRepository(){
-
         String textContainQuery = "xquery version \"3.1\";\n" +
                 "for $obavestenja in collection(\"/db/sample/obavestenja/\")\n" +
                 "where fn:contains(lower-case($obavestenja), lower-case(\"%s\"))\n" +

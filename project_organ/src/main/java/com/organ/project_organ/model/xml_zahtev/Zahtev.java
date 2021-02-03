@@ -37,7 +37,7 @@ import com.organ.project_organ.model.xml_opste.*;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "request", propOrder = {
     "organ",
     "teloZahteva",
     "dodatneInformacije"

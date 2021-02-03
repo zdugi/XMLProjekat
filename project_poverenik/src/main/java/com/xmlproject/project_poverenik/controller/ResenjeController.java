@@ -6,6 +6,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanj
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import com.xmlproject.project_poverenik.service.ResenjeService;
 import com.xmlproject.project_poverenik.util.Converter;
+import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -18,15 +19,39 @@ import pojo.ComplaintsAdvanceSearchQuery;
 import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
 
+import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 @RestController
 @RequestMapping("/api/solution")
 public class ResenjeController {
     @Autowired
     private ResenjeService resenjeService;
+
+    //TODO: boilerplate
+    @GetMapping(path = "/request/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestOverSOAP(@PathVariable String id) {
+        try {
+            URL wsdlLocation = new URL("http://localhost:8089/ws/request?wsdl");
+            QName serviceName = new QName("http://soap.spring.com/ws/request", "ZahtevService");
+            QName portName = new QName("http://soap.spring.com/ws/request", "ZahtevPort");
+
+            javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+            ZahtevInterface zahtevInterface = service.getPort(portName, ZahtevInterface.class);
+
+            return new ResponseEntity<>(zahtevInterface.getRequest(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Dosle je do greske prilikom pribavljanja zahteva putem WS. (ovo se desava i kad zahtev ne postoji, vraca null)");
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    // END
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)    //treba dto
     public ResponseEntity<?> createResenje(@RequestBody ResenjeDTO resenje) {

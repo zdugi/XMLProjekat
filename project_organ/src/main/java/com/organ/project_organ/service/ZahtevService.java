@@ -248,4 +248,8 @@ public class ZahtevService extends AbsService {
 
         return zahtevRepository.queryRDF(sparqlQuery);
     }
+
+    public Zahtev getOne(String id) throws Exception {
+        return zahtevRepository.getOneXML(id);
+    }
 }

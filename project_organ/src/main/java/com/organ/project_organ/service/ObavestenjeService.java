@@ -1,5 +1,6 @@
 package com.organ.project_organ.service;
 
+import com.itextpdf.text.DocumentException;
 import com.organ.project_organ.model.xml_obavestenja.*;
 import com.organ.project_organ.model.xml_opste.TAdresa;
 import com.organ.project_organ.model.xml_opste.TDatum;
@@ -19,22 +20,21 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.UUID;
 
 @Service
-public class ObavestenjeService {
+public class ObavestenjeService extends AbsService{
 
     @Autowired
     public ObavestenjeRepository obavestenjeRepository;
 
     public ObavestenjeService(){
-        documentFactory  = DocumentBuilderFactory.newInstance();
-        documentFactory.setNamespaceAware(true);
-        documentFactory.setIgnoringComments(true);
-        documentFactory.setIgnoringElementContentWhitespace(true);
-
-        transformerFactory = TransformerFactory.newInstance();
+        super("src/main/resources/obavestenje_tmp.xsl","src/main/resources/FreeSans.ttf");
     }
 
     public String[] getList() throws XMLDBException, IllegalAccessException, InstantiationException {
@@ -187,12 +187,32 @@ public class ObavestenjeService {
             else
                 dostavljeno.setImenovanom(oo.cekiran);
         }
+        dostavljeno.setAbout("http://localhost:8081/notification/"+dostavljeno.isArhivi());
         obavestenje.setDostavljeno(dostavljeno);
 
         String id = UUID.randomUUID().toString();
         obavestenje.setAbout("http://localhost:8081/notification/"+id);
 
         obavestenjeRepository.save(id, obavestenje);
+    }
+
+    public StringWriter generateHTML(String id) throws FileNotFoundException {
+        return this.generateHTML(id, obavestenjeRepository);
+    }
+
+    public ByteArrayOutputStream generatePDF(String id) throws IOException, DocumentException {
+        return this.generatePDF(id, obavestenjeRepository);
+    }
+
+
+    @Override
+    public ByteArrayOutputStream getOneRDF(String id) throws Exception {
+        return obavestenjeRepository.getOneMetadataRDF(id);
+    }
+
+    @Override
+    public ByteArrayOutputStream getOneJSON(String id) throws Exception {
+        return obavestenjeRepository.getOneMetadataJSON(id);
     }
 
     private static DocumentBuilderFactory documentFactory;

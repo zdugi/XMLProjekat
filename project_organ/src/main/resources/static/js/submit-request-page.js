@@ -1,8 +1,8 @@
-const HomePage = Vue.component("home-page", {
+const SubmitRequestPage = Vue.component('submit-request-page', {
     template: `
     <div>
         <div class="editor-box">
-                <h2>Slanje zahteva za pristup informacijama od javnog znacaja</h2>
+                <h3>Slanje zahteva za pristup informacijama od javnog znacaja</h3>
                 <div id="editor"></div>
                 <button v-on:click="submit()">Posalji zahtev</button>
         </div>
@@ -23,7 +23,7 @@ const HomePage = Vue.component("home-page", {
     },
     data() {
         return {
-            message: 'Hello World!'
+
         }
     },
     mounted() {
