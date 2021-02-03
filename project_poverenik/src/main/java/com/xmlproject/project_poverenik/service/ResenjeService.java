@@ -75,7 +75,7 @@ public class ResenjeService extends AbsService {
             //</xupdate:element>
         }
         else {
-            //zalbaNaOdluku.setPrihvacena(prihvacena);
+            zalbaNaOdlukuService.setPrihvaceno(idZalbe, prihvacena);
         }
 
         ObjectFactory factory = new ObjectFactory();
