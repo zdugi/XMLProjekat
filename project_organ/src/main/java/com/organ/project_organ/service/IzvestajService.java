@@ -8,15 +8,19 @@ import com.organ.project_organ.pojo.RequestsAdvanceSearchQuery;
 import com.organ.project_organ.pojo.ResourcesListDTO;
 import com.organ.project_organ.repository.impl.IzvestajRepository;
 import com.organ.project_organ.repository.impl.ZahtevRepository;
+import com.organ.project_organ.ws.izvestaj.IzvestajInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 
+import javax.xml.namespace.QName;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -42,6 +46,7 @@ public class IzvestajService extends AbsService {
 
         TDatum datum = new TDatum();
         datum.setValue(formatter.format(date));
+        datum.setProperty("pred:podnet");
 
         izvestaj.setDatumPodnosenja(datum);
 
@@ -69,7 +74,23 @@ public class IzvestajService extends AbsService {
         String id = UUID.randomUUID().toString();
         izvestaj.setAbout("http://localhost:8081/report/" + id);
 
+        // write to db
         izvestajRepository.save(id, izvestaj);
+
+        // send report
+        try {
+            URL wsdlLocation = new URL("http://localhost:8081/ws/report?wsdl");
+            QName serviceName = new QName("http://soap.spring.com/ws/report", "IzvestajService");
+            QName portName = new QName("http://soap.spring.com/ws/report", "IzvestajPort");
+
+            javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+            IzvestajInterface izvestaji = service.getPort(portName, IzvestajInterface.class);
+            izvestaji.sendReport(izvestaj);
+
+        } catch (Exception e) {
+            System.err.println("Dosle je do greske prilikom slanja izvestaja putem WS.");
+        }
 
         return id;
     }
@@ -115,8 +136,10 @@ public class IzvestajService extends AbsService {
                 "WHERE {\n" +
                 "  ?subject <http://localhost/predikati/brojPod> ?brojPodnetih .\n" +
                 "  ?subject <http://localhost/predikati/odbijeniZahtevi> ?brojOdbijenihZahteva .\n" +
+                "  ?subject <http://localhost/predikati/podnet> ?podnet .\n" +
                 "  FILTER (regex(str(?brojPodnetih), \"%s\")) .\n" +
                 "  FILTER (regex(str(?brojOdbijenihZahteva), \"%s\"))\n" +
+                "  FILTER (regex(str(?podnet), \"%s\"))\n" +
                 "}\n" +
                 "LIMIT 100\n";
 
@@ -124,7 +147,9 @@ public class IzvestajService extends AbsService {
         sparqlQuery = String.format(
                 sparqlQuery,
                 query.numberOfSubmittedRegex,
-                query.numberOfDeclinedRegex);
+                query.numberOfDeclinedRegex,
+                query.dateRegex
+        );
 
         return zahtevRepository.queryRDF(sparqlQuery);
     }

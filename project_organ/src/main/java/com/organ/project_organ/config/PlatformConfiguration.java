@@ -44,10 +44,14 @@ public class PlatformConfiguration {
 
     @Bean
     public ObavestenjeRepository obavestenjeRepository(){
+        //TODO: napisati query!!
+        String xqueryTextContain = "";
+
         return new ObavestenjeRepository(
                 "/example/obavestenje/metadata",
                 "/db/sample/obavestenje",
-                "com.organ.project_organ.model.xml_obavestenja"
+                "com.organ.project_organ.model.xml_obavestenja",
+                xqueryTextContain
         );
     }
 }
