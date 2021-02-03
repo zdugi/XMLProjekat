@@ -16,7 +16,8 @@ public class ZalbaNaOdlukuDTO {
     @XmlElement
     public OsobaDTO zalilac;
 
-    @XmlElement OrganDTO organZalilac;
+    @XmlElement
+    public OrganDTO organZalilac;
 
     @XmlElement
     public BrojResenjaDTO brojResenja; //broj, godina

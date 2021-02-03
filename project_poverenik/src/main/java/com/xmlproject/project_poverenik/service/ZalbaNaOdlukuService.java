@@ -70,13 +70,39 @@ public class ZalbaNaOdlukuService extends AbsService{
         TTeloZalbeOdluka teloZalbeOdluka = new TTeloZalbeOdluka();
         teloZalbeOdluka.getContent().add("ЖАЛБА");
 
-        TOsoba zalilac = new TOsoba();
-        zalilac.setIme(zalbaNaOdlukuDTO.zalilac.ime);
-        zalilac.setPrezime(zalbaNaOdlukuDTO.zalilac.prezime);
+        System.out.println(zalbaNaOdlukuDTO.zalilac);
+        System.out.println(" a organ je ");
+        System.out.println(zalbaNaOdlukuDTO.organZalilac);
 
-        JAXBElement<TOsoba> zalilacJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOsoba"), TOsoba.class, zalilac);
-        teloZalbeOdluka.getContent().add(zalilacJ);
+        if (zalbaNaOdlukuDTO.organZalilac == null) {
 
+            TOsoba zalilac = new TOsoba();
+            zalilac.setIme("Iz sesije ime");
+            zalilac.setPrezime("iz sesije prezime");
+
+            JAXBElement<TOsoba> zalilacJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOsoba"), TOsoba.class, zalilac);
+            teloZalbeOdluka.getContent().add(zalilacJ);
+        }
+        else {
+            TOrgan organZalilac = new TOrgan();
+            TOrgan.Naziv naziv = new TOrgan.Naziv();
+            naziv.setValue(zalbaNaOdlukuDTO.organZalilac.naziv);
+            organZalilac.setNaziv(naziv);
+            TAdresa adresaOrgana = new TAdresa();
+            adresaOrgana.setBroj(BigInteger.valueOf(Long.valueOf(zalbaNaOdlukuDTO.organZalilac.adresa.broj)));
+            TAdresa.Drzava drzavaOrgana = new TAdresa.Drzava();
+            drzava.setValue(zalbaNaOdlukuDTO.organZalilac.adresa.drzava);
+            adresaOrgana.setDrzava(drzavaOrgana);
+            TAdresa.Mesto mestoOrgana = new TAdresa.Mesto();
+            mestoOrgana.setValue(zalbaNaOdlukuDTO.organZalilac.adresa.mesto);
+            adresaOrgana.setMesto(mestoOrgana);
+            adresaOrgana.setUlica(zalbaNaOdlukuDTO.organZalilac.adresa.ulica);
+            adresaOrgana.setPostanskiBroj(BigInteger.valueOf(Long.valueOf(zalbaNaOdlukuDTO.organZalilac.adresa.postanskiBroj)));
+            organZalilac.setAdresa(adresaOrgana);
+            JAXBElement<TOrgan> organJ = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOrgan"), TOrgan.class, organZalilac);
+            teloZalbeOdluka.getContent().add(organJ);
+
+        }
         // zalilac osoba ili zalilac organ, neka zasad bude osoba
         TAdresa adresa1 = new TAdresa();
         adresa1.setBroj(BigInteger.valueOf(Long.valueOf(15000)));
@@ -160,6 +186,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         trazilac.setKontakt("[uzimam iz sesije]");
         trazilac.setOsoba(osoba);
 
+        tDodatneInformacije.setMesto("Место подношења");
         tDodatneInformacije.setTrazilac(trazilac);
 
         zalbaNaOdluku.setTeloZalbeNaOdluku(teloZalbeOdluka);
