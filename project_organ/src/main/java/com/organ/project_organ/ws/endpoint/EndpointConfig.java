@@ -2,7 +2,8 @@ package com.organ.project_organ.ws.endpoint;
 
 import javax.xml.ws.Endpoint;
 
-import com.organ.project_organ.ws.hello.HelloPortImpl;
+import com.organ.project_organ.ws.zahtev.ZahtevPortImpl;
+import com.organ.project_organ.ws.zahtev.ZahtevService;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,13 @@ public class EndpointConfig {
 	@Autowired
 	private Bus bus;
 
+	@Autowired
+	private ZahtevPortImpl zahtevPort;
 
-	
 	@Bean
-	public Endpoint helloMessageEndpoint() {
-		EndpointImpl endpoint = new EndpointImpl(bus, new HelloPortImpl());
-		endpoint.publish("/helloMessage");
+	public Endpoint zahtevEndpoint() {
+		EndpointImpl endpoint = new EndpointImpl(bus, zahtevPort);
+		endpoint.publish("/request");
 		return endpoint;
 	}
-	
-	
 }

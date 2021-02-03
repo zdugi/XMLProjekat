@@ -4,6 +4,7 @@ const ReportsAdvanceSearchPage = Vue.component("reports-advance-search-page-comp
             reports: [],
             ukupno: '',
             odbijeni: '',
+            datumIzdavanja: '',
         }
     },
     template: `
@@ -11,6 +12,7 @@ const ReportsAdvanceSearchPage = Vue.component("reports-advance-search-page-comp
                <div class="query-box">
                    <input v-model="ukupno" type="text" placeholder="Broj podnetih...">
                    <input v-model="odbijeni" type="text" placeholder="Broj odbijenih...">
+                   <input v-model="datumIzdavanja" type="text" placeholder="Datum izdavanja...">
                    <span style="font-size:12px">*U polja se unose regularni izrazi.</span>
                    <button v-on:click="submitQuery">Pretrazi</button>
                </div>
@@ -33,12 +35,15 @@ const ReportsAdvanceSearchPage = Vue.component("reports-advance-search-page-comp
     methods: {
         submitQuery() {
             if (!this.odbijeni.trim() &&
-            !this.ukupno.trim())
-                alert('Bar jedno polje mora biti popunjeno.')
+            !this.ukupno.trim() && !this.datumIzdavanja.trim()) {
+                alert('Bar jedno polje mora biti popunjeno.');
+                return;
+            }
 
             var xmlBody = "<request>" +
                                "<numberOfSubmittedRegex>" + this.ukupno + "</numberOfSubmittedRegex>" +
                                "<numberOfDeclinedRegex>" + this.odbijeni + "</numberOfDeclinedRegex>" +
+                               "<dateRegex>" + this.datumIzdavanja + "</dateRegex>" +
                            "</request>";
 
             var self = this;
