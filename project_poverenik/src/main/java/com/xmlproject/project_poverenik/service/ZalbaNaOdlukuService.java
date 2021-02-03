@@ -103,13 +103,13 @@ public class ZalbaNaOdlukuService extends AbsService{
         teloZalbeOdluka.getContent().add("protiv resenja-zakljucka");
 
 
+        // ovo dobavljam iz zahteva
         TOrgan organDonosilacOdluke = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv);
+        naziv.setValue("Орган из захтева");
         //organDonosilacOdluke.setAdresa(adresa1);    // na primjer, treba izvuci
                                                         // ovde je bila greska
-        System.out.println(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv + "\n\n\n\n\n\n");
         organDonosilacOdluke.setNaziv(naziv);
 
         JAXBElement<TOrgan> organDonosilacOdluke1 = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "OrganDonosilacOdluke"), TOrgan.class, organDonosilacOdluke);
@@ -155,7 +155,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue(zalbaNaOdlukuDTO.dodatneInformacije.mesto);
+        mestoDI.setValue("Место, не знам одакле да га узмемааааа");
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();

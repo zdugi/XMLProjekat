@@ -15,6 +15,7 @@
             </xs:sequence>
             <xs:attribute name="Broj_predmeta" type="xs:string"/>
             <xs:attribute name="Naziv" type="xs:string"/>
+            <xs:attribute name="about" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:complexType mixed="true" name="TTelo_obavestenja">
@@ -63,7 +64,15 @@
         <xs:sequence>
             <xs:choice>
                 <xs:element name="Osoba" type="opste:TOsoba"/>
-                <xs:element name="Naziv" type="xs:string"/>
+                <xs:element name="Naziv">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="property" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
             </xs:choice>
             <xs:element name="Adresa" type="opste:TAdresa"/>
         </xs:sequence>
@@ -71,5 +80,6 @@
     <xs:complexType name="TDostavljeno">
         <xs:attribute default="false" name="Imenovanom" type="xs:boolean"/>
         <xs:attribute default="false" name="Arhivi" type="xs:boolean"/>
+        <xs:attribute name="about" type="xs:string"/>
     </xs:complexType>
 </xs:schema>

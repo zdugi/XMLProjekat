@@ -4,6 +4,7 @@ NewResolutionPage = Vue.component("resenje", {
                             <div class="editor-box">
                                     <h2>Slanje resenja</h2>
                                     <div id="editor"></div>
+                                    <p> Id zalbe: {{ idZalbe }}</p>
                                     <button v-on:click="submit()">Posalji resenje</button>
                             </div>
                         </div>
@@ -17,8 +18,11 @@ NewResolutionPage = Vue.component("resenje", {
                             }
                         },
                         data() {
+                            let x = window.location.hash.split('/');
+
                             return {
-                                message: 'Hello World!!!'
+                                //idZalbe: "idazlbe"
+                                idZalbe: x[x.length - 1]
                             }
                         },
                         mounted() {
@@ -31,6 +35,7 @@ NewResolutionPage = Vue.component("resenje", {
                                 },
                                 elements: {
                                     "id_zalbe": {
+                                        isReadOnly: true,
                                          hasText: true,
                                          asker: Xonomy.askString
                                     },
@@ -50,9 +55,13 @@ NewResolutionPage = Vue.component("resenje", {
                                 }
                             };
 
+                            let x = window.location.hash.split('/');
+                            let id = x[x.length - 1];
+                            id = id.substring(0, id.length-4)
+                            console.log(id + "isddasdasdasadsads")
                             var xml =
                               `<resenje>
-                                  <id_zalbe></id_zalbe>
+                                  <id_zalbe>${id}</id_zalbe>
                                   <resenje_ukratko></resenje_ukratko>
                                   <obrazlozenje></obrazlozenje>
                                   <prihvacena></prihvacena>
