@@ -88,6 +88,8 @@ public class ZalbaNaOdluku {
     protected String about;
     @XmlAttribute(name = "id")
     protected String id;
+    @XmlAttribute(name = "prihvacena")
+    protected Boolean prihvacena;
 
     /**
      * Gets the value of the primalac property.
@@ -387,6 +389,15 @@ public class ZalbaNaOdluku {
             return this.napomena;
         }
 
+    }
+
+
+    public Boolean getPrihvacena() {
+        return prihvacena;
+    }
+
+    public void setPrihvacena(Boolean prihvacena) {
+        this.prihvacena = prihvacena;
     }
 
 }
