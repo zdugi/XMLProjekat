@@ -45,7 +45,7 @@ NewResolutionPage = Vue.component("resenje", {
                                      "prihvacena": {
                                         hasText: true,
                                         asker: Xonomy.askPicklist,
-                                        askerParameter: ["prihvacena", "odbijena"],
+                                        askerParameter: ["прихваћена", "oдбијена"],
                                      }
                                 }
                             };
