@@ -12,6 +12,7 @@ const router = new VueRouter({
          { path: '/complaint-res-list', component: ComplaintResolutionTablePage },
         { path: '/create-resolution', component: NewResolutionPage },
         { path: '/resolution-list', component: ResolutionTablePage },
+         { path: '/resolution-search', component: ResolutionSearchPage },
         { path: '/', component: RequestsTablePage }
     ]
 })

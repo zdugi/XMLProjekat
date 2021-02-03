@@ -14,6 +14,7 @@ import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
 
 import javax.xml.bind.JAXBElement;
@@ -264,5 +265,18 @@ public class ResenjeService extends AbsService {
     @Override
     public ByteArrayOutputStream getOneJSON(String id) throws Exception {
         return resenjeRepository.getOneMetadataJSON(id);
+    }
+    public ComplaintsListDTO searchText(String query) {
+        try {
+            return resenjeRepository.searchText(query);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

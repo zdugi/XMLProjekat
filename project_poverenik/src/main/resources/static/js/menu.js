@@ -13,6 +13,7 @@ Vue.component('menu-component', {
          <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
          <li><router-link to='/create-resolution'>Kreiraj resenje</router-link></li>
          <li><router-link to='/resolution-list'>Listaj resenja</router-link></li>
+          <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
     </ul>
     `
 })
