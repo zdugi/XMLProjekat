@@ -44,10 +44,18 @@ public class PlatformConfiguration {
 
     @Bean
     public ObavestenjeRepository obavestenjeRepository(){
+
+        String textContainQuery = "xquery version \"3.1\";\n" +
+                "for $obavestenja in collection(\"/db/sample/obavestenja/\")\n" +
+                "where fn:contains(lower-case($obavestenja), lower-case(\"%s\"))\n" +
+                "return\n" +
+                "    substring-after(base-uri($obavestenje), \"obavestenja/\")";
+
         return new ObavestenjeRepository(
                 "/example/obavestenje/metadata",
                 "/db/sample/obavestenje",
-                "com.organ.project_organ.model.xml_obavestenja"
+                "com.organ.project_organ.model.xml_obavestenja",
+                textContainQuery
         );
     }
 }
