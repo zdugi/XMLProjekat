@@ -12,6 +12,7 @@ Vue.component('menu-component', {
         <li>/</li>
         <li><a href="#logout">Odjavi se</a></li>
         <li><router-link to="/create-obavestenje">Dodaj obavestenje</router-link></li>
+        <li><router-link to="/list-obavestenje">Lista obavestenja</router-link></li>
     </ul>
     `
 })
