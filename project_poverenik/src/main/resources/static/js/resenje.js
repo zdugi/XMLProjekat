@@ -11,9 +11,10 @@ NewResolutionPage = Vue.component("resenje", {
                         `,
                         methods: {
                             submit() {
+                            var token = JSON.parse(localStorage.getItem('currentUser')).token;
                                 var xml=Xonomy.harvest();
                                 console.log(xml)
-                                axios.post("/api/solution", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
+                                axios.post("/api/solution", xml, {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(response => {
                                 alert('Resenje uspesno kreirano.')})
                             }
                         },

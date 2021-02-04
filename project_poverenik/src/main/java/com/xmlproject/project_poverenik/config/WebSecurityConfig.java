@@ -76,7 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //.antMatchers(HttpMethod.POST, "/cultural-offers/search");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js", "/api/complaint/simple-search", "/api/complaint/rdf/**", "/api/complaint/xhtml/**", "/api/complaint/json/**", "/api/complaint/pdf/**",
-                "/api/complaint/resolution/rdf/**", "/api/complaint/resolution/xhtml/**", "/api/complaint/resolution/json/**", "/api/complaint/resolution/pdf/**"
+                "/api/complaint/resolution/rdf/**", "/api/complaint/resolution/xhtml/**", "/api/complaint/resolution/json/**", "/api/complaint/resolution/pdf/**",
+                "/api/solution/rdf/**", "/api/solution/xhtml/**", "/api/solution/json/**", "/api/solution/pdf/**"
         );
     }
 
