@@ -19,10 +19,10 @@ const ReportsSearchPage = Vue.component("reports-search-page-component", {
                 </tr>
                 <tr v-for="item in reports">
                     <td>{{ item }}</td>
-                    <td><a v-bind:href="'api/reports/xhtml/' + item" target="_blank">XHTML</a></td>
-                    <td><a v-bind:href="'api/reports/pdf/' + item" target="_blank">PDF</a></td>
-                    <td><a v-bind:href="'api/reports/rdf/' + item" target="_blank">RDF</a></td>
-                    <td><a v-bind:href="'api/reports/json/' + item" target="_blank">JSON</a></td>
+                    <td><a v-bind:href="'/api/reports/xhtml/' + item" target="_blank">XHTML</a></td>
+                    <td><a v-bind:href="'/api/reports/pdf/' + item" target="_blank">PDF</a></td>
+                    <td><a v-bind:href="'/api/reports/rdf/' + item" target="_blank">RDF</a></td>
+                    <td><a v-bind:href="'/api/reports/json/' + item" target="_blank">JSON</a></td>
                 </tr>
             </table>
         </div>

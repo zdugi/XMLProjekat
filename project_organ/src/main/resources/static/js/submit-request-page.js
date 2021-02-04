@@ -83,13 +83,6 @@ const SubmitRequestPage = Vue.component('submit-request-page', {
                         }
                     }
                 },
-                "mestoPodnosenja": {
-                    attributes: {
-                        "naziv": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
                 "dostava": {
                     attributes: {
                         "cekiran": {
@@ -113,7 +106,7 @@ const SubmitRequestPage = Vue.component('submit-request-page', {
         `
 
         var xml =
-        `<zahtev><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><zahtevam><opcija cekiran='true' tekst='obaveštenje da li poseduje traženu informaciju;'/><opcija cekiran='false' tekst='uvid u dokument koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='kopiju dokumenta koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='dostavljanje kopije dokumenta koji sadrži traženu informaciju'><dostava cekiran='false' tekst='poštom'/><dostava cekiran='false' tekst='elektronskom poštom'/><dostava cekiran='false' tekst='faksom'/><dostava cekiran='false' tekst='na drugi način:' dodatno=''/></opcija><opis tekst='Ovde unesite na koje informacije se zahtev odnosi....'/></zahtevam><mestoPodnosenja naziv='' /></zahtev>`;
+        `<zahtev><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><zahtevam><opcija cekiran='true' tekst='obaveštenje da li poseduje traženu informaciju;'/><opcija cekiran='false' tekst='uvid u dokument koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='kopiju dokumenta koji sadrži traženu informaciju;'/><opcija cekiran='false' tekst='dostavljanje kopije dokumenta koji sadrži traženu informaciju'><dostava cekiran='false' tekst='poštom'/><dostava cekiran='false' tekst='elektronskom poštom'/><dostava cekiran='false' tekst='faksom'/><dostava cekiran='false' tekst='na drugi način:' dodatno=''/></opcija><opis tekst='Ovde unesite na koje informacije se zahtev odnosi....'/></zahtevam></zahtev>`;
         var editor = document.getElementById("editor");
         Xonomy.render(xml, editor, docSpec);
     }

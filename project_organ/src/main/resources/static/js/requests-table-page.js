@@ -18,6 +18,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                 <td><a v-bind:href="'api/requests/pdf/' + item" target="_blank">PDF</a></td>
                 <td><a v-bind:href="'api/requests/rdf/' + item" target="_blank">RDF</a></td>
                 <td><a v-bind:href="'api/requests/json/' + item" target="_blank">JSON</a></td>
+                <td><li><router-link :to="'/official/create-response/' + item">Dodaj obavestenje</router-link></li></td>
             </tr>
         </table>
     </div>

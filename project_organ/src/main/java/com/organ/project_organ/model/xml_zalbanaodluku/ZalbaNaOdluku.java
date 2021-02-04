@@ -10,20 +10,16 @@ package com.organ.project_organ.model.xml_zalbanaodluku;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
 import com.organ.project_organ.model.xml_opste.*;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
@@ -54,16 +50,17 @@ import com.organ.project_organ.model.xml_opste.*;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "primalac",
-    "adresaPrimaoca",
-    "teloZalbeNaOdluku",
-    "dodatneInformacije",
-    "napomene"
+@XmlType(name = "zalba", propOrder = {
+        "primalac",
+        "adresaPrimaoca",
+        "teloZalbeNaOdluku",
+        "dodatneInformacije",
+        "napomene",
+        "status"
 })
 @XmlRootElement(name = "ZalbaNaOdluku")
 public class ZalbaNaOdluku {
@@ -88,14 +85,18 @@ public class ZalbaNaOdluku {
     protected String about;
     @XmlAttribute(name = "id")
     protected String id;
+    @XmlAttribute(name = "prihvacena")
+    protected Boolean prihvacena;
+    @XmlElement(name = "Status", required = true)
+    protected ZalbaNaOdluku.Status status;
 
     /**
      * Gets the value of the primalac property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPrimalac() {
         return primalac;
@@ -103,11 +104,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the primalac property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPrimalac(String value) {
         this.primalac = value;
@@ -115,11 +116,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the adresaPrimaoca property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TAdresa }
-     *     
+     *
      */
     public TAdresa getAdresaPrimaoca() {
         return adresaPrimaoca;
@@ -127,11 +128,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the adresaPrimaoca property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TAdresa }
-     *     
+     *
      */
     public void setAdresaPrimaoca(TAdresa value) {
         this.adresaPrimaoca = value;
@@ -139,11 +140,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the teloZalbeNaOdluku property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TTeloZalbeOdluka }
-     *     
+     *
      */
     public TTeloZalbeOdluka getTeloZalbeNaOdluku() {
         return teloZalbeNaOdluku;
@@ -151,11 +152,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the teloZalbeNaOdluku property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TTeloZalbeOdluka }
-     *     
+     *
      */
     public void setTeloZalbeNaOdluku(TTeloZalbeOdluka value) {
         this.teloZalbeNaOdluku = value;
@@ -163,11 +164,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the dodatneInformacije property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TDodatneInformacije }
-     *     
+     *
      */
     public TDodatneInformacije getDodatneInformacije() {
         return dodatneInformacije;
@@ -175,11 +176,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the dodatneInformacije property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TDodatneInformacije }
-     *     
+     *
      */
     public void setDodatneInformacije(TDodatneInformacije value) {
         this.dodatneInformacije = value;
@@ -187,11 +188,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the napomene property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Napomene }
-     *     
+     *
      */
     public Napomene getNapomene() {
         return napomene;
@@ -199,11 +200,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the napomene property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Napomene }
-     *     
+     *
      */
     public void setNapomene(Napomene value) {
         this.napomene = value;
@@ -211,11 +212,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the naziv property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getNaziv() {
         return naziv;
@@ -223,11 +224,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the naziv property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setNaziv(String value) {
         this.naziv = value;
@@ -235,11 +236,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the rel property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getRel() {
         return rel;
@@ -247,11 +248,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the rel property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setRel(String value) {
         this.rel = value;
@@ -259,11 +260,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the href property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getHref() {
         return href;
@@ -271,11 +272,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the href property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setHref(String value) {
         this.href = value;
@@ -283,11 +284,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the about property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAbout() {
         return about;
@@ -295,11 +296,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the about property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAbout(String value) {
         this.about = value;
@@ -307,11 +308,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Gets the value of the id property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getId() {
         return id;
@@ -319,11 +320,11 @@ public class ZalbaNaOdluku {
 
     /**
      * Sets the value of the id property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setId(String value) {
         this.id = value;
@@ -332,9 +333,9 @@ public class ZalbaNaOdluku {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -346,12 +347,12 @@ public class ZalbaNaOdluku {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "napomena"
+            "napomena"
     })
     public static class Napomene {
 
@@ -360,25 +361,25 @@ public class ZalbaNaOdluku {
 
         /**
          * Gets the value of the napomena property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the napomena property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getNapomena().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link String }
-         * 
-         * 
+         *
+         *
          */
         public List<String> getNapomena() {
             if (napomena == null) {
@@ -387,6 +388,83 @@ public class ZalbaNaOdluku {
             return this.napomena;
         }
 
+    }
+
+
+    public Boolean getPrihvacena() {
+        return prihvacena;
+    }
+
+    public void setPrihvacena(Boolean prihvacena) {
+        this.prihvacena = prihvacena;
+    }
+
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "Status", propOrder = {
+            "value"
+    })
+    public static class Status {
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         *
+         * @return
+         *     possible object is
+         *     {@link String }
+         *
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the prihvaceno property.
+         *
+         * @return
+         *     possible object is
+         *     {@link Boolean }
+         *
+         */
+        public String getProperty() {
+            return property;
+        }
+
+        /**
+         * Sets the value of the prihvaceno property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link Boolean }
+         *
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+    public ZalbaNaOdluku.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(ZalbaNaOdluku.Status status) {
+        this.status = status;
     }
 
 }

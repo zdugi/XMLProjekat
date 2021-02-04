@@ -10,11 +10,27 @@ const OfficialPage = Vue.component('official-page', {
             <li><router-link to="/official/reports-search">Pretraga izvestaja</router-link></li>
             <li><router-link to="/official/reports-advance-search">Napredna pretraga izvestaja</router-link></li>
             <li>/</li>
-            <li><router-link to="/official/create-response">Dodaj obavestenje</router-link></li>
+            <li><router-link to="/official/list-obavestenje">Listanje obavestenja</router-link></li>
             <li>/<li>
-            <li><a href="#logout">Odjavi se</a></li>
+            <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
         </ul>
         <router-view></router-view>
     </div>
-    `
+    `,
+    methods: {
+            logout() {
+                localStorage.removeItem('currentUser');
+                axios.defaults.headers.common['Authorization'] = '';
+                this.$router.push({ path: '/login' });
+            }
+        },
+    mounted() {
+            if (!localStorage.getItem('currentUser'))
+                this.$router.push({ path: '/login' });
+
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user.roles == 'ROLE_CITIZEN')
+                this.$router.push({ path: '/citizen' });
+    }
 });

@@ -5,8 +5,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
         "organ",
-        "zahtevam",
-        "mestoPodnosenja"
+        "zahtevam"
 })
 @XmlRootElement(name = "zahtev")
 public class ZahtevDokumentDTO {
@@ -16,7 +15,7 @@ public class ZahtevDokumentDTO {
     @XmlElement
     public ZahtevDTO zahtevam;
 
-    @XmlElement
-    public MestoPodnosenjaDTO mestoPodnosenja;
+    //@XmlElement
+    //public MestoPodnosenjaDTO mestoPodnosenja;
 }
 

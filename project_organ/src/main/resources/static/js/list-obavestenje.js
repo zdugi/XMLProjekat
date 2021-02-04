@@ -14,10 +14,10 @@ const RequestsTablePageObavestenje = Vue.component("list-obavestenje", {
             </tr>
             <tr v-for="item in requests">
                 <td>{{ item }}</td>
-                <td><a v-bind:href="'api/notification/xhtml/' + item" target="_blank">XHTML</a></td>
-                <td><a v-bind:href="'api/notification/pdf/' + item" target="_blank">PDF</a></td>
-                <td><a v-bind:href="'api/notification/rdf/' + item" target="_blank">RDF</a></td>
-                <td><a v-bind:href="'api/notification/json/' + item" target="_blank">JSON</a></td>
+                <td><a v-bind:href="'/api/notification/xhtml/' + item" target="_blank">XHTML</a></td>
+                <td><a v-bind:href="'/api/notification/pdf/' + item" target="_blank">PDF</a></td>
+                <td><a v-bind:href="'/api/notification/rdf/' + item" target="_blank">RDF</a></td>
+                <td><a v-bind:href="'/api/notification/json/' + item" target="_blank">JSON</a></td>
             </tr>
         </table>
     </div>

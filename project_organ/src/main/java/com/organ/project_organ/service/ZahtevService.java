@@ -1,11 +1,13 @@
 package com.organ.project_organ.service;
 
 import com.itextpdf.text.DocumentException;
+import com.organ.project_organ.model.xml_korisnik.Korisnik;
 import com.organ.project_organ.model.xml_opste.TTrazilac;
 import com.organ.project_organ.model.xml_zahtev.*;
 import com.organ.project_organ.model.xml_zahtev.ObjectFactory;
 import com.organ.project_organ.pojo.*;
 import com.organ.project_organ.repository.impl.ZahtevRepository;
+import com.organ.project_organ.security.repository.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.io.*;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import com.organ.project_organ.model.xml_opste.*;
@@ -22,16 +26,19 @@ import org.xmldb.api.base.XMLDBException;
 @Service
 public class ZahtevService extends AbsService {
     @Autowired
-    public ZahtevRepository zahtevRepository;
+    private ZahtevRepository zahtevRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public ZahtevService() {
         //Repository repository, String xslPath, String fontPath
         super("src/main/resources/zahtev_temp.xsl","src/main/resources/FreeSans.ttf");
     }
 
-    public void create(ZahtevDokumentDTO zahtev) throws Exception {
-        //TODO check
-        //TODO update for GRAPH
+    public void create(ZahtevDokumentDTO zahtev, String userEmail) throws Exception {
+        Korisnik korisnik = userRepository.getOneXML(userRepository.findByUsername(userEmail));
+
         ObjectFactory factory = new ObjectFactory();
 
         Zahtev newZahtev = factory.createZahtev();
@@ -147,29 +154,21 @@ public class ZahtevService extends AbsService {
         TDodatneInformacije dodatne = new TDodatneInformacije();
         TDatum datum = new TDatum();
 
-        datum.setValue("[ovde ce se generisati vrednost]");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+        datum.setValue(formatter.format(date));
         datum.setProperty("pred:podnosenje");
 
-        TOsoba osoba = new TOsoba();
-        osoba.setIme("[Protoime]");
-        osoba.setPrezime("[Protoprezime]");
-
-        TAdresa tAdresa = new TAdresa();
-        //todo: pass in form
-        tAdresa.setDrzava(drzava);
-        tAdresa.setMesto(mesto);
-        tAdresa.setBroj(BigInteger.valueOf(7L));
-        tAdresa.setPostanskiBroj(BigInteger.valueOf(7L));
-        tAdresa.setUlica("Protoulica");
 
         TTrazilac trazilac = new TTrazilac();
-        trazilac.setAdresa(tAdresa);
-        trazilac.setKontakt("+000 0000 000");
-        trazilac.setOsoba(osoba);
+        trazilac.setAdresa(korisnik.getLicneInformacije().getAdresa());
+        trazilac.setKontakt(korisnik.getLicneInformacije().getKontakt());
+        trazilac.setOsoba(korisnik.getLicneInformacije().getOsoba());
 
         dodatne.setDatum(datum);
-        //todo: mesto podnosenja property
-        dodatne.setMesto(zahtev.mestoPodnosenja.naziv);
+        // dodatne.setMesto(zahtev.mestoPodnosenja.naziv);
+        dodatne.setMesto(korisnik.getLicneInformacije().getAdresa().getMesto().getValue());
         dodatne.setTrazilac(trazilac);
 
         // set dodatne
@@ -179,13 +178,20 @@ public class ZahtevService extends AbsService {
         String id = UUID.randomUUID().toString();
         newZahtev.setAbout("http://localhost:8081/request/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/user/USER_ID");
+        trazilac.setHref("http://ftn.uns.ac.rs/user/" + korisnik.getId());
 
         zahtevRepository.save(id, newZahtev);
     }
 
-    public String[] getList() throws XMLDBException, IllegalAccessException, InstantiationException {
+    public String[] getRequestsIDList(String userEmail) throws Exception {
+        Korisnik korisnik = userRepository.getOneXML(userRepository.findByUsername(userEmail));
+
+        if (korisnik.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_CITIZEN")))
+            return zahtevRepository.getRequestsListForUser(korisnik.getId());
+
         return zahtevRepository.listResources();
+
     }
 
     public StringWriter generateHTML(String id) throws FileNotFoundException {

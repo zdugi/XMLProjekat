@@ -7,6 +7,7 @@
 package com.xmlproject.project_poverenik.ws.izvestaj;
 
 import com.xmlproject.project_poverenik.model.xml_izvestaj.Izvestaj;
+import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
@@ -23,7 +24,7 @@ import javax.jws.soap.SOAPBinding;
                       targetNamespace = "http://soap.spring.com/ws/report",
                      // wsdlLocation = "classpath:wsdl/Hello.wsdl",
                       endpointInterface = "com.xmlproject.project_poverenik.ws.izvestaj.IzvestajInterface")
-                      
+@Component
 public class IzvestajPortImpl implements IzvestajInterface {
 
     private static final Logger LOG = Logger.getLogger(IzvestajPortImpl.class.getName());

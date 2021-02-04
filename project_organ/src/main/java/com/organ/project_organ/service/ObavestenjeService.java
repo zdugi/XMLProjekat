@@ -6,6 +6,7 @@ import com.organ.project_organ.model.xml_opste.TAdresa;
 import com.organ.project_organ.model.xml_opste.TDatum;
 import com.organ.project_organ.model.xml_opste.TOrgan;
 import com.organ.project_organ.model.xml_opste.TZakon;
+import com.organ.project_organ.model.xml_zahtev.Zahtev;
 import com.organ.project_organ.pojo.ObavestenjeDTO;
 import com.organ.project_organ.pojo.OpcijaObavestenjeDTO;
 import com.organ.project_organ.pojo.OrganDTO;
@@ -25,6 +26,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -41,17 +45,19 @@ public class ObavestenjeService extends AbsService{
         return obavestenjeRepository.listResources();
     }
 
-    public void create(ObavestenjeDTO obavestenjeDTO) throws Exception{
+    public void create(ObavestenjeDTO obavestenjeDTO, Zahtev zahtev) throws Exception{
 
         ObjectFactory factory = new ObjectFactory();
 
         Obavestenje obavestenje = factory.createObavestenje();
 
-        obavestenje.setNaziv("naziv");
-        obavestenje.setBrojPredmeta("broj predmeta");
+        obavestenje.setNaziv(obavestenjeDTO.naziv);
+        obavestenje.setBrojPredmeta(obavestenjeDTO.brojPredmeta);
 
         TDatum datum = new TDatum();
-        datum.setValue("[ovde ce se generisati vrednost]");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        datum.setValue(formatter.format(date));
         datum.setProperty("pred:datumObavestenja");
         obavestenje.setDatum(datum);
 
@@ -59,22 +65,22 @@ public class ObavestenjeService extends AbsService{
 
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:nazivOrgana");
-        naziv.setValue(obavestenjeDTO.organ.naziv);
+        naziv.setValue(zahtev.getOrgan().getNaziv().getValue());
 
         TAdresa adresa = new TAdresa();
-        adresa.setBroj(BigInteger.valueOf(Long.valueOf(obavestenjeDTO.organ.adresa.broj)));
+        adresa.setBroj(zahtev.getOrgan().getAdresa().getBroj());
 
         TAdresa.Drzava drzava = new TAdresa.Drzava();
         drzava.setProperty("pred:drzavaOrgana");
-        drzava.setValue(obavestenjeDTO.organ.adresa.drzava);
+        drzava.setValue(zahtev.getOrgan().getAdresa().getDrzava().getValue());
         adresa.setDrzava(drzava);
 
         TAdresa.Mesto mesto = new TAdresa.Mesto();
         mesto.setProperty("pred:mestoOrgana");
-        mesto.setValue(obavestenjeDTO.organ.adresa.mesto);
+        mesto.setValue(zahtev.getOrgan().getAdresa().getMesto().getValue());
         adresa.setMesto(mesto);
-        adresa.setPostanskiBroj(BigInteger.valueOf(Long.valueOf(obavestenjeDTO.organ.adresa.postanskiBroj)));
-        adresa.setUlica(obavestenjeDTO.organ.adresa.ulica);
+        adresa.setPostanskiBroj(zahtev.getOrgan().getAdresa().getPostanskiBroj());
+        adresa.setUlica(zahtev.getOrgan().getAdresa().getUlica());
 
         organ.setNaziv(naziv);
         organ.setAdresa(adresa);
@@ -83,29 +89,10 @@ public class ObavestenjeService extends AbsService{
 
         TPodnosilac podnosilac = new TPodnosilac();
 
-        TPodnosilac.Naziv nazivPodnosioca = new TPodnosilac.Naziv(); // moze i osoba zavisi ko trazi
-        nazivPodnosioca.setProperty("pred:nazivPodnosioca");
-        nazivPodnosioca.setValue("Podnosilac");
-        podnosilac.setNaziv(nazivPodnosioca);
+        podnosilac.setOsoba(zahtev.getDodatneInformacije().getTrazilac().getOsoba());
+        podnosilac.setAdresa(zahtev.getDodatneInformacije().getTrazilac().getAdresa());
 
         obavestenje.setPodaciPodnosioca(podnosilac);
-
-        TAdresa adresaPodnosioca = new TAdresa();
-        adresaPodnosioca.setBroj(BigInteger.valueOf(Long.valueOf(15)));
-
-        TAdresa.Drzava drzavaPodnosioca = new TAdresa.Drzava();
-        drzavaPodnosioca.setProperty("pred:drzavaPodnosioca");
-        drzavaPodnosioca.setValue("Drzava");
-        adresaPodnosioca.setDrzava(drzavaPodnosioca);
-
-        TAdresa.Mesto mestoPodnosioca = new TAdresa.Mesto();
-        mestoPodnosioca.setProperty("pred:mestoPosnosioca");
-        mestoPodnosioca.setValue("Mesto");
-        adresaPodnosioca.setMesto(mestoPodnosioca);
-        adresaPodnosioca.setPostanskiBroj(BigInteger.valueOf(21000));
-        adresaPodnosioca.setUlica("Ulica");
-
-        podnosilac.setAdresa(adresa);
 
         TTeloObavestenja teloObavestenja = new TTeloObavestenja();
 
@@ -154,7 +141,7 @@ public class ObavestenjeService extends AbsService{
         TAdresa.Drzava drzavaOrgana = new TAdresa.Drzava();
         drzavaOrgana.setProperty("pred:drzavaOrganaObavestenje");
         drzavaOrgana.setValue(obavestenjeDTO.teloObavestenja.adresa.drzava);
-        aresaOrgana.setDrzava(drzavaPodnosioca);
+        aresaOrgana.setDrzava(drzavaOrgana);
 
         TAdresa.Mesto mestoOrgana = new TAdresa.Mesto();
         mestoOrgana.setProperty("pred:mestoOrganaObavestenje");

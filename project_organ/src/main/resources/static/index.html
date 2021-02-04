@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="js/xonomy/xonomy.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <script src="https://unpkg.com/vue-router@3.4.9/dist/vue-router.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="js/xonomy/xonomy.js"></script>
-        <style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/public/favicon.png"/>
+    <title>Platforma Sluzbenik</title>
+
+    <link rel="stylesheet" type="text/css" href="js/xonomy/xonomy.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.4.9/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/xonomy/xonomy.js"></script>
+    <style>
                 .editor-box {
                     width: 800px;
                     margin: 40px auto;
+                    padding-bottom: 200px;
                 }
 
                 #editor {
@@ -46,23 +51,61 @@
                     display: inline;
                     margin-left: 15px;
                 }
+
+                .registration-box {
+                    width: 400px;
+                    padding: 20px;
+                    background-color: #fefafa;
+                    margin: 100px auto;
+                    border-radius: 5px;
+                }
+
+                form > input {
+                    background-color: #ffffff !important;
+                }
+
+                form > button {
+                    float: none !important;
+                }
+
             </style>
-        <!-- Google Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 
-        <!-- CSS Reset -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <!-- Milligram CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 
-        <!-- You should properly set the path from the main file. -->
-    </head>
-    <body>
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+</head>
+<body>
     <div id="app">
-        <menu-component></menu-component>
+        <!--<menu-component></menu-component>-->
         <router-view></router-view>
     </div>
+    <script src="js/submit-request-page.js"></script>
+    <script src="js/requests-table-page.js"></script>
+    <script src="js/citizen-page.js"></script>
+
+    <script src="js/create-obavestenje.js"></script>
+    <script src="js/list-obavestenje.js"></script>
+    <script src="js/reports-search-page.js"></script>
+    <script src="js/list-create-report-page.js"></script>
+    <script src="js/requests-search-page.js"></script>
+    <script src="js/reports-advance-search-page.js"></script>
+    <script src="js/requests-advance-search-page.js"></script>
+
+    <script src="js/official-page.js"></script>
+
+
+    <script src="js/login-page.js"></script>
+    <script src="js/register-page.js"></script>
+    <script src="js/application.js"></script>
+</body>
+<!--
       
     <script src="/js/search-page.js"></script>    
     <script src="/js/create-obavestenje.js"></script>
@@ -76,7 +119,5 @@
     <script src="/js/login-page.js"></script>
     <script src="/js/home-page.js"></script>
     <script src="/js/menu.js"></script>
-    <script src="/js/app.js"></script>
-
-    </body>
+    <script src="/js/app.js"></script> -->
 </html>

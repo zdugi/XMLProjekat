@@ -1,8 +1,10 @@
 package com.organ.project_organ.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.organ.project_organ.model.xml_zahtev.Zahtev;
 import com.organ.project_organ.pojo.ObavestenjeDTO;
 import com.organ.project_organ.service.ObavestenjeService;
+import com.organ.project_organ.service.ZahtevService;
 import com.organ.project_organ.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -24,6 +26,9 @@ public class ObavestenjeController {
     @Autowired
     private ObavestenjeService obavestenjeService;
 
+    @Autowired
+    private ZahtevService zahtevService;
+
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequest(){
         try {
@@ -39,10 +44,12 @@ public class ObavestenjeController {
         return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> createRequest(@RequestBody ObavestenjeDTO obavestenjeDTO) {
+    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE, path = "/{zahtev}")
+    public ResponseEntity<?> createRequest(@RequestBody ObavestenjeDTO obavestenjeDTO, @PathVariable String zahtev) {
         try {
-            obavestenjeService.create(obavestenjeDTO);
+            System.out.print(zahtev);
+            Zahtev zahtevObavestenje = zahtevService.getOne(zahtev);
+            obavestenjeService.create(obavestenjeDTO, zahtevObavestenje);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);

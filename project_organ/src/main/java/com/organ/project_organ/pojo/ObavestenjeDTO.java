@@ -15,8 +15,11 @@ import java.util.List;
 @XmlRootElement(name = "obavestenje")
 public class ObavestenjeDTO {
 
-    @XmlElement
-    public OrganDTO organ;
+    @XmlAttribute
+    public String naziv;
+
+    @XmlAttribute
+    public String brojPredmeta;
 
     @XmlElement
     public TeloObavestenjaDTO teloObavestenja;
