@@ -61,6 +61,7 @@ public class ResenjeController {
     public ResponseEntity<?> createResenje(@RequestBody ResenjeDTO resenje) {
         try {
             resenjeService.create(resenje);
+
             return new ResponseEntity<>("<Response><Status>Created</Status></Response>", HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();

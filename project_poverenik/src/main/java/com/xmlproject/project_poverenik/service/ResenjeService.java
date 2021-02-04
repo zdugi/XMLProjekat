@@ -12,6 +12,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
+import com.xmlproject.project_poverenik.ws.resenje.ResenjeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.io.*;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -260,6 +262,23 @@ public class ResenjeService extends AbsService {
 
 
         resenjeRepository.save(id, resenje);
+
+        // soap
+        //kreiranje servisa
+        URL wsdl = new URL("http://localhost:8089/ws/resenje?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/resenje", "ResenjeService");
+        QName portName = new QName("http://soap.spring.com/ws/resenje", "ResenjePort");
+
+        javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdl, serviceName);
+
+        ResenjeInterface address = service.getPort(portName, ResenjeInterface.class);
+        //kreiranje objekta
+
+        ObjectFactory f = new ObjectFactory();
+        Resenje r = f.createResenje();
+        r.setAbout("about resenje");
+
+        System.out.println(address.posaljiResenje(resenje));
 
 
     }

@@ -2,6 +2,7 @@ package com.organ.project_organ.ws.endpoint;
 
 import javax.xml.ws.Endpoint;
 
+import com.organ.project_organ.ws.resenje.ResenjePortImpl;
 import com.organ.project_organ.ws.zahtev.ZahtevPortImpl;
 import com.organ.project_organ.ws.zahtev.ZahtevService;
 import org.apache.cxf.Bus;
@@ -22,10 +23,21 @@ public class EndpointConfig {
 	@Autowired
 	private ZahtevPortImpl zahtevPort;
 
+	@Autowired
+	private ResenjePortImpl resenjePort;
+
 	@Bean
 	public Endpoint zahtevEndpoint() {
 		EndpointImpl endpoint = new EndpointImpl(bus, zahtevPort);
 		endpoint.publish("/request");
 		return endpoint;
 	}
+
+	@Bean
+	public Endpoint resenjeEndpoint() {
+		EndpointImpl endpoint = new EndpointImpl(bus, resenjePort);
+		endpoint.publish("/resenje");
+		return endpoint;
+	}
+
 }

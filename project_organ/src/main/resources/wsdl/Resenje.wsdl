@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ResenjeService" targetNamespace="http://soap.spring.com/ws/resenje" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.spring.com/ws/resenje" xmlns:ns1="http://ftn.uns.ac.rs/xml_resenje" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:ns1="http://ftn.uns.ac.rs/xml_opste" xmlns:pred="http://localhost/predikati/" xmlns:tns="http://ftn.uns.ac.rs/xml_resenje" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_resenje" version="1.0">
+
+  <xs:import namespace="http://ftn.uns.ac.rs/xml_opste"/>
+
+  <xs:element name="Resenje" type="tns:resenje"/>
+
+  <xs:complexType name="resenje">
+    <xs:sequence>
+      <xs:element name="Datum" type="ns1:TDatum"/>
+      <xs:element name="Zalba" type="tns:TZalba"/>
+      <xs:element name="Zalba_Prihvacena" type="tns:ZalbaPrihvacena"/>
+      <xs:element name="Uvod" type="tns:TUvod"/>
+      <xs:element name="Resenje_Ukratko">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="prihvaceno" type="xs:boolean"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Obrazlozenje" type="xs:string"/>
+      <xs:element name="Poverenik" type="ns1:TOsoba"/>
+    </xs:sequence>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+    <xs:attribute name="about" type="xs:string"/>
+    <xs:attribute name="id" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TZalba">
+    <xs:sequence>
+      <xs:element name="Broj" type="xs:string"/>
+      <xs:element name="Datum" type="ns1:TDatum"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ZalbaPrihvacena">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="property" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TUvod">
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element name="ZalilacOsoba" type="ns1:TOsoba"/>
+        <xs:element name="Organ" type="ns1:TOrgan"/>
+        <xs:element name="DatumPodnosenja" type="ns1:TDatum"/>
+        <xs:element name="Zakon" type="ns1:TZakon"/>
+        <xs:element name="ZalilacOrgan" type="ns1:TOrgan"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TSekcija">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="sekcija" type="tns:TSekcija"/>
+    </xs:sequence>
+    <xs:attribute name="naziv" type="xs:string"/>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:tns="http://ftn.uns.ac.rs/xml_opste" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_opste" version="1.0">
+
+  <xs:complexType name="TDatum">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="property" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="TOsoba">
+    <xs:sequence>
+      <xs:element name="Ime" type="xs:string"/>
+      <xs:element name="Prezime" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="about" type="xs:string"/>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TOrgan">
+    <xs:sequence>
+      <xs:element name="Naziv">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TAdresa">
+    <xs:sequence>
+      <xs:element name="Ulica" type="xs:string"/>
+      <xs:element name="Broj" type="xs:positiveInteger"/>
+      <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
+      <xs:element name="Mesto">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Drzava">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TZakon">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona" type="xs:string"/>
+      <xs:element name="Naziv_zakona" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TDodatne_informacije">
+    <xs:sequence>
+      <xs:element name="Mesto" type="xs:string"/>
+      <xs:element name="Datum" type="tns:TDatum"/>
+      <xs:element name="Trazilac" type="tns:TTrazilac"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TTrazilac">
+    <xs:sequence>
+      <xs:element name="Osoba" type="tns:TOsoba"/>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+      <xs:element minOccurs="0" name="Kontakt" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TIdResenja">
+    <xs:sequence>
+      <xs:element name="Broj" type="xs:string"/>
+      <xs:element name="Godina" type="xs:positiveInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="posaljiResenjeResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="posaljiResenje">
+    <wsdl:part name="resenje" type="ns1:resenje">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ResenjeInterface">
+    <wsdl:operation name="posaljiResenje">
+      <wsdl:input name="posaljiResenje" message="tns:posaljiResenje">
+    </wsdl:input>
+      <wsdl:output name="posaljiResenjeResponse" message="tns:posaljiResenjeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ResenjeServiceSoapBinding" type="tns:ResenjeInterface">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="posaljiResenje">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="posaljiResenje">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/resenje"/>
+      </wsdl:input>
+      <wsdl:output name="posaljiResenjeResponse">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/resenje"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ResenjeService">
+    <wsdl:port name="ResenjePort" binding="tns:ResenjeServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ResenjePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
