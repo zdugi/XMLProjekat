@@ -27,7 +27,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
     var token = JSON.parse(localStorage.getItem('currentUser')).token;
     var self = this;
     if(currentRole == "ROLE_POVERENIK"){
-    axios.get("/api/complaint/resolution", {headers: {'Content-Type': 'application/xml'}}).then(
+    axios.get("/api/complaint/resolution", {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
                 response => {
                     //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
                     xmlDoc = $.parseXML(response.data);
@@ -49,7 +49,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                         console.log(response.data)
                         $(results).each(function(){
                             requestUri = $(this).find('[name="subject"]').find('uri').text();
-                            self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1))
+                            self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml")
                         });
                     },
                     error => {

@@ -80,8 +80,8 @@ public class ZalbaNaOdlukuService extends AbsService{
         if (zalbaNaOdlukuDTO.organZalilac == null) {
 
             TOsoba zalilac = new TOsoba();
-            zalilac.setIme("Iz sesije ime");
-            zalilac.setPrezime("iz sesije prezime");
+            zalilac.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+            zalilac.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
 
             JAXBElement<TOsoba> zalilacJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOsoba"), TOsoba.class, zalilac);
             teloZalbeOdluka.getContent().add(zalilacJ);
@@ -175,13 +175,13 @@ public class ZalbaNaOdlukuService extends AbsService{
         tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
-        osoba.setIme("[osoba iz sesije]");
-        osoba.setPrezime("[osoba iz sesije]");
+        osoba.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+        osoba.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
 
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue("Место, не знам одакле да га узмемааааа");
+        mestoDI.setValue(userDetails.getLicneInformacije().getAdresa().getMesto().getValue());
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();

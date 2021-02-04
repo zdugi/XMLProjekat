@@ -150,13 +150,13 @@ public class ZalbaNaCutanjeService extends AbsService {
         tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
-        osoba.setIme("[osoba iz sesije]");
-        osoba.setPrezime("[osoba iz sesije]");
+        osoba.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+        osoba.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
 
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue("Ово је место, не знам гдје да га ставим. Да корисник унесе, да се хардкодује?");
+        mestoDI.setValue(userDetails.getLicneInformacije().getAdresa().getMesto().getValue());
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
@@ -173,9 +173,9 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         // id setup
         String id = UUID.randomUUID().toString();
-        newZalba.setAbout("http://localhost:8081/korisnik/" + userDetails.getId());
+        newZalba.setAbout("http://localhost:8081/complaint/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/complaint/" + id);
+        trazilac.setHref("http://localhost:8081/korisnik/" + userDetails.getId());
 
 
         zalbaNaCutanjeRepository.save(id, newZalba);

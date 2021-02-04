@@ -10,9 +10,10 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
     `,
     methods: {
         submit() {
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
             var xml=Xonomy.harvest();
             console.log(xml)
-            axios.post("/api/complaint", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
+            axios.post("/api/complaint", xml, {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(response => {
             alert('Zalba uspesno podnesena. Dobicete odgovor od poverenika putem elektronske poste.')})
         }
     },

@@ -24,7 +24,11 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
     </div>
     `,
     mounted() {
-    axios.get("/api/complaint", {headers: {'Content-Type': 'application/xml'}}).then(
+    var currentRole = JSON.parse(localStorage.getItem('currentUser')).roles;
+        var token = JSON.parse(localStorage.getItem('currentUser')).token;
+        var self = this;
+        if(currentRole == "ROLE_POVERENIK"){
+    axios.get("/api/complaint", {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
                 response => {
                     //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
                     xmlDoc = $.parseXML(response.data);
@@ -37,5 +41,23 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                 error => {
                     alert('Doslo je do greske prilikom slanja zahteva.');
                 });
-    }
+
+    }else{
+        axios.get("/api/complaint/user" , {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
+                        response => {
+                            //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
+                            xmlDoc = $.parseXML(response.data);
+                            results = $(xmlDoc).find('result');
+                            console.log(response.data)
+                            $(results).each(function(){
+                                requestUri = $(this).find('[name="subject"]').find('uri').text();
+                                self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1)+ ".xml")
+                            });
+                        },
+                        error => {
+                            alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                        });
+
+        }
+        }
 })

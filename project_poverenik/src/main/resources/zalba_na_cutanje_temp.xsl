@@ -33,7 +33,8 @@
             <body>
             <br />
                 <div>
-                    <p style="margin-top: 50px;" align="center"><b><xsl:value-of select="//zalba_na_cutanje:zalba_na_cutanje/@naziv"/> <xsl:text>, </xsl:text></b><br/></p>
+                    <p class="center"><b>ЖАЛБА КАДА ОРГАН ВЛАСТИ НИЈЕ ПОСТУПИО/ није поступио у целости/ ПО ЗАХТЕВУ ТРАЖИОЦА У ЗАКОНСКОМ  РОКУ  (ЋУТАЊЕ УПРАВЕ)</b>
+                    </p><br/>
                     <p style="margin-top: 50px;" align="center"><b><xsl:value-of select="//zalba_na_cutanje:Primalac"/> <xsl:text>, </xsl:text></b><br/></p>
                     <p style="margin-top: 50px;" align="left">Адреса за пошту:
                         <xsl:value-of select="//zalba_na_cutanje:Adresa_primaoca/opste:Mesto"/> <xsl:text> </xsl:text>
@@ -97,7 +98,7 @@
                         <div class="adresa">
                             <div style="text-decoration: underline; text-align: center;">
                                 <xsl:value-of select="//zalba_na_cutanje:Dodatne_informacije/opste:Trazilac/opste:Adresa/opste:Ulica"/> <xsl:text> </xsl:text>
-                                <xsl:value-of select="//zalba_na_cutanje:Dodatne_informacije/opste:Trazilac/opste:Adresa/opste:Broj"/> <xsl:text>, </xsl:text>
+                                <xsl:value-of select="//zalba_na_cutanje:Dodatne_informacije/opste:Trazilac/opste:Adresa/opste:Broj"/> <xsl:text> </xsl:text>
                                 <xsl:value-of select="//zalba_na_cutanje:Dodatne_informacije/opste:Trazilac/opste:Adresa/opste:Mesto"/>
                             </div>
                             <div style="text-align: center;">Adresa</div>

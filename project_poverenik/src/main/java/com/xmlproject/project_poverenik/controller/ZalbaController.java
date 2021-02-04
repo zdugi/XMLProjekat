@@ -128,6 +128,22 @@ public class ZalbaController {
         return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getComplaintsIDListUser() {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.authorityRegex = "";
+        query.placeRegex = "";
+        query.stateRegex = "";
+        query.submissionDateRegex = "";
+        query.applicantRegex = userDetails.getId();
+        return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
+
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping(value="/resolution", consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> resolve1(@RequestBody ZalbaNaOdlukuDTO zalbaNaOdluku) {
         try {

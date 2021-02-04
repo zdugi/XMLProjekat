@@ -39,7 +39,8 @@ import com.xmlproject.project_poverenik.model.xml_opste.TOsoba;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TLicne_Informacije", propOrder = {
     "osoba",
-    "adresa"
+    "adresa",
+        "kontakt"
 })
 public class TLicneInformacije {
 
@@ -47,6 +48,8 @@ public class TLicneInformacije {
     protected TOsoba osoba;
     @XmlElement(name = "Adresa", required = true)
     protected TAdresa adresa;
+    @XmlElement(name = "Kontakt", required = true)
+    protected String kontakt;
 
     /**
      * Gets the value of the osoba property.
@@ -94,6 +97,30 @@ public class TLicneInformacije {
      */
     public void setAdresa(TAdresa value) {
         this.adresa = value;
+    }
+
+    /**
+     * Gets the value of the username property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getKontakt() {
+        return kontakt;
+    }
+
+    /**
+     * Sets the value of the username property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setKontakt(String value) {
+        this.kontakt = value;
     }
 
 }

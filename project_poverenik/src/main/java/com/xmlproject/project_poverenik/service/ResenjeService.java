@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
 import com.xmlproject.project_poverenik.model.xml_resenje.ObjectFactory;
@@ -12,6 +13,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanj
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsListDTO;
@@ -43,17 +45,21 @@ public class ResenjeService extends AbsService {
 
 
     public void create(ResenjeDTO resenjeDTO) throws Exception {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String idZalbe = resenjeDTO.id_zalbe;
         System.out.println(idZalbe);
         ZalbaNaCutanje zalbaNaCutanje;
         ZalbaNaOdluku zalbaNaOdluku;
+        String trazilacId = "";
         try {
             zalbaNaCutanje = zalbaNaCutanjeService.getOne(idZalbe);
+            trazilacId = zalbaNaCutanje.getDodatneInformacije().getTrazilac().getHref();
         } catch (Exception e) {
             zalbaNaCutanje = null;
         }
         try {
             zalbaNaOdluku = zalbaNaOdlukuService.getOne(idZalbe);
+            trazilacId = zalbaNaOdluku.getDodatneInformacije().getTrazilac().getHref();
         } catch (Exception e) {
             zalbaNaOdluku = null;
         }
@@ -223,8 +229,8 @@ public class ResenjeService extends AbsService {
 
         // poverenika uzimam iz sesije
         TOsoba poverenik = new TOsoba();
-        poverenik.setIme("Poverenko");
-        poverenik.setPrezime("Poverenic");
+        poverenik.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+        poverenik.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
         resenje.setPoverenik(poverenik);
 
         // trazilac
@@ -233,7 +239,7 @@ public class ResenjeService extends AbsService {
 
         // zalilac?
         zalilac.setRel("pred:zalilac");
-        zalilac.setHref("http://localhost:8081/user/nekiuser");
+        zalilac.setHref("http://localhost:8081/korisnik/" + trazilacId);
 
         // id setup
         String id = UUID.randomUUID().toString();
