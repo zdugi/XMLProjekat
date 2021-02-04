@@ -10,9 +10,10 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
     `,
     methods: {
         submit() {
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
             var xml=Xonomy.harvest();
             console.log(xml)
-            axios.post("/api/complaint", xml, {headers: {'Content-Type': 'application/xml'}}).then(response => {
+            axios.post("/api/complaint", xml, {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(response => {
             alert('Zalba uspesno podnesena. Dobicete odgovor od poverenika putem elektronske poste.')})
         }
     },
@@ -30,17 +31,15 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
                 console.log("I be validatin' now!")
             },
             elements: {
-
-                "organ": {
-                    hasText: false,
-                    attributes: {
-                        "naziv": {
-                            asker: Xonomy.askString
-                        }
-                    }
+               "idZahteva": {
+                    displayName: "ИД захтева",
+                   hasText: true,
+                   asker: Xonomy.askString
                 },
 
+
                 "podaciOZahtevuIInformacijama": {
+                    displayName: "Подаци о захтеву и информацијама",
                     hasText: false,
                     attributes: {
                         "podaci": {
@@ -49,61 +48,8 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
                     }
 
                 },
-
-                "datumPodnosenja": {
-                    attributes: {
-                        "datumPodnosenjaA": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
-                "dodatneInformacije": {
-                    attributes: {
-                        "datum": {
-                            asker: Xonomy.askString
-                        },
-                        "mesto": {
-                            asker: Xonomy.askString
-                        }
-                    }
-                },
-                "trazilac": {
-                    attributes: {
-                          "kontakt": {
-                      asker: Xonomy.askString
-                    }}
-
-                },
-                "osoba": {
-                    attributes: {
-                        "ime": {
-                         asker: Xonomy.askString
-                       },
-                       "prezime": {
-                          asker: Xonomy.askString
-                       }
-                   }
-                },
-                "adresa": {
-                    attributes: {
-                        "ulica": {
-                            asker: Xonomy.askString
-                        },
-                        "broj": {
-                            asker: Xonomy.askString
-                        },
-                        "postanskiBroj": {
-                            asker: Xonomy.askString
-                         },
-                         "mesto": {
-                            asker: Xonomy.askString
-                         },
-                         "drzava": {
-                            asker: Xonomy.askString
-                         }
-                    }
-                },
-                "opcija": {
+               "opcija": {
+                    displayName: "Разлог изјаве жалбе",
                     attributes: {
                         "cekiran": {
                             asker: Xonomy.askPicklist,
@@ -113,15 +59,8 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
                             ]
                         }
                     }
-                },
-
-                "mestoPodnosenja": {
-                    attributes: {
-                        "naziv": {
-                            asker: Xonomy.askString
-                        }
-                    }
                 }
+
             }
         };
 
@@ -131,15 +70,12 @@ const ZalbaNaCutanje = Vue.component("zalba-na-cutanje", {
         `
 
         var xml =
-          `<zalbaNaCutanje><organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ><datumPodnosenja datumPodnosenjaA=''></datumPodnosenja><podaciOZahtevuIInformacijama podaci=''></podaciOZahtevuIInformacijama>
-               <dodatneInformacije mesto="" datum=""><trazilac kontakt=""><osoba ime="" prezime=""></osoba></trazilac></dodatneInformacije>
+          `<zalbaNaCutanje><idZahteva></idZahteva><podaciOZahtevuIInformacijama podaci=''></podaciOZahtevuIInformacijama>
                <opcija cekiran='true' tekst='није поступио;'/><opcija cekiran='false' tekst='није поступио у целости;'/><opcija cekiran='false' tekst= "није поступио у законском року"/>
-               <mestoPodnosenja naziv='' />
            </zalbaNaCutanje>
                   `
         var editor = document.getElementById("editor");
-        Xonomy.setMode("laic");
+
         Xonomy.render(xml, editor, docSpec);
-        Xonomy.setMode("laic");
     }
 })

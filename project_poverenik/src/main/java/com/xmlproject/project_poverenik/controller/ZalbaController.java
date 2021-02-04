@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
@@ -125,6 +128,22 @@ public class ZalbaController {
         return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getComplaintsIDListUser() {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.authorityRegex = "";
+        query.placeRegex = "";
+        query.stateRegex = "";
+        query.submissionDateRegex = "";
+        query.applicantRegex = userDetails.getId();
+        return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
+
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping(value="/resolution", consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> resolve1(@RequestBody ZalbaNaOdlukuDTO zalbaNaOdluku) {
         try {
@@ -162,6 +181,22 @@ public class ZalbaController {
         }
 
         return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/resolution/user", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getRequestsIDListUser() {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.authorityRegex = "";
+        query.placeRegex = "";
+        query.stateRegex = "";
+        query.submissionDateRegex = "";
+        query.applicantRegex = userDetails.getId();
+        return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
+
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "resolution/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)

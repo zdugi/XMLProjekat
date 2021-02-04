@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ObjectFactory;
@@ -8,6 +9,7 @@ import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.TTeloZalbeOdluka
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
@@ -36,6 +38,7 @@ public class ZalbaNaOdlukuService extends AbsService{
     }
 
     public void create (ZalbaNaOdlukuDTO zalbaNaOdlukuDTO) throws Exception {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         ObjectFactory factory = new ObjectFactory();
 
@@ -70,13 +73,39 @@ public class ZalbaNaOdlukuService extends AbsService{
         TTeloZalbeOdluka teloZalbeOdluka = new TTeloZalbeOdluka();
         teloZalbeOdluka.getContent().add("ЖАЛБА");
 
-        TOsoba zalilac = new TOsoba();
-        zalilac.setIme(zalbaNaOdlukuDTO.zalilac.ime);
-        zalilac.setPrezime(zalbaNaOdlukuDTO.zalilac.prezime);
+        System.out.println(zalbaNaOdlukuDTO.zalilac);
+        System.out.println(" a organ je ");
+        System.out.println(zalbaNaOdlukuDTO.organZalilac);
 
-        JAXBElement<TOsoba> zalilacJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOsoba"), TOsoba.class, zalilac);
-        teloZalbeOdluka.getContent().add(zalilacJ);
+        if (zalbaNaOdlukuDTO.organZalilac == null) {
 
+            TOsoba zalilac = new TOsoba();
+            zalilac.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+            zalilac.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
+
+            JAXBElement<TOsoba> zalilacJ = new JAXBElement<TOsoba>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOsoba"), TOsoba.class, zalilac);
+            teloZalbeOdluka.getContent().add(zalilacJ);
+        }
+        else {
+            TOrgan organZalilac = new TOrgan();
+            TOrgan.Naziv naziv = new TOrgan.Naziv();
+            naziv.setValue(zalbaNaOdlukuDTO.organZalilac.naziv);
+            organZalilac.setNaziv(naziv);
+            TAdresa adresaOrgana = new TAdresa();
+            adresaOrgana.setBroj(BigInteger.valueOf(Long.valueOf(zalbaNaOdlukuDTO.organZalilac.adresa.broj)));
+            TAdresa.Drzava drzavaOrgana = new TAdresa.Drzava();
+            drzava.setValue(zalbaNaOdlukuDTO.organZalilac.adresa.drzava);
+            adresaOrgana.setDrzava(drzavaOrgana);
+            TAdresa.Mesto mestoOrgana = new TAdresa.Mesto();
+            mestoOrgana.setValue(zalbaNaOdlukuDTO.organZalilac.adresa.mesto);
+            adresaOrgana.setMesto(mestoOrgana);
+            adresaOrgana.setUlica(zalbaNaOdlukuDTO.organZalilac.adresa.ulica);
+            adresaOrgana.setPostanskiBroj(BigInteger.valueOf(Long.valueOf(zalbaNaOdlukuDTO.organZalilac.adresa.postanskiBroj)));
+            organZalilac.setAdresa(adresaOrgana);
+            JAXBElement<TOrgan> organJ = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "ZalilacOrgan"), TOrgan.class, organZalilac);
+            teloZalbeOdluka.getContent().add(organJ);
+
+        }
         // zalilac osoba ili zalilac organ, neka zasad bude osoba
         TAdresa adresa1 = new TAdresa();
         adresa1.setBroj(BigInteger.valueOf(Long.valueOf(15000)));
@@ -100,13 +129,13 @@ public class ZalbaNaOdlukuService extends AbsService{
         teloZalbeOdluka.getContent().add("protiv resenja-zakljucka");
 
 
+        // ovo dobavljam iz zahteva
         TOrgan organDonosilacOdluke = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv);
+        naziv.setValue("Орган из захтева");
         //organDonosilacOdluke.setAdresa(adresa1);    // na primjer, treba izvuci
                                                         // ovde je bila greska
-        System.out.println(zalbaNaOdlukuDTO.organNaKogaSeZali.naziv + "\n\n\n\n\n\n");
         organDonosilacOdluke.setNaziv(naziv);
 
         JAXBElement<TOrgan> organDonosilacOdluke1 = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "OrganDonosilacOdluke"), TOrgan.class, organDonosilacOdluke);
@@ -146,13 +175,13 @@ public class ZalbaNaOdlukuService extends AbsService{
         tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
-        osoba.setIme("[osoba iz sesije]");
-        osoba.setPrezime("[osoba iz sesije]");
+        osoba.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+        osoba.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
 
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue(zalbaNaOdlukuDTO.dodatneInformacije.mesto);
+        mestoDI.setValue(userDetails.getLicneInformacije().getAdresa().getMesto().getValue());
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
@@ -160,6 +189,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         trazilac.setKontakt("[uzimam iz sesije]");
         trazilac.setOsoba(osoba);
 
+        tDodatneInformacije.setMesto("Место подношења");
         tDodatneInformacije.setTrazilac(trazilac);
 
         zalbaNaOdluku.setTeloZalbeNaOdluku(teloZalbeOdluka);
@@ -177,7 +207,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         String id = UUID.randomUUID().toString();
         zalbaNaOdluku.setAbout("http://localhost:8081/complaint/resolution/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/complaint/" + id);
+        trazilac.setHref("http://localhost:8081/korisnik/" + userDetails.getId());
 
 
 

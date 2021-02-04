@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.controller;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
@@ -13,11 +14,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
 import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
+import pojo.ResolutionsAdvanceSearchQuery;
 
 import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
@@ -107,7 +111,23 @@ public class ResenjeController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
+/*
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> getComplaintsIDListUser() {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
+        query.authorityRegex = "";
+        query.placeRegex = "";
+        query.stateRegex = "";
+        query.submissionDateRegex = "";
+        query.applicantRegex = userDetails.getId();
+        return new ResponseEntity<>(resenjeService.queryRDF(query).toString(), HttpStatus.OK);
 
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+    }
+*/
     @GetMapping(path = "/xhtml/{id}")
     public ResponseEntity<?> getSolutionHTML(@PathVariable String id) throws FileNotFoundException {
         return new ResponseEntity<>(
@@ -137,12 +157,14 @@ public class ResenjeController {
         return new ResponseEntity(resources, HttpStatus.OK);
     }
 
-    /*@PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> advanceSearch(@RequestBody ComplaintsAdvanceSearchQuery query) {
-        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
-                query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody ResolutionsAdvanceSearchQuery query) {
+        System.out.println("primio");
+        if (query.datumPodnosenjaZahteva.isEmpty() && query.resenjeZa.isEmpty() &&
+                query.doneseno.isEmpty() && query.prihvacena.isEmpty() &&
+                query.upucujeSe.isEmpty() && query.zalilac.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(resenjeService.queryRDF(query).toString(), HttpStatus.OK);
-    }*/
+    }
 
 }

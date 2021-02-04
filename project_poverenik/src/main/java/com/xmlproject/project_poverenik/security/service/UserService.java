@@ -48,6 +48,7 @@ public class UserService implements UserDetailsService {
 
     public void registerUser(KorisnikDTO userDTO) throws Exception {
         Korisnik newUser = (new ObjectFactory()).createKorisnik();
+        newUser.getLicneInformacije().setKontakt(userDTO.kontakt);
 		TAutorizacijaInformacije ta = new TAutorizacijaInformacije();
 		ta.setUsername(userDTO.email);
 		ta.setPassword(passwordEncoder.encode(userDTO.password));

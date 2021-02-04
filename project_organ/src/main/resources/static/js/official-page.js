@@ -17,8 +17,20 @@ const OfficialPage = Vue.component('official-page', {
         <router-view></router-view>
     </div>
     `,
+    methods: {
+            logout() {
+                localStorage.removeItem('currentUser');
+                axios.defaults.headers.common['Authorization'] = '';
+                this.$router.push({ path: '/login' });
+            }
+        },
     mounted() {
-        if (!localStorage.getItem('currentUser'))
-            this.$router.push({ path: '/login' });
+            if (!localStorage.getItem('currentUser'))
+                this.$router.push({ path: '/login' });
+
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user.role == 'ROLE_CITIZEN')
+                this.$router.push({ path: '/citizen' });
     }
 });

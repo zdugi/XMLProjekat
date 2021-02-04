@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -73,10 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring()
-                .antMatchers(HttpMethod.POST, "/api/auth/login", "/api/complaint/**");
+                .antMatchers(HttpMethod.POST, "/api/**");
         //.antMatchers(HttpMethod.POST, "/cultural-offers/search");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
-                "/**/*.css", "/**/*.js", "/api/complaint/**"
+                "/**/*.css", "/**/*.js", "/api/complaint/simple-search", "/api/complaint/rdf/**", "/api/complaint/xhtml/**", "/api/complaint/json/**", "/api/complaint/pdf/**",
+                "/api/complaint/resolution/rdf/**", "/api/complaint/resolution/xhtml/**", "/api/complaint/resolution/json/**", "/api/complaint/resolution/pdf/**"
         );
     }
 

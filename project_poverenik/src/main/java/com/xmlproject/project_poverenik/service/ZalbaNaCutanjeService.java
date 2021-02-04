@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_opste.TTrazilac;
 import com.xmlproject.project_poverenik.model.xml_zahtev.*;
@@ -10,6 +11,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.xmlproject.project_poverenik.service.*;
 import org.xmldb.api.base.XMLDBException;
@@ -40,6 +42,8 @@ public class ZalbaNaCutanjeService extends AbsService {
     }
 
     public void create (ZalbaNaCutanjeDTO zalbaNaCutanje) throws Exception {
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         ObjectFactory factory = new ObjectFactory();
 
         ZalbaNaCutanje newZalba = factory.createZalbaNaCutanje();
@@ -51,8 +55,11 @@ public class ZalbaNaCutanjeService extends AbsService {
         status.setValue("нова");
         newZalba.setStatus(status);
 
+        System.out.println(zalbaNaCutanje.idZahteva + " je poslati id zahteva.");
+
+        // adresa primaoca, hardkodovana
         TAdresa adresa = new TAdresa();
-        adresa.setBroj(BigInteger.valueOf(Long.valueOf(zalbaNaCutanje.organ.adresa.broj)));
+        adresa.setBroj(BigInteger.valueOf(15L));
 
         TAdresa.Drzava drzava = new TAdresa.Drzava();
         drzava.setProperty("pred:drzavaOrgana");
@@ -74,10 +81,11 @@ public class ZalbaNaCutanjeService extends AbsService {
         tTeloZalbe.getContent().add("У складу са чланом 22. Закона о слободном приступу информацијама од јавног значаја подносим: " +
                 "Ж А Л Б У против");
 
+        // ovo treba da dobavim iz zahteva
         TOrgan organ = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue(zalbaNaCutanje.organ.naziv);
+        naziv.setValue("Назив органа из захтева");
         organ.setNaziv(naziv);
 
         JAXBElement<TOrgan> organTelo = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Organ"), TOrgan.class, organ);
@@ -106,8 +114,10 @@ public class ZalbaNaCutanjeService extends AbsService {
         //JAXBElement<String> stringTelo = new JAXBElement<String>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje"), String.class, tekst);
         tTeloZalbe.getContent().add(tekst);
 
+
+        // ovaj datum izvlacim iz zahteva
         TDatum datum = new TDatum();
-        datum.setValue(zalbaNaCutanje.datumPodnosenja.datumPodnosenjaA);
+        datum.setValue("датум из захтева");
         JAXBElement<TDatum> datumTelo = new JAXBElement<TDatum>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Datum_podnosenja_zahteva"), TDatum.class, datum);
         tTeloZalbe.getContent().add(datumTelo);
 
@@ -140,13 +150,13 @@ public class ZalbaNaCutanjeService extends AbsService {
         tDodatneInformacije.setDatum(datumDI);
 
         TOsoba osoba = new TOsoba();
-        osoba.setIme("[osoba iz sesije]");
-        osoba.setPrezime("[osoba iz sesije]");
+        osoba.setIme(userDetails.getLicneInformacije().getOsoba().getIme());
+        osoba.setPrezime(userDetails.getLicneInformacije().getOsoba().getPrezime());
 
         TAdresa tAdresa = new TAdresa();
         //todo: pass in form
         TAdresa.Mesto mestoDI = new TAdresa.Mesto();
-        mestoDI.setValue(zalbaNaCutanje.dodatneInformacije.mesto);
+        mestoDI.setValue(userDetails.getLicneInformacije().getAdresa().getMesto().getValue());
         tAdresa.setMesto(mestoDI);
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
@@ -165,7 +175,7 @@ public class ZalbaNaCutanjeService extends AbsService {
         String id = UUID.randomUUID().toString();
         newZalba.setAbout("http://localhost:8081/complaint/" + id);
         trazilac.setRel("pred:potrazuje");
-        trazilac.setHref("http://localhost:8081/complaint/" + id);
+        trazilac.setHref("http://localhost:8081/korisnik/" + userDetails.getId());
 
 
         zalbaNaCutanjeRepository.save(id, newZalba);

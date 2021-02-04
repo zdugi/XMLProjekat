@@ -128,6 +128,8 @@ public abstract class Repository<T1> {
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
+        System.out.println(unmarshaller.unmarshal(res.getContentAsDOM()).toString());
+
         obj = (T1) unmarshaller.unmarshal(res.getContentAsDOM());
 
         StringWriter os = new StringWriter();
