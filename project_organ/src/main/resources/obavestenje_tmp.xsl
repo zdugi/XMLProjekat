@@ -29,7 +29,8 @@
         <body>
             <div class = "grid-container">
                 <div class = "item">
-                    <p><xsl:value-of select="//obavestenje:Datum"/> <xsl:text></xsl:text></p>
+                    <p>Broj predmeta : <xsl:value-of select="//@Broj_predmeta"/><xsl:text></xsl:text> </p>
+                    <p>Datum : <xsl:value-of select="//obavestenje:Datum"/> <xsl:text></xsl:text></p>
                 </div>
                 
                 <div >
@@ -39,23 +40,26 @@
                         <xsl:value-of select="//obavestenje:Organ/opste:Adresa/opste:Broj"/><br/> 
                         <xsl:value-of select="//obavestenje:Organ/opste:Adresa/opste:Mesto"/> <xsl:text> </xsl:text>
                         <xsl:value-of select="//obavestenje:Organ/opste:Adresa/opste:Postanski_broj"/> <xsl:text> </xsl:text><br/>
-                        <xsl:value-of select="//obavestenje:Organ/opste:Adresa/opste:Drzava"/>
+                        <xsl:value-of select="//obavestenje:Organ/opste:Adresa/opste:Drzava"/><xsl:text></xsl:text>
                     </p>
                     <p >naziv i sedište organa </p>
                 </div>
                 <div >
                     <p style="text-decoration: underline; margin-top: 100px;">
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Naziv"/> <xsl:text>, </xsl:text><br/>
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Adresa/opste:Ulica"/> <xsl:text> </xsl:text>
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Adresa/opste:Broj"/><br/> 
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Adresa/opste:Mesto"/> <xsl:text> </xsl:text>
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Adresa/opste:Postanski_broj"/> <xsl:text> </xsl:text><br/>
-                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/opste:Adresa/opste:Drzava"/>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Osoba/opste:Ime"/> <xsl:text> </xsl:text>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Osoba/opste:Prezime"/> <xsl:text> </xsl:text><br/>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Adresa/opste:Ulica"/> <xsl:text> </xsl:text>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Adresa/opste:Broj"/><br/>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Adresa/opste:Mesto"/> <xsl:text> </xsl:text>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Adresa/opste:Postanski_broj"/> <xsl:text> </xsl:text><br/>
+                        <xsl:value-of select="//obavestenje:Podaci_podnosioca/obavestenje:Adresa/opste:Drzava"/><xsl:text></xsl:text>
                     </p>
                     <p >naziv i sedište podnosioca</p>
                 </div>           
                 <div class = "item">
-                    <p style="margin-top: 50px;" align="center"><b>O B A V E Š T E NJ E </b><br/></p>
+                    <p style="margin-top: 50px; font-size : 16;" align="center"><b>O B A V E Š T E NJ E </b><br/></p>
+                    <p style="margin-top: 50px;" align="center"><b>o stavljanju na uvid dokumenta koji sadrži<br/>
+                    traženu informaciju i o izradi kopije</b><br/></p>
                     <p>
                         <xsl:value-of select="//obavestenje:Telo_obavestenja/obavestenje:Zakon/opste:Naziv_zakona"/>
                         <xsl:value-of select="//obavestenje:Telo_obavestenja/obavestenje:Godina"/>
@@ -85,9 +89,9 @@
                         dinara i uplaćuje se na žiro-račun Budžeta Republike Srbije br. 840-742328-843-30, s pozivom na broj 97 – oznaka šifre opštine/grada gde se nalazi organ vlasti (iz Pravilnika o uslovima i načinu vođenja računa – „Sl. glasnik RS“, 20/07... 40/10).
                         
                         <br/><br/>
-                        Arhivi: <xsl:value-of select="//obavestenje:Dostavljeno/@Arhivi"/>
+                        <xsl:if test="//obavestenje:Dostavljeno/@Arhivi = 'true'"> Arhivi </xsl:if>
                         <br/>
-                        Imenovan: <xsl:value-of select="//obavestenje:Dostavljeno/@Imenovanom"/>
+                        <xsl:if test="//obavestenje:Dostavljeno/@Imenovanom = 'true'"> Imenovanom </xsl:if>
                     </p>
                 </div>
             </div>          

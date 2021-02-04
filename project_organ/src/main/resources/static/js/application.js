@@ -48,8 +48,12 @@ const router = new VueRouter({
                 component: ReportsSearchPage
             },
             {
-                path: 'create-response',
+                path: 'create-response/:zahtev',
                 component: CreateObavestenje
+            },
+            {
+                path: 'list-obavestenje',
+                component: RequestsTablePageObavestenje
             }
           ]
         },

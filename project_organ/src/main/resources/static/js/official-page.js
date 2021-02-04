@@ -10,7 +10,7 @@ const OfficialPage = Vue.component('official-page', {
             <li><router-link to="/official/reports-search">Pretraga izvestaja</router-link></li>
             <li><router-link to="/official/reports-advance-search">Napredna pretraga izvestaja</router-link></li>
             <li>/</li>
-            <li><router-link to="/official/create-response">Dodaj obavestenje</router-link></li>
+            <li><router-link to="/official/list-obavestenje">Listanje obavestenja</router-link></li>
             <li>/<li>
             <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
         </ul>

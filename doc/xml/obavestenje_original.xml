@@ -19,7 +19,10 @@
         </opste:Adresa>
     </obavestenje:Organ>
     <obavestenje:Podaci_podnosioca>
-        <obavestenje:Naziv property = "pred:nazivPodnosioca">Naziv podnosioca</obavestenje:Naziv>
+        <obavestenje:Osoba>
+            <opste:Ime>Ime</opste:Ime>
+            <opste:Prezime>Prezime</opste:Prezime>
+        </obavestenje:Osoba>
         <obavestenje:Adresa>
             <opste:Ulica>Ulica0</opste:Ulica>
             <opste:Broj>50</opste:Broj>
@@ -47,5 +50,5 @@
         Troškovi su utvrđeni Uredbom Vlade Republike Srbije („Sl. glasnik RS“, br. 8/06), i to: kopija strane A4 formata iznosi 3 dinara, A3 formata 6 dinara, CD 35 dinara, diskete 20 dinara, DVD 40 dinara, audio-kaseta – 150 dinara, video-kaseta 300 dinara, pretvaranje jedne strane dokumenta iz fizičkog u elektronski oblik – 30 dinara.
         Iznos ukupnih troškova izrade kopije dokumenta po vašem zahtevu iznosi <obavestenje:Suma>0</obavestenje:Suma> dinara i uplaćuje se na žiro-račun Budžeta Republike Srbije br. 840-742328-843-30, s pozivom na broj 97 – oznaka šifre opštine/grada gde se nalazi organ vlasti (iz Pravilnika o uslovima i načinu vođenja računa – „Sl. glasnik RS“, 20/07... 40/10). 
     </obavestenje:Telo_obavestenja>
-    <obavestenje:Dostavljeno Arhivi="true" about = "http://localhost:8081/notification/arhivi"/>
+    <obavestenje:Dostavljeno Arhivi="false" Imenovanom="true" about = "http://localhost:8081/notification/arhivi"/>
 </obavestenje:Obavestenje>

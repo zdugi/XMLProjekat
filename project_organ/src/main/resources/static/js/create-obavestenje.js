@@ -1,4 +1,4 @@
-const CreateObavestenje = Vue.component("create-obavestenje", {
+const CreateObavestenje = Vue.component("create-response/:zahtev", {
     template: `
     <div>
         <div class="editor-box">
@@ -12,7 +12,8 @@ const CreateObavestenje = Vue.component("create-obavestenje", {
         submit() {
             var xml=Xonomy.harvest();
             console.log(xml)
-            axios.post("/api/notification", xml, {headers: {'Content-Type': 'application/xml'}}).then(
+            console.log(this.$route);
+            axios.post('/api/notification/'+this.$route.params.zahtev, xml, {headers: {'Content-Type': 'application/xml'}}).then(
             response => {
                 alert('Obavestenje uspesno primljeno. Dobicete odgovor od poverenika putem elektronske poste.');
             },
@@ -36,17 +37,17 @@ const CreateObavestenje = Vue.component("create-obavestenje", {
             },
             elements: {
                 "obavestenje": {
-                    hasText: false
-                },
-                "zakon": {
                     hasText: false,
-                    attributes: {
-                        "naziv": {
+                    attributes : {
+                        "naziv" : {
                             asker: Xonomy.askString
-                        }
+                         },
+                         "brojPredmeta" : {
+                            asker: Xonomy.askString
+                         }
                     }
                 },
-                "organ": {
+                "zakon": {
                     hasText: false,
                     attributes: {
                         "naziv": {
@@ -120,8 +121,7 @@ const CreateObavestenje = Vue.component("create-obavestenje", {
         `
 
         var xml =
-        `<obavestenje>
-            <organ naziv=''><adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' /></organ>
+        `<obavestenje naziv = '' brojPredmeta =''>
             <zakon naziv=''></zakon>
             <teloObavestenja godina ='' dan='' sati='' pocetniSati='' zavrsniSati='' kancelarija='' suma='' >
                 <adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' />

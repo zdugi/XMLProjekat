@@ -3,7 +3,7 @@ const router = new VueRouter({
     routes: [
         { path: '/create', component: HomePage },
         { path: '/login', component: LoginPage },
-        { path: '/create-obavestenje', component: CreateObavestenje},
+        { path: '/create-response/:zahtev', component: CreateObavestenje},
         { path: '/search', component: RequestsSearchPage },
         { path: '/reports-search', component: ReportsSearchPage },
         { path: '/advance-search', component: RequestsAdvanceSearchPage },
