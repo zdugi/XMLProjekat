@@ -18,6 +18,7 @@ import org.xmldb.api.base.XMLDBException;
 import pojo.ComplaintsAdvanceSearchQuery;
 import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
+import pojo.ResolutionsAdvanceSearchQuery;
 
 import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
@@ -137,12 +138,14 @@ public class ResenjeController {
         return new ResponseEntity(resources, HttpStatus.OK);
     }
 
-    /*@PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> advanceSearch(@RequestBody ComplaintsAdvanceSearchQuery query) {
-        if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
-                query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
+    @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> advanceSearch(@RequestBody ResolutionsAdvanceSearchQuery query) {
+        System.out.println("primio");
+        if (query.datumPodnosenjaZahteva.isEmpty() && query.resenjeZa.isEmpty() &&
+                query.doneseno.isEmpty() && query.prihvacena.isEmpty() &&
+                query.upucujeSe.isEmpty() && query.zalilac.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(resenjeService.queryRDF(query).toString(), HttpStatus.OK);
-    }*/
+    }
 
 }

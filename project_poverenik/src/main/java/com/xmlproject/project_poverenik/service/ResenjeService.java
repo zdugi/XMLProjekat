@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_resenje.Resenje;
 import com.xmlproject.project_poverenik.model.xml_resenje.ObjectFactory;
@@ -12,10 +13,13 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanj
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
+import pojo.ComplaintsAdvanceSearchQuery;
 import pojo.ComplaintsListDTO;
 import pojo.ResenjeDTO;
+import pojo.ResolutionsAdvanceSearchQuery;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -232,8 +236,10 @@ public class ResenjeService extends AbsService {
         TDatum datumZ = new TDatum();
 
         // zalilac?
+        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         zalilac.setRel("pred:zalilac");
-        zalilac.setHref("http://localhost:8081/user/nekiuser");
+        zalilac.setHref("http://localhost:8081/user/" + userDetails.getId());
 
         // id setup
         String id = UUID.randomUUID().toString();
@@ -292,4 +298,37 @@ public class ResenjeService extends AbsService {
 
         return null;
     }
+
+    public ByteArrayOutputStream queryRDF(ResolutionsAdvanceSearchQuery query) {
+        //query.
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fuseki/EDataset/data/example/resenje/metadata>\n" +
+                "WHERE {\n" +
+                "  ?subject <http://localhost/predikati/resenjeZa> ?resenjeZa .\n" +
+                "  ?subject <http://localhost/predikati/doneseno> ?doneseno .\n" +
+                "  ?subject <http://localhost/predikati/prihvacena> ?prihvacena .\n" +
+                "  ?subject <http://localhost/predikati/zalilac> ?zalilac .\n" +
+                "  ?subject <http://localhost/predikati/upucujeSe> ?upucujeSe .\n" +
+                "  ?subject <http://localhost/predikati/datumPodnosenjaZahteva> ?datumPodnosenjaZahteva .\n" +
+                "  FILTER (regex(str(?resenjeZa), \"%s\")) .\n" +
+                "  FILTER (regex(str(?doneseno), \"%s\")) .\n" +
+                "  FILTER (regex(str(?prihvacena), \"%s\")) .\n" +
+                "  FILTER (regex(str(?zalilac), \"%s\")) .\n" +
+                "  FILTER (regex(str(?upucujeSe), \"%s\")) .\n" +
+                "  FILTER (regex(str(?datumPodnosenjaZahteva), \"%s\")) .\n" +
+                "}\n" +
+                "LIMIT 100";
+
+        // NO ESCAPE!
+        sparqlQuery = String.format(
+                sparqlQuery,
+                query.resenjeZa,
+                query.doneseno,
+                query.prihvacena,
+                query.zalilac,
+                query.upucujeSe,
+                query.datumPodnosenjaZahteva);
+
+        return resenjeRepository.queryRDF(sparqlQuery);
+    }
+
 }
