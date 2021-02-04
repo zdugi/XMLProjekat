@@ -9,5 +9,11 @@ const CitizenPage = Vue.component('citizen-page', {
         </ul>
         <router-view></router-view>
     </div>
-    `
+    `,
+    mounted() {
+        if (!localStorage.getItem('currentUser'))
+            this.$router.push({ path: '/login' });
+
+        var user = localStorage.getItem('currentUser')
+    }
 });

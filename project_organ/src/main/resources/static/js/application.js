@@ -61,5 +61,13 @@ const router = new VueRouter({
 
 var app = new Vue({
     router,
-    el: '#app'
+    el: '#app',
+    beforeCreate() {
+        var user = localStorage.getItem('currentUser');
+
+        if (user) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + JSON.parse(user).token;
+            console.log('token loaded');
+        }
+    }
 })
