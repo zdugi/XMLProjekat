@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-                .authorizeRequests().antMatchers("/api/auth/login").permitAll()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
                 .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated().and()
                 .cors()
@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring()
-                .antMatchers(HttpMethod.POST, "/api/auth/login");
+                .antMatchers(HttpMethod.POST, "/api/**");
         //.antMatchers(HttpMethod.POST, "/cultural-offers/search");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js", "/api/complaint/simple-search", "/api/complaint/rdf/**", "/api/complaint/xhtml/**", "/api/complaint/json/**", "/api/complaint/pdf/**",
