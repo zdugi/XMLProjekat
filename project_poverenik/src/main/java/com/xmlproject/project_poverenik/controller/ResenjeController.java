@@ -111,23 +111,24 @@ public class ResenjeController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-/*
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getComplaintsIDListUser() {
+    public ResponseEntity<?> getSolutionIDListUser() {
         Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery();
-        query.authorityRegex = "";
-        query.placeRegex = "";
-        query.stateRegex = "";
-        query.submissionDateRegex = "";
-        query.applicantRegex = userDetails.getId();
+        ResolutionsAdvanceSearchQuery query = new ResolutionsAdvanceSearchQuery();
+        query.datumPodnosenjaZahteva = "";
+        query.doneseno = "";
+        query.prihvacena = "";
+        query.resenjeZa = "";
+        query.upucujeSe = "";
+        query.zalilac = userDetails.getId();
         return new ResponseEntity<>(resenjeService.queryRDF(query).toString(), HttpStatus.OK);
 
 
         //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
-*/
+
     @GetMapping(path = "/xhtml/{id}")
     public ResponseEntity<?> getSolutionHTML(@PathVariable String id) throws FileNotFoundException {
         return new ResponseEntity<>(

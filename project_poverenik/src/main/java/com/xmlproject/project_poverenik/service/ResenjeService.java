@@ -240,7 +240,7 @@ public class ResenjeService extends AbsService {
         TDatum datumZ = new TDatum();
 
         // zalilac?
-        Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         zalilac.setRel("pred:zalilac");
         zalilac.setHref("http://localhost:8081/korisnik/" + trazilacId);

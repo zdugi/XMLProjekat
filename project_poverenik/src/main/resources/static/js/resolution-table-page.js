@@ -49,7 +49,7 @@ const ResolutionTablePage = Vue.component("resolution-table-page-component", {
                              console.log(response.data)
                              $(results).each(function(){
                                  requestUri = $(this).find('[name="subject"]').find('uri').text();
-                                 self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1))
+                                 self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml")
                              });
                          },
                          error => {
