@@ -7,6 +7,7 @@ import com.organ.project_organ.pojo.ResourcesListDTO;
 import com.organ.project_organ.repository.impl.IzvestajRepository;
 import com.organ.project_organ.service.IzvestajService;
 import com.organ.project_organ.util.Converter;
+import com.organ.project_organ.ws.zalba.ZalbaInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -17,11 +18,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import javax.xml.ws.Response;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Principal;
 
 @RestController
@@ -40,13 +46,26 @@ public class IzvestajController {
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getReportsIDList(Principal principal) {
         try {
+            // TODO: SKLONITI OVO
+            // ostavljeno samo kao referenca, pozivanje metode iz zalba servisa
+            URL wsdl = new URL("http://localhost:8081/ws/zalba?wsdl");
+            QName serviceName = new QName("http://soap.spring.com/ws/zalba", "ZalbaService");
+            QName portName = new QName("http://soap.spring.com/ws/zalba", "ZalbaPort");
 
+            Service service = Service.create(wsdl, serviceName);
+
+            ZalbaInterface address = service.getPort(portName, ZalbaInterface.class);
+            //kreiranje objekta
+
+            System.out.println(address.getZalbe());
             return new ResponseEntity<>(Converter.fromStringArray(izvestajService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 

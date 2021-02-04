@@ -3,6 +3,7 @@ package com.xmlproject.project_poverenik.ws.endpoint;
 import javax.xml.ws.Endpoint;
 
 import com.xmlproject.project_poverenik.ws.izvestaj.IzvestajPortImpl;
+import com.xmlproject.project_poverenik.ws.zalba.ZalbaPortImpl;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,28 @@ public class EndpointConfig {
 
 	@Autowired
 	private Bus bus;
-	
+
+	@Autowired
+	private IzvestajPortImpl izvestajPortImpl;
+
+	@Autowired
+	private ZalbaPortImpl zalbaPortImpl;
+
+
 	@Bean
 	public Endpoint izvestajEndpoint() {
 		EndpointImpl endpoint = new EndpointImpl(bus, new IzvestajPortImpl());
 		endpoint.publish("/report");
 		return endpoint;
 	}
-	
+
+
+	@Bean
+	public Endpoint zalbaEndpoint() {
+		EndpointImpl endpoint = new EndpointImpl(bus, new ZalbaPortImpl());
+		endpoint.publish("/zalba");
+		return endpoint;
+	}
+
+
 }

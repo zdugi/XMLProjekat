@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ZalbaService" targetNamespace="http://soap.spring.com/ws/zalba" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.spring.com/ws/zalba" xmlns:ns1="http://ftn.uns.ac.rs/xml_zalbanaodluku" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:ns1="http://ftn.uns.ac.rs/xml_opste" xmlns:pred="http://localhost/predikati/" xmlns:tns="http://ftn.uns.ac.rs/xml_zalbanaodluku" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_zalbanaodluku" version="1.0">
+
+  <xs:import namespace="http://ftn.uns.ac.rs/xml_opste"/>
+
+  <xs:element name="ZalbaNaOdluku" type="tns:zalba"/>
+
+  <xs:complexType name="zalba">
+    <xs:sequence>
+      <xs:element name="Primalac" type="xs:string"/>
+      <xs:element name="Adresa_primaoca" type="ns1:TAdresa"/>
+      <xs:element name="Telo_zalbe_na_odluku" type="tns:TTelo_Zalbe_Odluka"/>
+      <xs:element name="DodatneInformacije" type="ns1:TDodatne_informacije"/>
+      <xs:element name="Napomene">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="Napomena" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Status" type="tns:Status"/>
+    </xs:sequence>
+    <xs:attribute name="naziv" type="xs:string"/>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+    <xs:attribute name="about" type="xs:string"/>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="prihvacena" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType mixed="true" name="TTelo_Zalbe_Odluka">
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element name="Datum_podnosenja_zahteva" type="ns1:TDatum"/>
+        <xs:element name="OrganDonosilacOdluke" type="ns1:TOrgan"/>
+        <xs:element name="Zakon" type="ns1:TZakon"/>
+        <xs:element name="ZalilacOrgan" type="ns1:TOrgan"/>
+        <xs:element name="BrojResenja" type="ns1:TIdResenja"/>
+        <xs:element name="OpisZalbe" type="xs:string"/>
+        <xs:element name="Adresa" type="ns1:TAdresa"/>
+        <xs:element name="ZalilacOsoba" type="ns1:TOsoba"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Status">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="property" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType final="#all" name="zalbaArray">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="tns:zalba"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:tns="http://ftn.uns.ac.rs/xml_opste" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ftn.uns.ac.rs/xml_opste" version="1.0">
+
+  <xs:complexType name="TAdresa">
+    <xs:sequence>
+      <xs:element name="Ulica" type="xs:string"/>
+      <xs:element name="Broj" type="xs:positiveInteger"/>
+      <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
+      <xs:element name="Mesto">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Drzava">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TOrgan">
+    <xs:sequence>
+      <xs:element name="Naziv">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="property" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TOsoba">
+    <xs:sequence>
+      <xs:element name="Ime" type="xs:string"/>
+      <xs:element name="Prezime" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="about" type="xs:string"/>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="TDatum">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="property" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="TIdResenja">
+    <xs:sequence>
+      <xs:element name="Broj" type="xs:string"/>
+      <xs:element name="Godina" type="xs:positiveInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TZakon">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="Clan_zakona" type="xs:string"/>
+      <xs:element name="Naziv_zakona" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TDodatne_informacije">
+    <xs:sequence>
+      <xs:element name="Mesto" type="xs:string"/>
+      <xs:element name="Datum" type="tns:TDatum"/>
+      <xs:element name="Trazilac" type="tns:TTrazilac"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TTrazilac">
+    <xs:sequence>
+      <xs:element name="Osoba" type="tns:TOsoba"/>
+      <xs:element minOccurs="0" name="Adresa" type="tns:TAdresa"/>
+      <xs:element minOccurs="0" name="Kontakt" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="rel" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getZalbeResponse">
+    <wsdl:part name="return" type="ns1:zalbaArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getZalbe">
+  </wsdl:message>
+  <wsdl:portType name="ZalbaInterface">
+    <wsdl:operation name="getZalbe">
+      <wsdl:input name="getZalbe" message="tns:getZalbe">
+    </wsdl:input>
+      <wsdl:output name="getZalbeResponse" message="tns:getZalbeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZalbaServiceSoapBinding" type="tns:ZalbaInterface">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getZalbe">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getZalbe">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/zalba"/>
+      </wsdl:input>
+      <wsdl:output name="getZalbeResponse">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/zalba"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZalbaService">
+    <wsdl:port name="ZalbaPort" binding="tns:ZalbaServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ZalbaPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
