@@ -103,8 +103,10 @@ public abstract class AbsService {
             transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
+
             // Generate XHTML
             transformer.setOutputProperty(OutputKeys.METHOD, "xhtml");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
             // Transform DOM to HTML
             DOMSource source = new DOMSource(buildDocument(new ByteArrayInputStream(os.toString().getBytes())));

@@ -23,7 +23,7 @@ const CitizenPage = Vue.component('citizen-page', {
 
         var user = JSON.parse(localStorage.getItem('currentUser'));
 
-        if (user.role == 'ROLE_OFFICIAL')
+        if (user.roles == 'ROLE_OFFICIAL')
             this.$router.push({ path: '/official' });
     }
 });

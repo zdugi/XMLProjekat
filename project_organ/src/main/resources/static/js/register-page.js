@@ -10,7 +10,8 @@ const RegisterPage = Vue.component('register-page', {
             drzava: '',
             email: '',
             sifra: '',
-            uloga: 'citizen'
+            uloga: 'citizen',
+            kontakt: ''
         }
     },
     template: `
@@ -26,6 +27,7 @@ const RegisterPage = Vue.component('register-page', {
             <input v-model="drzava" minlength="3" type="text" name="drzava" placeholder="Drzava" required/>
             <input v-model="email" minlength="3" type="email" name="email" placeholder="Email" required/>
             <input v-model="sifra" minlength="3" type="password" name="password" placeholder="Sifra" required/>
+            <input v-model="kontakt" minlength="3" type="text" name="kontakt" placeholder="Kontakt" required/>
             <select v-model="uloga" required>
                 <option value="citizen">Gradjanin</option>
                 <option value="official">Organ vlasti</option>
@@ -39,7 +41,7 @@ const RegisterPage = Vue.component('register-page', {
             var xmlBody = '<korisnik ' +
                             'ime="' + this.ime + '" ' +
                             'prezime="' + this.prezime + '" ' +
-                            'ulica="' + this.prezime + '" ' +
+                            'ulica="' + this.ulica + '" ' +
                             'broj="' + this.broj + '" ' +
                             'postanskiBroj="' + this.postanskiBroj + '" ' +
                             'mesto="' + this.mesto + '" ' +
@@ -47,13 +49,14 @@ const RegisterPage = Vue.component('register-page', {
                             'email="' + this.email + '" ' +
                             'password="' + this.sifra + '" ' +
                             'role="' + this.uloga + '" ' +
+                            'kontakt="' + this.kontakt + '" ' +
                           '/>';
 
             console.log('poslato', xmlBody);
 
             axios.post('/api/auth/register', xmlBody, { headers: {'Content-Type': 'application/xml'} }).then(
             response => {
-                this.$router.push({ name: '/login' });
+                this.$router.push({ path: '/login' });
             },
             error => {
                 alert('Doslo je do greske prilikom registracije. Pokusajte ponovo.')

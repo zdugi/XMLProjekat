@@ -14,10 +14,10 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
             </tr>
             <tr v-for="item in requests">
                 <td>{{ item }}</td>
-                <td><a v-bind:href="'api/requests/xhtml/' + item" target="_blank">XHTML</a></td>
-                <td><a v-bind:href="'api/requests/pdf/' + item" target="_blank">PDF</a></td>
-                <td><a v-bind:href="'api/requests/rdf/' + item" target="_blank">RDF</a></td>
-                <td><a v-bind:href="'api/requests/json/' + item" target="_blank">JSON</a></td>
+                <td><a v-bind:href="'/api/requests/xhtml/' + item" target="_blank">XHTML</a></td>
+                <td><a v-bind:href="'/api/requests/pdf/' + item" target="_blank">PDF</a></td>
+                <td><a v-bind:href="'/api/requests/rdf/' + item" target="_blank">RDF</a></td>
+                <td><a v-bind:href="'/api/requests/json/' + item" target="_blank">JSON</a></td>
             </tr>
         </table>
     </div>

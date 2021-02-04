@@ -80,6 +80,8 @@ public class UserService implements UserDetailsService {
 		adresa.setDrzava(drzava);
 		tl.setAdresa(adresa);
 
+		tl.setKontakt(userDTO.kontakt);
+
 		adresa.setPostanskiBroj(BigInteger.valueOf(Long.valueOf(userDTO.postanskiBroj)));
 		newUser.setLicneInformacije(tl);
 		String id = UUID.randomUUID().toString();

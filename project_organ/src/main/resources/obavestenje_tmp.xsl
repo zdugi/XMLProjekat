@@ -3,6 +3,7 @@
     <xsl:template match="/">
         <html xmlns:zahtev="http://ftn.uns.ac.rs/xml_obavestenje" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
         <head>
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
             <style>
                 body {
                 font-family: Arial Unicode MS, FreeSans;

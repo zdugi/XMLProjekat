@@ -3,6 +3,7 @@
     <xsl:template match="/">
         <html xmlns:zahtev="http://ftn.uns.ac.rs/xml_zahtev" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
             <head>
+                    <META content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
                     <style>
                         body {
                         font-family: Arial Unicode MS, FreeSans;
@@ -41,7 +42,7 @@
                     </p>
                     <p align="center">naziv i sedište organa kome se zahtev upućuje</p>
                 </div>
-                <p style="margin-top: 50px;" align="center"><b>Z A H T E V </b><br/><b>za pristup informaciji od javnog značaja</b></p>
+                <p style="margin-top: 50px;" align="center"><b>Z A H T E V</b><br/><b>za pristup informaciji od javnog značaja</b></p>
                 <p style="margin-top: 50px;">
                     <xsl:value-of select="//zahtev:Telo_zahteva/zahtev:Paragraf/text()"/>
                 </p>

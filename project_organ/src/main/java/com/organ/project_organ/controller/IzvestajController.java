@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 
@@ -20,6 +21,8 @@ import javax.xml.ws.Response;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -27,14 +30,17 @@ public class IzvestajController {
     @Autowired
     private IzvestajService izvestajService;
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @PostMapping(path = "generate", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> generateReport() throws Exception {
         return new ResponseEntity("<Response>" + izvestajService.generateReport() + "</Response>", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getRequestsIDList() {
+    public ResponseEntity<?> getReportsIDList(Principal principal) {
         try {
+
             return new ResponseEntity<>(Converter.fromStringArray(izvestajService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {
             e.printStackTrace();
@@ -64,21 +70,22 @@ public class IzvestajController {
     }
 
     @GetMapping(path = "/xhtml/{id}")
-    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException {
+    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException, UnsupportedEncodingException {
         return new ResponseEntity<>(
-                izvestajService.generateHTML(id).toString(), HttpStatus.OK);
+                izvestajService.generateHTML(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/rdf/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestRDF(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(izvestajService.getOneRDF(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(izvestajService.getOneRDF(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/json/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(izvestajService.getOneJSON(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(izvestajService.getOneJSON(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> simpleSearch(@RequestParam String query) {
         if (query == null || query.trim().isEmpty())
@@ -92,11 +99,12 @@ public class IzvestajController {
         return new ResponseEntity(resources, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> advanceSearch(@RequestBody ReportsAdvanceSearchQuery query) {
+    public ResponseEntity<?> advanceSearch(@RequestBody ReportsAdvanceSearchQuery query) throws UnsupportedEncodingException {
         if (query.numberOfDeclinedRegex.isEmpty() && query.numberOfSubmittedRegex.isEmpty() && query.dateRegex.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(izvestajService.queryRDF(query).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(izvestajService.queryRDF(query).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
 }

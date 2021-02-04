@@ -35,32 +35,32 @@ import java.io.*;
 import java.util.ArrayList;
 
 public abstract class Repository<T1> {
-    private final String NAMED_GRAPH_URI;
-    private final String COLLECTION_ID;
-    private final String INSTANCE_PATH;
+    protected final String NAMED_GRAPH_URI;
+    protected final String COLLECTION_ID;
+    protected final String INSTANCE_PATH;
 
     @Value("${conn.uri}")
-    private String connUri;
+    protected String connUri;
 
     @Value("${conn.user}")
-    private String connUser;
+    protected String connUser;
 
     @Value("${conn.password}")
-    private String connPassword;
+    protected String connPassword;
 
     @Value("${conn.driver}")
-    private String connDriver;
+    protected String connDriver;
 
     @Value("${conn.update.endpoint}")
-    private String connUpdateEndpoint;
+    protected String connUpdateEndpoint;
 
     @Value("${conn.data.endpoint}")
-    private String connDataEndpoint;
+    protected String connDataEndpoint;
 
     @Value("${conn.query.endpoint}")
-    private String queryEndpoint;
+    protected String queryEndpoint;
 
-    private String xqueryTextContain;
+    protected String xqueryTextContain;
 
 
     public Repository(
@@ -155,8 +155,6 @@ public abstract class Repository<T1> {
 
     public ByteArrayOutputStream getOneMetadataJSON(String id) throws Exception {
         Model model = ModelFactory.createDefaultModel();
-
-        String rdfFilePath = "gen/contacts.rdf";
 
         // Automatic extraction of RDF triples from XML file
         MetadataExtractor metadataExtractor = new MetadataExtractor();

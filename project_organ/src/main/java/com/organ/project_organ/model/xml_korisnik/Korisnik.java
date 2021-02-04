@@ -143,6 +143,9 @@ public class Korisnik implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<String> list = new ArrayList<>();
         list.add(this.getAutorizacijaInformacije().getRole());
+        for (Auth a : list.stream().map(Auth::new).collect(Collectors.toList())){
+            System.out.println(a.getAuthority());
+        }
         return list.stream().map(Auth::new).collect(Collectors.toList());
     }
 

@@ -60,7 +60,7 @@ public class IzvestajService extends AbsService {
 
         Izvestaj.PodnetiZahtevi podnetiZahtevi = new Izvestaj.PodnetiZahtevi();
         //TODO fix
-        podnetiZahtevi.setValue(BigInteger.valueOf(/*zahtevRepository.listResources().length*/666));
+        podnetiZahtevi.setValue(BigInteger.valueOf(zahtevRepository.listResources().length));
         izvestaj.setPodnetiZahtevi(podnetiZahtevi);
         podnetiZahtevi.setProperty("pred:brojPod");
 

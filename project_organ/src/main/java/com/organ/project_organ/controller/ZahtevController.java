@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 
@@ -17,6 +18,7 @@ import javax.print.attribute.standard.Media;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import java.io.*;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/requests")
@@ -24,10 +26,11 @@ public class ZahtevController {
     @Autowired
     private ZahtevService zahtevService;
 
+    @PreAuthorize("hasRole('ROLE_CITIZEN')")
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> createRequest(@RequestBody ZahtevDokumentDTO zahtevDokumentDTO) {
+    public ResponseEntity<?> createRequest(@RequestBody ZahtevDokumentDTO zahtevDokumentDTO, Principal principal) {
         try {
-            zahtevService.create(zahtevDokumentDTO);
+            zahtevService.create(zahtevDokumentDTO, principal.getName());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
@@ -36,14 +39,10 @@ public class ZahtevController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getRequestsIDList() {
+    public ResponseEntity<?> getRequestsIDList(Principal principal) {
         try {
-            return new ResponseEntity<>(Converter.fromStringArray(zahtevService.getList()), HttpStatus.OK);
-        } catch (XMLDBException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+            return new ResponseEntity<>(Converter.fromStringArray(zahtevService.getRequestsIDList(principal.getName())), HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -67,21 +66,22 @@ public class ZahtevController {
     }
 
     @GetMapping(path = "/xhtml/{id}")
-    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException {
+    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException, UnsupportedEncodingException {
         return new ResponseEntity<>(
-                zahtevService.generateHTML(id).toString(), HttpStatus.OK);
+                zahtevService.generateHTML(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/rdf/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestRDF(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(zahtevService.getOneRDF(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(zahtevService.getOneRDF(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/json/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(zahtevService.getOneJSON(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(zahtevService.getOneJSON(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> simpleSearch(@RequestParam String query) {
         if (query == null || query.trim().isEmpty())
@@ -95,11 +95,12 @@ public class ZahtevController {
         return new ResponseEntity(resources, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
     @PostMapping(path = "/advance-search", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> advanceSearch(@RequestBody RequestsAdvanceSearchQuery query) {
+    public ResponseEntity<?> advanceSearch(@RequestBody RequestsAdvanceSearchQuery query) throws UnsupportedEncodingException {
         if (query.applicantRegex.isEmpty() && query.submissionDateRegex.isEmpty() &&
             query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(zahtevService.queryRDF(query).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(zahtevService.queryRDF(query).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 }

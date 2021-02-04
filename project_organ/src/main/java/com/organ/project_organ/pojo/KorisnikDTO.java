@@ -39,4 +39,7 @@ public class KorisnikDTO {
 
     @XmlAttribute
     public String role;
+
+    @XmlAttribute
+    public String kontakt;
 }

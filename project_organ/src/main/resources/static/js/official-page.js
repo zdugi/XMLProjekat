@@ -12,7 +12,7 @@ const OfficialPage = Vue.component('official-page', {
             <li>/</li>
             <li><router-link to="/official/create-response">Dodaj obavestenje</router-link></li>
             <li>/<li>
-            <li><a href="#logout">Odjavi se</a></li>
+            <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
         </ul>
         <router-view></router-view>
     </div>
@@ -30,7 +30,7 @@ const OfficialPage = Vue.component('official-page', {
 
             var user = JSON.parse(localStorage.getItem('currentUser'));
 
-            if (user.role == 'ROLE_CITIZEN')
+            if (user.roles == 'ROLE_CITIZEN')
                 this.$router.push({ path: '/citizen' });
     }
 });

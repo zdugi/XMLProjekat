@@ -3,7 +3,7 @@
     <xsl:template match="/">
         <html xmlns:izvestaj="http://ftn.uns.ac.rs/xml_izvestaj" xmlns:opste="http://ftn.uns.ac.rs/xml_opste">
             <head>
-
+                <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
             </head>
             <body>
                 <h1>Izvestaj</h1>

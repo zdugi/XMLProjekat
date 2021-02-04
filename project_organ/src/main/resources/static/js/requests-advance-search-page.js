@@ -28,10 +28,10 @@ const RequestsAdvanceSearchPage = Vue.component("requests-advance-search-page-co
                     </tr>
                     <tr v-for="item in requests">
                         <td>{{ item }}</td>
-                        <td><a v-bind:href="'api/requests/xhtml/' + item" target="_blank">XHTML</a></td>
-                        <td><a v-bind:href="'api/requests/pdf/' + item" target="_blank">PDF</a></td>
-                        <td><a v-bind:href="'api/requests/rdf/' + item" target="_blank">RDF</a></td>
-                        <td><a v-bind:href="'api/requests/json/' + item" target="_blank">JSON</a></td>
+                        <td><a v-bind:href="'/api/requests/xhtml/' + item" target="_blank">XHTML</a></td>
+                        <td><a v-bind:href="'/api/requests/pdf/' + item" target="_blank">PDF</a></td>
+                        <td><a v-bind:href="'/api/requests/rdf/' + item" target="_blank">RDF</a></td>
+                        <td><a v-bind:href="'/api/requests/json/' + item" target="_blank">JSON</a></td>
                     </tr>
                 </table>
             </div>
@@ -57,6 +57,7 @@ const RequestsAdvanceSearchPage = Vue.component("requests-advance-search-page-co
 
             axios.post('/api/requests/advance-search', xmlBody, { headers: {'Content-Type': 'application/xml'} }).then(
                 response => {
+                    self.requests = [];
                     xmlDoc = $.parseXML(response.data);
                     results = $(xmlDoc).find('result');
 
