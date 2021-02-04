@@ -167,7 +167,8 @@ public class ZahtevService extends AbsService {
         trazilac.setOsoba(korisnik.getLicneInformacije().getOsoba());
 
         dodatne.setDatum(datum);
-        dodatne.setMesto(zahtev.mestoPodnosenja.naziv);
+        // dodatne.setMesto(zahtev.mestoPodnosenja.naziv);
+        dodatne.setMesto(korisnik.getLicneInformacije().getAdresa().getMesto().getValue());
         dodatne.setTrazilac(trazilac);
 
         // set dodatne

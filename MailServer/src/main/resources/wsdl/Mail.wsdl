@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="MailService" targetNamespace="http://soap.spring.com/ws/mail" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.spring.com/ws/mail" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://jaxb.dev.java.net/array" version="1.0">
+
+  <xs:complexType final="#all" name="stringArray">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendMail">
+    <wsdl:part name="subject" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="body" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="recipients" type="ns1:stringArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendMailResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MailInterface">
+    <wsdl:operation name="sendMail">
+      <wsdl:input name="sendMail" message="tns:sendMail">
+    </wsdl:input>
+      <wsdl:output name="sendMailResponse" message="tns:sendMailResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MailServiceSoapBinding" type="tns:MailInterface">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendMail">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="sendMail">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/mail"/>
+      </wsdl:input>
+      <wsdl:output name="sendMailResponse">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/mail"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MailService">
+    <wsdl:port name="MailPort" binding="tns:MailServiceSoapBinding">
+      <soap:address location="http://localhost:9090/MailPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
