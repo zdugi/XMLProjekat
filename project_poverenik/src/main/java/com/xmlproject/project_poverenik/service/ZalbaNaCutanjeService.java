@@ -10,6 +10,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TRazloziZalbe
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
+import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,6 +44,20 @@ public class ZalbaNaCutanjeService extends AbsService {
     }
 
     public void create (ZalbaNaCutanjeDTO zalbaNaCutanje) throws Exception {
+        URL wsdlLocation = new URL("http://localhost:8089/ws/request?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/request", "ZahtevService");
+        QName portName = new QName("http://soap.spring.com/ws/request", "ZahtevPort");
+
+        javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+        ZahtevInterface zahtevInterface = service.getPort(portName, ZahtevInterface.class);
+
+        Zahtev zahtev = zahtevInterface.getRequest(zalbaNaCutanje.idZahteva);
+
+        if (zahtev == null){
+            throw new Exception("Zahtev sa unetim ID-jem ne postoji ili se desila neka greska!");
+        }
+
         Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         ObjectFactory factory = new ObjectFactory();
@@ -85,7 +101,7 @@ public class ZalbaNaCutanjeService extends AbsService {
         TOrgan organ = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue("Назив органа из захтева");
+        naziv.setValue(zahtev.getOrgan().getNaziv().getValue());
         organ.setNaziv(naziv);
 
         JAXBElement<TOrgan> organTelo = new JAXBElement<TOrgan>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Organ"), TOrgan.class, organ);
@@ -117,7 +133,7 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         // ovaj datum izvlacim iz zahteva
         TDatum datum = new TDatum();
-        datum.setValue("датум из захтева");
+        datum.setValue(zahtev.getDodatneInformacije().getDatum().getValue());
         JAXBElement<TDatum> datumTelo = new JAXBElement<TDatum>(new QName("http://ftn.uns.ac.rs/xml_zalba_na_cutanje", "Datum_podnosenja_zahteva"), TDatum.class, datum);
         tTeloZalbe.getContent().add(datumTelo);
 
@@ -161,8 +177,8 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
         trazilac.setAdresa(tAdresa);
-        trazilac.setKontakt("[uzimam iz sesije]");
-        trazilac.setOsoba(osoba);
+        trazilac.setKontakt("[uzimam iz sesije]");      // staviti kontakt podnosioca/ulogovanog, ja ga nemam u bazi
+        trazilac.setOsoba(osoba);                       // pa bi puklo da uradim .getContact()
 
         tDodatneInformacije.setTrazilac(trazilac);
 

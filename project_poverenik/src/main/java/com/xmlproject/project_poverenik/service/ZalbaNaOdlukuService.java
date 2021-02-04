@@ -3,12 +3,16 @@ package com.xmlproject.project_poverenik.service;
 import com.itextpdf.text.DocumentException;
 import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
+import com.xmlproject.project_poverenik.model.xml_zahtev.Zahtev;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ObjectFactory;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.TTeloZalbeOdluka;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
+import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -23,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.UUID;
 
 @Service
@@ -38,6 +43,20 @@ public class ZalbaNaOdlukuService extends AbsService{
     }
 
     public void create (ZalbaNaOdlukuDTO zalbaNaOdlukuDTO) throws Exception {
+        URL wsdlLocation = new URL("http://localhost:8089/ws/request?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/request", "ZahtevService");
+        QName portName = new QName("http://soap.spring.com/ws/request", "ZahtevPort");
+
+        javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+        ZahtevInterface zahtevInterface = service.getPort(portName, ZahtevInterface.class);
+
+        Zahtev zahtev = zahtevInterface.getRequest(zalbaNaOdlukuDTO.idZahteva);
+
+        if (zahtev == null){
+            throw new Exception("Zahtev sa unetim ID-jem ne postoji ili se desila neka greska!");
+        }
+
         Korisnik userDetails = (Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         ObjectFactory factory = new ObjectFactory();
@@ -133,7 +152,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         TOrgan organDonosilacOdluke = new TOrgan();
         TOrgan.Naziv naziv = new TOrgan.Naziv();
         naziv.setProperty("pred:upucujeSe");
-        naziv.setValue("Орган из захтева");
+        naziv.setValue(zahtev.getOrgan().getNaziv().getValue());
         //organDonosilacOdluke.setAdresa(adresa1);    // na primjer, treba izvuci
                                                         // ovde je bila greska
         organDonosilacOdluke.setNaziv(naziv);
@@ -152,7 +171,7 @@ public class ZalbaNaOdlukuService extends AbsService{
         teloZalbeOdluka.getContent().add("Наведеном одлуком органа власти (решењем, закључком, обавештењем у писаној форми са елементима одлуке) , супротно закону, одбијен-одбачен је мој захтев који сам поднео/ла-упутио/ла дана");
 
         TDatum datumPodnosenjaZahteva = new TDatum();
-        datumPodnosenjaZahteva.setValue("neki datum");
+        datumPodnosenjaZahteva.setValue(zahtev.getDodatneInformacije().getDatum().getValue());
         JAXBElement<TDatum> datumPodnosenjaZahtevaJ = new JAXBElement<TDatum>(new QName("http://ftn.uns.ac.rs/xml_zalbanaodluku", "Datum_podnosenja_zahteva"), TDatum.class, datumPodnosenjaZahteva);
 
         teloZalbeOdluka.getContent().add(datumPodnosenjaZahtevaJ);
@@ -170,7 +189,7 @@ public class ZalbaNaOdlukuService extends AbsService{
 
         TDatum datumDI = new TDatum();
 
-        datumDI.setValue("[ovde ce se generisati vrednost]");
+        datumDI.setValue("[danasnji datum]");
         datumDI.setProperty("pred:podnosenje");
         tDodatneInformacije.setDatum(datumDI);
 
@@ -186,10 +205,10 @@ public class ZalbaNaOdlukuService extends AbsService{
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
         trazilac.setAdresa(tAdresa);
-        trazilac.setKontakt("[uzimam iz sesije]");
+        trazilac.setKontakt(zahtev.getDodatneInformacije().getTrazilac().getKontakt());
         trazilac.setOsoba(osoba);
 
-        tDodatneInformacije.setMesto("Место подношења");
+        tDodatneInformacije.setMesto("Место подношења, ovo sam stavila u servisu");
         tDodatneInformacije.setTrazilac(trazilac);
 
         zalbaNaOdluku.setTeloZalbeNaOdluku(teloZalbeOdluka);
