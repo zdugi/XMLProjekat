@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="PorukaService" targetNamespace="http://soap.spring.com/ws/message" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.spring.com/ws/message" xmlns:ns1="http://ftn.uns.ac.rs/poruka" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:tns="http://ftn.uns.ac.rs/poruka" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ftn.uns.ac.rs/poruka" version="1.0">
+
+  <xs:element name="Poruka" type="tns:poruka"/>
+
+  <xs:complexType name="poruka">
+    <xs:sequence/>
+    <xs:attribute name="Telo" type="xs:string"/>
+    <xs:attribute name="Vreme" type="xs:integer"/>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendMessage">
+    <wsdl:part name="msg" type="ns1:poruka">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendMessageResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Poruka">
+    <wsdl:operation name="sendMessage">
+      <wsdl:input name="sendMessage" message="tns:sendMessage">
+    </wsdl:input>
+      <wsdl:output name="sendMessageResponse" message="tns:sendMessageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PorukaServiceSoapBinding" type="tns:Poruka">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendMessage">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="sendMessage">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/message"/>
+      </wsdl:input>
+      <wsdl:output name="sendMessageResponse">
+        <soap:body use="literal" namespace="http://soap.spring.com/ws/message"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PorukaService">
+    <wsdl:port name="PorukaPort" binding="tns:PorukaServiceSoapBinding">
+      <soap:address location="http://localhost:9090/PorukaPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

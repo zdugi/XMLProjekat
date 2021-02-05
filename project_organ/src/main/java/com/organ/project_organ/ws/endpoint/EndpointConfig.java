@@ -2,6 +2,7 @@ package com.organ.project_organ.ws.endpoint;
 
 import javax.xml.ws.Endpoint;
 
+import com.organ.project_organ.ws.poruka.PorukaPortImpl;
 import com.organ.project_organ.ws.resenje.ResenjePortImpl;
 import com.organ.project_organ.ws.zahtev.ZahtevPortImpl;
 import com.organ.project_organ.ws.zahtev.ZahtevService;
@@ -26,6 +27,9 @@ public class EndpointConfig {
 	@Autowired
 	private ResenjePortImpl resenjePort;
 
+	@Autowired
+	private PorukaPortImpl porukaPort;
+
 	@Bean
 	public Endpoint zahtevEndpoint() {
 		EndpointImpl endpoint = new EndpointImpl(bus, zahtevPort);
@@ -40,4 +44,10 @@ public class EndpointConfig {
 		return endpoint;
 	}
 
+	@Bean
+	public Endpoint porukaEndpoint() {
+		EndpointImpl endpoint = new EndpointImpl(bus, porukaPort);
+		endpoint.publish("/message");
+		return endpoint;
+	}
 }

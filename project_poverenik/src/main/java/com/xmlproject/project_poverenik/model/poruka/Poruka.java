@@ -6,14 +6,10 @@
 //
 
 
-package com.organ.project_organ.model.poruka;
+package com.xmlproject.project_poverenik.model.poruka;
 
+import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
