@@ -34,7 +34,7 @@ const ListCreateReportPage = Vue.component('list-create-report-page-component', 
                         response => {
                             var xmlDoc = $.parseXML(response.data);
                             var self = this;
-                            $(xmlDoc).find('resource').each(function(){
+                            $(xmlDoc).find('complaint').each(function(){
                                 self.reports.push($(this).text());
                             });
                         },

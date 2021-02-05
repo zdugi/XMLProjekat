@@ -35,7 +35,7 @@ const ReportsSearchPage = Vue.component("reports-search-page-component", {
                             response => {
                                 self.reports = [];
                                 xmlDoc = $.parseXML(response.data);
-                                $(xmlDoc).find('resource').each(function(){
+                                $(xmlDoc).find('complaint').each(function(){
                                      self.reports.push($(this).text());
                                 });
                             },

@@ -77,7 +77,7 @@ public class IzvestajController {
         return new ResponseEntity<>(izvestajService.getOneJSON(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
+    @PreAuthorize("hasRole('ROLE_POVERENIK')")
     @GetMapping(path = "/simple-search", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> simpleSearch(@RequestParam String query) {
         if (query == null || query.trim().isEmpty())
