@@ -77,7 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/notification/xhtml/**").permitAll()
                 .antMatchers("/api/notification/rdf/**").permitAll()
                 .antMatchers("/api/notification/json/**").permitAll()
-                .antMatchers("/api/message").permitAll() //@TODO: change this
                 .anyRequest().authenticated().and()
                 .cors()
                 .and().addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userService), BasicAuthenticationFilter.class);

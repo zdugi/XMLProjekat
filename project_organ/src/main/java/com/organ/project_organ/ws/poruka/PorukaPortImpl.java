@@ -7,7 +7,7 @@
 package com.organ.project_organ.ws.poruka;
 
 import com.organ.project_organ.model.poruka.Poruka;
-import com.organ.project_organ.service.PorukaService;
+import com.organ.project_organ.repository.impl.PorukaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +34,15 @@ import javax.jws.soap.SOAPBinding;
 @Component
 public class PorukaPortImpl implements PorukaInterface {
 	@Autowired
-	private PorukaService porukaService;
+	private com.organ.project_organ.service.PorukaService porukaService;
 
 	@Override
 	public boolean sendMessage(Poruka msg) {
-		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
-		return true;
+		if (porukaService.saveMessage(msg)) {
+			System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
+			return true;
+		}
+		return false;
 	}
 
 }
