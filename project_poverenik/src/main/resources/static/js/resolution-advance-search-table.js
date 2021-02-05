@@ -60,8 +60,8 @@ const ResolutionsAdvanceSearchPage = Vue.component("resolutions-advance-search-p
                            "</request>";
         console.log(xmlBody);
             var self = this;
-
-            axios.post('/api/solution/advance-search', xmlBody, { headers: {'Content-Type': 'application/xml'} }).then(
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
+            axios.post('/api/solution/advance-search', xmlBody, { headers: {'Content-Type': 'application/xml','Authorization' : 'Bearer ' + token} }).then(
                 response => {
                     self.complaints = [];
                     xmlDoc = $.parseXML(response.data);

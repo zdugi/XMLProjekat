@@ -13,8 +13,24 @@ Vue.component('menu-component', {
         <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
          <li><router-link to="/advance-search-resolution">Napredna pretraga resenja</router-link></li>
 
-         <li><a href="#logout">Odjavi se</a></li>
+         <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
 
     </ul>
-    `
+    `,
+         methods: {
+                 logout() {
+                     localStorage.removeItem('currentUser');
+                     axios.defaults.headers.common['Authorization'] = '';
+                     this.$router.push({ path: '/' });
+                 }
+             },
+             mounted() {
+                 if (!localStorage.getItem('currentUser'))
+                     this.$router.push({ path: '/' });
+
+                 var user = JSON.parse(localStorage.getItem('currentUser'));
+
+                 if (user.roles == 'ROLE_USER')
+                     this.$router.push({ path: '/gradjanin' });
+             }
 })

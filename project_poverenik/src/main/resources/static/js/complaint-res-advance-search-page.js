@@ -54,8 +54,8 @@ const ComplaintResolutionAdvanceSearchPage = Vue.component("complaint-res-advanc
                            "</request>";
 
             var self = this;
-
-            axios.post('/api/complaint/resolution/advance-search', xmlBody, { headers: {'Content-Type': 'application/xml'} }).then(
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
+            axios.post('/api/complaint/resolution/advance-search', xmlBody, { headers: {'Content-Type': 'application/xml','Authorization' : 'Bearer ' + token} }).then(
                 response => {
                     xmlDoc = $.parseXML(response.data);
                     results = $(xmlDoc).find('result');

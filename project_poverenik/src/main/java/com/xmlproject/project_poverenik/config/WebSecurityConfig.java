@@ -6,8 +6,6 @@ import com.xmlproject.project_poverenik.security.auth.RestAuthenticationEntryPoi
 import com.xmlproject.project_poverenik.security.auth.TokenAuthenticationFilter;
 import com.xmlproject.project_poverenik.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -61,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/ws/**").permitAll()
+                .antMatchers("/public/favicon.ico").permitAll()
                 .anyRequest().authenticated().and()
                 .cors()
                 .and().addFilterBefore(new TokenAuthenticationFilter(tokenUtils, userService), BasicAuthenticationFilter.class);
@@ -74,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(HttpMethod.POST, "/api/auth/**");
         //.antMatchers(HttpMethod.POST, "/cultural-offers/search");
-        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/public/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js", "/api/complaint/simple-search", "/api/complaint/rdf/**", "/api/complaint/xhtml/**", "/api/complaint/json/**", "/api/complaint/pdf/**",
                 "/api/complaint/resolution/rdf/**", "/api/complaint/resolution/xhtml/**", "/api/complaint/resolution/json/**", "/api/complaint/resolution/pdf/**",
                 "/api/solution/rdf/**", "/api/solution/xhtml/**", "/api/solution/json/**", "/api/solution/pdf/**"
