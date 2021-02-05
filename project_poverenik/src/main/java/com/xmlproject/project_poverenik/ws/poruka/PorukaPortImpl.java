@@ -7,6 +7,8 @@
 package com.xmlproject.project_poverenik.ws.poruka;
 
 import com.xmlproject.project_poverenik.model.poruka.Poruka;
+import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
+import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,11 +38,40 @@ public class PorukaPortImpl implements PorukaInterface {
 	//@Autowired
 	//private PorukaService porukaService;
 
+	@Autowired
+	private ZalbaNaCutanjeService zalbaNaCutanjeService;
+
+	@Autowired
+	private ZalbaNaOdlukuService zalbaNaOdlukuService;
+
 	@Override
 	public boolean sendMessage(Poruka msg) {
 		// da li je prihvacena/odbijena i promijenim status
 		// split po spaceu, zadnja je prihvacena ili odbijena, predzanja je id zalbe i to provjeravamo
 		// i sacuvati u bazu
+		// format primljene poruke: "Zalba na "["odluku"|"cutanje"] [id zalbe] ['prihvacena'|'odbijena']
+		try {
+			String[] delovi = msg.getTelo().split(" ");
+			String prihvacena = delovi[delovi.length - 1];
+			String idZalbe = delovi[delovi.length - 2];
+			String odluka = delovi[delovi.length - 3];
+			String status;
+			if (prihvacena.equals("prihvacena")) status = "прихваћена";
+				else status = "чека решење";
+
+			if (odluka.equals("odluku")){
+				zalbaNaOdlukuService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+			}
+			if (odluka.equals("cutanje")){
+				zalbaNaCutanjeService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+			}
+
+		}catch (Exception e) {
+
+		}
+		// upisati poruku
+
+
 		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
 		return true;
 	}

@@ -23,8 +23,8 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <td><a v-bind:href="'api/complaint/resolution/json/' + item.id" target="_blank">JSON</a></td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">Sastavi resenje</router-link></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><router-link :to="'/resolution/обавестиорган'">Obavesti organ vlasti</router-link></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Odbijena ili prihvacena</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><button  @click='obavestiOrgan(item.id)'>Obavesti organ vlasti</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Zalba je {{item.status}}</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><button>Sastavi resenje</button></td>
 
@@ -32,6 +32,21 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
         </table>
     </div>
     `,
+    methods : {
+
+        obavestiOrgan(id){
+        var xmlBody = '<message '+
+                        'body="odluka ' + id + '" ' +
+                        '/>';
+                        console.log(xmlBody);
+                    var token = JSON.parse(localStorage.getItem('currentUser')).token;
+                    axios.post('/api/message', xmlBody, { headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token }}).then(
+                    response => {
+                         router.push("/messenger");
+                    });
+        }
+
+    },
     mounted() {
     var currentRole = JSON.parse(localStorage.getItem('currentUser')).roles;
     var token = JSON.parse(localStorage.getItem('currentUser')).token;

@@ -38,6 +38,7 @@ public class PorukaPortImpl implements PorukaInterface {
 
 	@Override
 	public boolean sendMessage(Poruka msg) {
+		System.out.println("primio sam poruku\n\n\n\n\n");
 		if (porukaService.saveMessage(msg)) {
 			System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
 			return true;
