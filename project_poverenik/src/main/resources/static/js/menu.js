@@ -9,9 +9,11 @@ Vue.component('menu-component', {
         <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
          <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
          <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
+         <li><router-link to="/reports-search">Pretraga izvestaja</router-link></li>
         <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
         <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
          <li><router-link to="/advance-search-resolution">Napredna pretraga resenja</router-link></li>
+         <li><router-link to="/reports-advance-search">Napredna pretraga izvestaja</router-link></li>
         <li><router-link to="/messenger">Poruke</router-link></li>
 
          <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
