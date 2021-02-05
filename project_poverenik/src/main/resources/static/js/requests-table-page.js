@@ -12,8 +12,8 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                 <th>Sifra žalbi</th>
                 <th colspan="2" class="text-center">Preuzimanje dokumenta</th>
                 <th colspan="2" class="text-center">Preuzimanje metapodataka</th>
-                <th colspan="1" class="text-center">Status</th>
-                <th colspan="1" class="text-center">Sastavi resenje</th>
+                <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Status</th>
+                <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Sastavi resenje</th>
             </tr>
             <h1 v-if='currentRole == "ROLE_POVERENIK"'>ulogovan je poverenik</h1>
             <tr v-for="item in complaints">
@@ -69,15 +69,14 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
     }else{
         axios.get("/api/complaint/user" , {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
                         response => {
-                            //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
-                            xmlDoc = $.parseXML(response.data);
-                            results = $(xmlDoc).find('result');
-                            console.log(response.data)
-                            $(results).each(function(){
-                                requestUri = $(this).find('[name="subject"]').find('uri').text();
-                                self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1)+ ".xml")
-                            });
-                        },
+                        xmlDoc = $.parseXML(response.data);
+                        results = $(xmlDoc).find('result');
+                        console.log(response.data)
+                        $(results).each(function(){
+                            requestUri = $(this).find('[name="subject"]').find('uri').text();
+                            self.complaints.push({ "id": requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml"})
+                        });
+                       },
                         error => {
                             alert('Doslo je do greske prilikom slanja zalbe na odluku.');
                         });

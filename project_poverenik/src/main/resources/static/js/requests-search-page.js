@@ -30,7 +30,8 @@ const RequestsSearchPage = Vue.component("requests-search-page-component", {
     methods : {
         submitQuery() {
             var self = this;
-            axios.get("/api/complaint/simple-search?query=" + this.query, {headers: {'Content-Type': 'application/xml'}}).then(
+            var token = JSON.parse(localStorage.getItem('currentUser')).token;
+            axios.get("/api/complaint/simple-search?query=" + this.query, {headers: {'Content-Type': 'application/xml','Authorization' : 'Bearer ' + token}}).then(
                             response => {
                                 //alert('Zahtev uspesno primljen. Dobicete odgovor od poverenika putem elektronske poste.');
                                 self.complaints = [];

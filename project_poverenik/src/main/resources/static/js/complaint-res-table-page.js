@@ -12,8 +12,8 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <th>Sifra žalbi na odluku</th>
                 <th colspan="2" class="text-center">Preuzimanje dokumenta</th>
                 <th colspan="2" class="text-center">Preuzimanje metapodataka</th>
-                <th colspan="1" class="text-center">Status</th>
-                <th colspan="1" class="text-center">Sastavi resenje</th>
+                <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Status</th>
+                <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Sastavi resenje</th>
             </tr>
             <tr v-for="item in complaints">
                 <td>{{ item.id }}</td>
@@ -80,7 +80,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                         console.log(response.data)
                         $(results).each(function(){
                             requestUri = $(this).find('[name="subject"]').find('uri').text();
-                            self.complaints.push(requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml")
+                            self.complaints.push({ "id": requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml"})
                         });
                     },
                     error => {
