@@ -191,7 +191,7 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
         trazilac.setAdresa(tAdresa);
-        trazilac.setKontakt("[uzimam iz sesije]");      // staviti kontakt podnosioca/ulogovanog, ja ga nemam u bazi
+        trazilac.setKontakt(userDetails.getLicneInformacije().getKontakt());      // staviti kontakt podnosioca/ulogovanog, ja ga nemam u bazi
         trazilac.setOsoba(osoba);                       // pa bi puklo da uradim .getContact()
 
         tDodatneInformacije.setTrazilac(trazilac);
