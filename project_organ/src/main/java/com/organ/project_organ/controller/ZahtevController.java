@@ -26,6 +26,9 @@ public class ZahtevController {
     @Autowired
     private ZahtevService zahtevService;
 
+    @Autowired
+    private OdbijeniZahteviService odbijeniZahteviService;
+
     @PreAuthorize("hasRole('ROLE_CITIZEN')")
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> createRequest(@RequestBody ZahtevDokumentDTO zahtevDokumentDTO, Principal principal) {
@@ -102,5 +105,15 @@ public class ZahtevController {
             query.authorityRegex.isEmpty() && query.placeRegex.isEmpty() && query.stateRegex.isEmpty())
             return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(zahtevService.queryRDF(query).toString().getBytes("UTF-8"), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_OFFICIAL')")
+    @PostMapping(path = "/decline/{id}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> decline(@PathVariable String id) throws UnsupportedEncodingException {
+        System.out.print(id);
+        if(odbijeniZahteviService.declineRequest(id))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

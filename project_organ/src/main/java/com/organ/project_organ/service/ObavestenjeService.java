@@ -108,7 +108,7 @@ public class ObavestenjeService extends AbsService{
 
         TTeloObavestenja.Opis opis = new TTeloObavestenja.Opis();
         opis.setSavet("opis trazene informacije");
-        opis.setValue("TRAZENA INFORMACIJA"); // iz drugog fajla
+        opis.setValue(obavestenjeDTO.teloObavestenja.opis); // iz drugog fajla
 
         teloObavestenja.getContent().add(new JAXBElement<TTeloObavestenja.Opis>(new QName("http://ftn.uns.ac.rs/xml_obavestenja", "Opis"), TTeloObavestenja.Opis.class, opis));
 
@@ -174,11 +174,13 @@ public class ObavestenjeService extends AbsService{
             else
                 dostavljeno.setImenovanom(oo.cekiran);
         }
-        dostavljeno.setAbout("http://localhost:8081/notification/"+dostavljeno.isArhivi());
+        dostavljeno.setAbout("notification/"+dostavljeno.isArhivi());
         obavestenje.setDostavljeno(dostavljeno);
 
         String id = UUID.randomUUID().toString();
-        obavestenje.setAbout("http://localhost:8081/notification/"+id);
+        obavestenje.setAbout("notification/"+id);
+        obavestenje.setHref(zahtev.getAbout());
+        obavestenje.setRel("pred:odgovorNa");
 
         obavestenjeRepository.save(id, obavestenje);
     }
