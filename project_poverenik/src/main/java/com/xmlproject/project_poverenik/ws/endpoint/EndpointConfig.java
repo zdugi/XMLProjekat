@@ -3,6 +3,7 @@ package com.xmlproject.project_poverenik.ws.endpoint;
 import javax.xml.ws.Endpoint;
 
 import com.xmlproject.project_poverenik.ws.izvestaj.IzvestajPortImpl;
+import com.xmlproject.project_poverenik.ws.poruka.PorukaPortImpl;
 import com.xmlproject.project_poverenik.ws.zalba.ZalbaPortImpl;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
@@ -25,6 +26,9 @@ public class EndpointConfig {
 	@Autowired
 	private ZalbaPortImpl zalbaPortImpl;
 
+	@Autowired
+	private PorukaPortImpl porukaPort;
+
 
 	@Bean
 	public Endpoint izvestajEndpoint() {
@@ -41,5 +45,10 @@ public class EndpointConfig {
 		return endpoint;
 	}
 
-
+	@Bean
+	public Endpoint porukaEndpoint() {
+		EndpointImpl endpoint = new EndpointImpl(bus, porukaPort);
+		endpoint.publish("/message");
+		return endpoint;
+	}
 }
