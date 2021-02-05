@@ -321,12 +321,4 @@ public class ZalbaNaOdlukuService extends AbsService{
         }
     }
 
-    public List<ZalbaNaOdluku> getAll() {
-        System.out.println("iz servisa");
-        try {
-            return this.zalbaNaOdlukuRepository.getAll();
-        } catch (Exception e) {
-            return null;
-        }
-    }
 }

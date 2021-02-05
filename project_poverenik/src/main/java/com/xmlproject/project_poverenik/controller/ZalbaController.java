@@ -175,10 +175,6 @@ public class ZalbaController {
     @GetMapping(value = "resolution", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestsIDList2() {
 
-        for (ZalbaNaOdluku z: zalbaNaOdlukuService.getAll()){
-            System.out.println(z.getId() + " " + z.getAbout());
-        }
-
         //try {
             //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
             ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery("");
