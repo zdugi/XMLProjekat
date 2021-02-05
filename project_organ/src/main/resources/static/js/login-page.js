@@ -10,7 +10,8 @@ const LoginPage = Vue.component('login-page', {
         <h2>Prijava</h2>
         <form method="post" @submit="checkForm"><input v-model="email" minlength="3" type="email" name="email" placeholder="Email" required/>
             <input v-model="sifra" minlength="3" type="password" name="password" placeholder="Sifra" required/>
-            <button style="width: 100%;">Prijavi se</button>
+            <router-link to="/register">Registracija</router-link>
+            <button style="margin-top: 20px; width: 100%;">Prijavi se</button>
         </form>
     </div>
     `,

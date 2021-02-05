@@ -45,6 +45,8 @@
 		<xjc schema="${data.dir}/zahtev.xsd" destdir="${gen.dir}"/>
 		<xjc schema="${data.dir}/izvestaj.xsd" destdir="${gen.dir}"/>
 		<xjc schema="${data.dir}/Korisnik.xsd" destdir="${gen.dir}"/>
+		<xjc schema="${data.dir}/odbijeni_zahtevi.xsd" destdir="${gen.dir}"/>
+		<xjc schema="${data.dir}/poruka.xsd" destdir="${gen.dir}"/>
 	</target>
 	
 	<!--<target name="generate_classes_2" depends="init">
