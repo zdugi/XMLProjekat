@@ -71,6 +71,8 @@ public class IzvestajService extends AbsService {
                     // extraction
                     for (Serializable s : zalba.getTeloZalbeNaOdluku().getContent()) {
                         try {
+                            if (s instanceof String)
+                                continue;
                             JAXBElement<?> ser = (JAXBElement<?>) s;
                             String tagFullName = ser.getName().toString();
                             String tagName = tagFullName.substring(tagFullName.indexOf("}") + 1);
