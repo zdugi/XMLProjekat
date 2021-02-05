@@ -40,7 +40,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                             '/>';
                             console.log(xmlBody);
                         var token = JSON.parse(localStorage.getItem('currentUser')).token;
-                        axios.post('/api/message', xmlBody, { headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token }}).then(
+                        axios.post('/api/message/notifyOfficial', xmlBody, { headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token }}).then(
                         response => {
                              router.push("/messenger");
                         });

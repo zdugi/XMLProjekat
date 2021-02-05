@@ -35,6 +35,59 @@ public class MessengerController {
     @Autowired
     private ZalbaNaCutanjeService zalbaNaCutanjeService;
 
+    @PreAuthorize("hasRole('ROLE_POVERENIK')")
+    @PostMapping(path="/notifyOfficial", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> sendMessageToOfficial(@RequestBody MessageDTO message) throws MalformedURLException {
+        if (message.body == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        URL wsdlLocation = new URL("http://localhost:8089/ws/message?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/message", "PorukaService");
+        QName portName = new QName("http://soap.spring.com/ws/message", "PorukaPort");
+
+        Service service = Service.create(wsdlLocation, serviceName);
+
+        PorukaInterface porukaI = service.getPort(portName, PorukaInterface.class);
+        Poruka msg = new Poruka();
+        msg.setTelo(message.body);
+        try {
+            String primljeno = message.body;
+            String[] telo = primljeno.split(" ");
+            String tipZalbe = telo[0];
+            String id = telo[1];
+            String link = "";
+            System.out.println(tipZalbe + "\n\n\n\n*****");
+            if (tipZalbe.equals("cutanje")) {
+                // promijeniti status zalbe
+                zalbaNaCutanjeService.setPrihvaceno(id.substring(0, id.length() - 4), "чека се одговор органа власти");
+                link = "http://localhost:8081/api/complaint/pdf/" + id;
+            } else {
+                zalbaNaOdlukuService.setPrihvaceno(id.substring(0, id.length() - 4), "чека се одговор органа власти");
+                link = "http://localhost:8081/api/complaint/resolution/pdf/" + id;
+            }
+            String mess = "Poverenik: Podneta je zalba " + link + ". Molimo vas da se u roku od 5 dana izjasnite da li" +
+                    " zalbu odbijate ili prihvatate.";
+            msg.setTelo("Poverenik: " + mess);
+        }
+        catch (Exception e){
+
+        }
+
+        msg.setVreme(BigInteger.valueOf(System.currentTimeMillis() / 1000L));
+
+        if(!porukaI.sendMessage(msg))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        System.out.println(message.body);
+
+        porukaService.saveMessage(msg);
+
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.time = msg.getVreme();
+        messageDTO.body = msg.getTelo();
+
+        return new ResponseEntity<>(messageDTO, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasRole('ROLE_POVERENIK')")
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
@@ -50,24 +103,7 @@ public class MessengerController {
 
         PorukaInterface porukaI = service.getPort(portName, PorukaInterface.class);
         Poruka msg = new Poruka();
-        String primljeno = message.body;
-        String[] telo = primljeno.split(" ");
-        String tipZalbe = telo[0];
-        String id = telo[1];
-        String link = "";
-        System.out.println(tipZalbe + "\n\n\n\n*****");
-        if (tipZalbe.equals("cutanje")) {
-            // promijeniti status zalbe
-            zalbaNaCutanjeService.setPrihvaceno(id.substring(0, id.length() - 4), "чека се одговор органа власти");
-            link = "http://localhost:8081/api/complaint/pdf/" + id;
-        }
-        else {
-            zalbaNaOdlukuService.setPrihvaceno(id.substring(0, id.length() - 4), "чека се одговор органа власти");
-            link = "http://localhost:8081/api/complaint/resolution/pdf/" + id;
-        }
-        String mess = "Poverenik: Podneta je zalba " + link + ". Molimo vas da se u roku od 5 dana izjasnite da li"+
-                " zalbu odbijate ili prihvatate.";
-        msg.setTelo("Poverenik: " + mess);
+        msg.setTelo(message.body);
         msg.setVreme(BigInteger.valueOf(System.currentTimeMillis() / 1000L));
 
         if(!porukaI.sendMessage(msg))
@@ -82,6 +118,10 @@ public class MessengerController {
 
         return new ResponseEntity<>(messageDTO, HttpStatus.OK);
     }
+
+
+
+
 
     /*@PreAuthorize("hasRole('ROLE_POVERENIK')")
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
