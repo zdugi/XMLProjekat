@@ -81,6 +81,9 @@ const CreateObavestenje = Vue.component("create-response/:zahtev", {
                         "godina" : {
                             asker : Xonomy.askString
                         },
+                        "opis" : {
+                            asker : Xonomy.askString
+                        },
                         "dan" : {
                             asker : Xonomy.askString
                         },

@@ -72,6 +72,11 @@ public class Obavestenje {
     protected String naziv;
     @XmlAttribute(name = "about")
     protected String about;
+    @XmlAttribute(name = "href")
+    protected String href;
+    @XmlAttribute(name = "rel")
+    protected String rel;
+
 
     /**
      * Gets the value of the datum property.
@@ -263,6 +268,46 @@ public class Obavestenje {
      */
     public void setAbout(String value) {
         this.about = value;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    /**
+     * Sets the value of the href property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setHref(String value) {
+        this.href = value;
+    }
+
+    /**
+     * Gets the value of the rel property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getRel() {
+        return rel;
+    }
+
+    /**
+     * Sets the value of the rel property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setRel(String value) {
+        this.rel = value;
     }
 
 }

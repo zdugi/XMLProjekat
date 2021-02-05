@@ -31,4 +31,7 @@ public class TeloObavestenjaDTO {
     @XmlAttribute
     public String suma;
 
+    @XmlAttribute
+    public String opis;
+
 }
