@@ -12,6 +12,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
+import com.xmlproject.project_poverenik.ws.mail.MailInterface;
 import com.xmlproject.project_poverenik.ws.resenje.ResenjeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,7 @@ import javax.xml.namespace.QName;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -93,8 +95,11 @@ public class ResenjeService extends AbsService {
         Resenje resenje = factory.createResenje();
 
         TDatum datumResenja = new TDatum();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+        datumResenja.setValue(formatter.format(date));
         datumResenja.setProperty("pred:doneseno");
-        datumResenja.setValue("danasnji datum");
         resenje.setDatum(datumResenja);
 
         // na resnje property jel odobrava ili ne
@@ -279,6 +284,19 @@ public class ResenjeService extends AbsService {
         r.setAbout("about resenje");
 
         System.out.println(address.posaljiResenje(resenje));
+
+        URL wsdlLocation = new URL("http://localhost:8099/ws/mail?wsdl");
+        serviceName = new QName("http://soap.spring.com/ws/mail", "MailService");
+        portName = new QName("http://soap.spring.com/ws/mail", "MailPort");
+
+        service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+        MailInterface mailI = service.getPort(portName, MailInterface.class);
+
+        String putanjaDoResenja = "http://localhost:8081/api/solution/pdf/" + id + ".xml";
+        if (mailI.sendMail("Naslov mejla", "Resenje " + putanjaDoResenja, new String[] {userDetails.getUsername(), "smiljana.vojvodic@gmail.com"}))
+            System.out.println("Uspesno poslat");
+
 
 
     }

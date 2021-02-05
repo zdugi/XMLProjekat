@@ -32,7 +32,7 @@ public class EndpointConfig {
 
 	@Bean
 	public Endpoint izvestajEndpoint() {
-		EndpointImpl endpoint = new EndpointImpl(bus, new IzvestajPortImpl());
+		EndpointImpl endpoint = new EndpointImpl(bus, izvestajPortImpl);
 		endpoint.publish("/report");
 		return endpoint;
 	}
@@ -40,7 +40,7 @@ public class EndpointConfig {
 
 	@Bean
 	public Endpoint zalbaEndpoint() {
-		EndpointImpl endpoint = new EndpointImpl(bus, new ZalbaPortImpl());
+		EndpointImpl endpoint = new EndpointImpl(bus, zalbaPortImpl);
 		endpoint.publish("/zalba");
 		return endpoint;
 	}

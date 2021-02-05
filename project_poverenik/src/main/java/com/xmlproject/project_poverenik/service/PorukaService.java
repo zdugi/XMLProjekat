@@ -1,13 +1,12 @@
-package com.organ.project_organ.service;
+package com.xmlproject.project_poverenik.service;
 
-import com.organ.project_organ.model.poruka.Poruka;
-import com.organ.project_organ.repository.impl.PorukaRepository;
+import com.xmlproject.project_poverenik.model.poruka.Poruka;
+import com.xmlproject.project_poverenik.repository.PorukaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -58,5 +57,25 @@ public class PorukaService extends AbsService {
         }
 
         return elements;
+    }
+
+    public Poruka findByComplaint(String s) {
+        try {
+            ArrayList<Poruka> poruke = this.porukaRepository.getAllXMLInCollection();
+            for (Poruka p: poruke){
+                if (p.getTelo().contains(s))
+                    return p;
+            }
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

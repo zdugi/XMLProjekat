@@ -3,21 +3,22 @@ package com.organ.project_organ.service;
 import com.itextpdf.text.DocumentException;
 import com.organ.project_organ.model.xml_izvestaj.Izvestaj;
 import com.organ.project_organ.model.xml_opste.TDatum;
+import com.organ.project_organ.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.organ.project_organ.pojo.ReportsAdvanceSearchQuery;
 import com.organ.project_organ.pojo.RequestsAdvanceSearchQuery;
 import com.organ.project_organ.pojo.ResourcesListDTO;
 import com.organ.project_organ.repository.impl.IzvestajRepository;
+import com.organ.project_organ.repository.impl.OdbijeniZahteviRepository;
 import com.organ.project_organ.repository.impl.ZahtevRepository;
 import com.organ.project_organ.ws.izvestaj.IzvestajInterface;
+import com.organ.project_organ.ws.zalba.ZalbaInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,6 +34,9 @@ public class IzvestajService extends AbsService {
 
     @Autowired
     private ZahtevRepository zahtevRepository;
+
+    @Autowired
+    private OdbijeniZahteviService odbijeniZahteviService;
 
     public IzvestajService() {
         super("src/main/resources/izvestaj_temp.xsl","src/main/resources/FreeSans.ttf");
@@ -51,10 +55,38 @@ public class IzvestajService extends AbsService {
         izvestaj.setDatumPodnosenja(datum);
 
         Izvestaj.SadrzinaOdbijenihZalbi ls = new Izvestaj.SadrzinaOdbijenihZalbi();
-        ls.getSadrzinaOdbijeneZalbe().add("Zalba 1");
-        ls.getSadrzinaOdbijeneZalbe().add("Zalba 2");
-        ls.getSadrzinaOdbijeneZalbe().add("Zalba 3");
-        ls.getSadrzinaOdbijeneZalbe().add("Zalba 4");
+
+        URL wsdl = new URL("http://localhost:8081/ws/zalba?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/zalba", "ZalbaService");
+        QName portName = new QName("http://soap.spring.com/ws/zalba", "ZalbaPort");
+
+        javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdl, serviceName);
+
+        ZalbaInterface address = service.getPort(portName, ZalbaInterface.class);
+        //kreiranje objekta
+
+        if (address.getZalbe() != null)
+            for (ZalbaNaOdluku zalba : address.getZalbe())
+                if (zalba.getStatus() != null && zalba.getStatus().getValue().equals("одбијена")) {
+                    // extraction
+                    for (Serializable s : zalba.getTeloZalbeNaOdluku().getContent()) {
+                        try {
+                            if (s instanceof String)
+                                continue;
+                            JAXBElement<?> ser = (JAXBElement<?>) s;
+                            String tagFullName = ser.getName().toString();
+                            String tagName = tagFullName.substring(tagFullName.indexOf("}") + 1);
+                            if (tagName.equals("OpisZalbe")) {
+                                ls.getSadrzinaOdbijeneZalbe().add("[ID: " + zalba.getId() + "] " + ser.getValue());
+                                break;
+                            } else {
+                                continue;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
         izvestaj.setSadrzinaOdbijenihZalbi(ls);
 
@@ -65,9 +97,7 @@ public class IzvestajService extends AbsService {
         podnetiZahtevi.setProperty("pred:brojPod");
 
         Izvestaj.OdbijeniZahtevi odbijeniZahtevi = new Izvestaj.OdbijeniZahtevi();
-        //TODO fix
-        Random rnd = new Random();
-        odbijeniZahtevi.setValue(BigInteger.valueOf(rnd.nextInt() % 100000));
+        odbijeniZahtevi.setValue(BigInteger.valueOf(odbijeniZahteviService.getNumberOfDeclined()));
         izvestaj.setOdbijeniZahtevi(odbijeniZahtevi);
         odbijeniZahtevi.setProperty("pred:odbijeniZahtevi");
 
@@ -79,11 +109,11 @@ public class IzvestajService extends AbsService {
 
         // send report
         try {
-            URL wsdlLocation = new URL("http://localhost:8081/ws/report?wsdl");
-            QName serviceName = new QName("http://soap.spring.com/ws/report", "IzvestajService");
-            QName portName = new QName("http://soap.spring.com/ws/report", "IzvestajPort");
+            wsdl = new URL("http://localhost:8081/ws/report?wsdl");
+            serviceName = new QName("http://soap.spring.com/ws/report", "IzvestajService");
+            portName = new QName("http://soap.spring.com/ws/report", "IzvestajPort");
 
-            javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+            service = javax.xml.ws.Service.create(wsdl, serviceName);
 
             IzvestajInterface izvestaji = service.getPort(portName, IzvestajInterface.class);
             izvestaji.sendReport(izvestaj);

@@ -11,6 +11,7 @@ const LoginPage = Vue.component("login-page", {
     	        <br><br>
     	        <input type="button" value="Log in" v-on:click="login" style = "background-color: #D8D8F6"/>
     	        <br><br>
+    	        <p>Nemate nalog? <router-link to="/register">Registrujte se</router-link></p>
     		</form>
     		<p class="text-danger"><i style="display:none" id="ikonica" class="fas fa-exclamation-circle"></i><span id="greskaKI1"></span></p>
     	</div>

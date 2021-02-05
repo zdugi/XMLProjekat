@@ -11,7 +11,7 @@
                 <table border="1">
                     <thead>
                         <tr>
-                            <th>Broj uveženih zahteva</th>
+                            <th>Broj uvaženih zahteva</th>
                             <th>Broj odbijenih zahteva</th>
                             <th>Broj podnetih zahteva</th>
                         </tr>
@@ -25,7 +25,7 @@
                     </tbody>
                 </table>
                 <br />
-                <h2>Odbijeni zahtevi</h2>
+                <h2>Žalbe na odbijene zahteve (ukupno <xsl:value-of select="count(//izvestaj:Izvestaj/izvestaj:SadrzinaOdbijenihZalbi/izvestaj:SadrzinaOdbijeneZalbe)"/>)</h2>
 
                 <xsl:for-each select="//izvestaj:Izvestaj/izvestaj:SadrzinaOdbijenihZalbi/izvestaj:SadrzinaOdbijeneZalbe">
                     <p><xsl:value-of select="current()"/></p>

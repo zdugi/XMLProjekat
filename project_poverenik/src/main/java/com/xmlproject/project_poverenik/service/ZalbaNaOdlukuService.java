@@ -28,6 +28,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -40,7 +43,7 @@ public class ZalbaNaOdlukuService extends AbsService{
     public ZalbaNaOdlukuService() {
         //Repository repository, String xslPath, String fontPath
         super("src/main/resources/zalba_na_odluku_temp.xsl","src/main/resources/FreeSans.ttf");
-                            // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
     }
 
     public void create (ZalbaNaOdlukuDTO zalbaNaOdlukuDTO) throws Exception {
@@ -190,7 +193,10 @@ public class ZalbaNaOdlukuService extends AbsService{
 
         TDatum datumDI = new TDatum();
 
-        datumDI.setValue("[danasnji datum]");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+        datumDI.setValue(formatter.format(date));
         datumDI.setProperty("pred:podnosenje");
         tDodatneInformacije.setDatum(datumDI);
 
@@ -286,11 +292,13 @@ public class ZalbaNaOdlukuService extends AbsService{
                 "  ?subject <http://localhost/predikati/mestoOrgana> ?mestoOrgana .\n" +
                 "  ?subject <http://localhost/predikati/drzavaOrgana> ?drzavaOrgana .\n" +
                 "  ?subject <http://localhost/predikati/potrazuje> ?trazilac .\n" +
+
                 "  FILTER (regex(str(?datumPodnosenja), \"%s\")) .\n" +
                 "  FILTER (regex(str(?organKomeSeUpucuje), \"%s\")) .\n" +
                 "  FILTER (regex(str(?mestoOrgana), \"%s\")) .\n" +
                 "  FILTER (regex(str(?drzavaOrgana), \"%s\")) .\n" +
                 "  FILTER (regex(str(?trazilac), \"%s\")) .\n" +
+
                 "}\n" +
                 "LIMIT 100";
 
@@ -301,7 +309,8 @@ public class ZalbaNaOdlukuService extends AbsService{
                 query.authorityRegex,
                 query.placeRegex,
                 query.stateRegex,
-                query.applicantRegex);
+                query.applicantRegex
+                );
 
         return zalbaNaOdlukuRepository.queryRDF(sparqlQuery);
     }

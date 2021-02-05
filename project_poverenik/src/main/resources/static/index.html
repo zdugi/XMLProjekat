@@ -3,13 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="js/xonomy/xonomy.css">
+        <link rel="icon" type="image/x-icon" href="/public/favicon.ico"/>
+        <title>Platforma Poverenika</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="https://unpkg.com/vue-router@3.4.9/dist/vue-router.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="js/xonomy/xonomy.js"></script>
         <style>
-                div{
+                .div-klasa {
                     margin-top:100px;
                 }
 
@@ -51,7 +53,37 @@
                     display: inline;
                     margin-left: 15px;
                 }
+                .registration-box {
+                    width: 400px;
+                    padding: 20px;
+                    background-color: #fefafa;
+                    margin: 100px auto;
+                    border-radius: 5px;
+                }
+
+                .messenger {
+                    width: 800px;
+                    margin: 0 auto;
+                    background-color: #ededed;
+
+                }
+
+                .mwrap {
+                    padding: 10px;
+                }
+
+                .messages-stack {
+                    overflow-y: auto;
+                    height: 150px;
+                }
+
+                .messenger-input > input {
+                    background: #ffffff !important;
+                }
             </style>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- Google Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 
@@ -84,8 +116,11 @@
     <script src="js/resenje.js"></script>
     <script src="js/resolution-table-page.js"></script>
     <script src="js/login-page.js"></script>
+    <script src="js/register-page.js"></script>
     <script src="js/resolution-search-page.js"></script>
-
+    <script src="js/messenger.js"></script>
     <script src="js/app.js"></script>
+
+
     </body>
 </html>

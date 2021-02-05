@@ -54,4 +54,17 @@ public class OdbijeniZahteviService extends AbsService {
 
         return true;
     }
+
+    public int getNumberOfDeclined() {
+        try {
+            OdbijeniZahtevi odbijeniZahtevi = odbijeniZahteviRepository.getOneXML(arrayId);
+
+            if (odbijeniZahtevi == null) return 0;
+
+            return odbijeniZahtevi.getZahtevID().size();
+
+        } catch (Exception exception) {
+            return 0;
+        }
+    }
 }

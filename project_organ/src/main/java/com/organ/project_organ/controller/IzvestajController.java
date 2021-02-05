@@ -46,26 +46,13 @@ public class IzvestajController {
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getReportsIDList(Principal principal) {
         try {
-            // TODO: SKLONITI OVO
-            // ostavljeno samo kao referenca, pozivanje metode iz zalba servisa
-            URL wsdl = new URL("http://localhost:8081/ws/zalba?wsdl");
-            QName serviceName = new QName("http://soap.spring.com/ws/zalba", "ZalbaService");
-            QName portName = new QName("http://soap.spring.com/ws/zalba", "ZalbaPort");
-
-            Service service = Service.create(wsdl, serviceName);
-
-            ZalbaInterface address = service.getPort(portName, ZalbaInterface.class);
-            //kreiranje objekta
-
-            System.out.println(address.getZalbe());
+            //System.out.println(address.getZalbe().get(0).getStatus());
             return new ResponseEntity<>(Converter.fromStringArray(izvestajService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 

@@ -14,7 +14,8 @@ const OfficialPage = Vue.component('official-page', {
             <li>/<li>
             <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
         </ul>
-        <router-view></router-view>
+        <messenger />
+        <router-view style="margin-top: 20px;"></router-view>
     </div>
     `,
     methods: {

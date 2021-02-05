@@ -1,5 +1,6 @@
 package com.xmlproject.project_poverenik.config;
 
+import com.xmlproject.project_poverenik.repository.PorukaRepository;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import com.xmlproject.project_poverenik.repository.ZalbaNaOdlukuRepository;
@@ -73,6 +74,18 @@ public class PlatformConfiguration {
                 "/example/resenje/metadata",
                 "/db/sample/resenje",
                 "com.xmlproject.project_poverenik.model.xml_resenje",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public PorukaRepository porukaRepository() {
+        String textContainQuery = "";
+
+        return new PorukaRepository(
+                "/example/poruka/metadata",
+                "/db/sample/poruka",
+                "com.xmlproject.project_poverenik.model.poruka",
                 textContainQuery
         );
     }
