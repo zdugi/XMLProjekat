@@ -244,6 +244,80 @@ public abstract class Repository<T1> {
         return obj;
     }
 
+    public ArrayList<T1> getAllXMLInCollection() throws Exception {
+
+        // initialize collection and document identifiers
+        String collectionId = this.COLLECTION_ID;
+        //String documentId = id;
+
+        System.out.println("\t- collection ID: " + collectionId);
+        //System.out.println("\t- document ID: " + documentId + "\n");
+
+        // initialize database driver
+        System.out.println("[INFO] Loading driver class: " + connDriver);
+        Class<?> cl = DatabaseImpl.class;
+
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        DatabaseManager.registerDatabase(database);
+
+        Collection col = null;
+        XMLResource res = null;
+
+        T1 obj = null;
+        ArrayList<T1> arrayList = new ArrayList<>();
+
+        try {
+            // get the collection
+            System.out.println("[INFO] Retrieving the collection: " + collectionId);
+            col = DatabaseManager.getCollection(connUri + collectionId);
+            col.setProperty(OutputKeys.INDENT, "yes");
+
+            for(String documentID : col.listResources()) {
+                System.out.println("[INFO] Retrieving the document: " + documentID);
+                res = (XMLResource)col.getResource(documentID);
+
+                if (res == null) {
+                    System.out.println("[WARNING] Document '" + documentID + "' can not be found!");
+                } else {
+
+                    System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
+                    JAXBContext context = JAXBContext.newInstance(this.INSTANCE_PATH);
+
+                    Unmarshaller unmarshaller = context.createUnmarshaller();
+
+                    obj = (T1) unmarshaller.unmarshal(res.getContentAsDOM());
+                    arrayList.add(obj);
+
+                    System.out.println("[INFO] Showing the document as JAXB instance: ");
+                    System.out.println(obj);
+
+                }
+            }
+        } finally {
+            //don't forget to clean up!
+
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+
+        return arrayList;
+    }
+
     public ComplaintsListDTO searchText(String queryStr) throws IllegalAccessException, InstantiationException, XMLDBException {
         ComplaintsListDTO resourcesListDTO = new ComplaintsListDTO();
         resourcesListDTO.complaint = new ArrayList<>();

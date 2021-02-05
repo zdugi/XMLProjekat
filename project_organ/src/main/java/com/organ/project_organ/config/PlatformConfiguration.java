@@ -1,10 +1,7 @@
 package com.organ.project_organ.config;
 
-import com.organ.project_organ.repository.impl.ObavestenjeRepository;
+import com.organ.project_organ.repository.impl.*;
 
-import com.organ.project_organ.repository.impl.IzvestajRepository;
-
-import com.organ.project_organ.repository.impl.ZahtevRepository;
 import com.organ.project_organ.security.repository.UserRepository;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -86,6 +83,30 @@ public class PlatformConfiguration implements WebMvcConfigurer {
                 "/example/korisnik/metadata",
                 "/db/sample/korisnik",
                 "com.organ.project_organ.model.xml_korisnik",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public OdbijeniZahteviRepository odbijeniZahteviRepository() {
+        String textContainQuery = "";
+
+        return new OdbijeniZahteviRepository(
+                "/example/odbijeni_zahtevi/metadata",
+                "/db/sample/odbijeni_zahtevi",
+                "com.organ.project_organ.model.odbijeni_zahtevi",
+                textContainQuery
+        );
+    }
+
+    @Bean
+    public PorukaRepository porukaRepository() {
+        String textContainQuery = "";
+
+        return new PorukaRepository(
+                "/example/poruka/metadata",
+                "/db/sample/poruka",
+                "com.organ.project_organ.model.poruka",
                 textContainQuery
         );
     }

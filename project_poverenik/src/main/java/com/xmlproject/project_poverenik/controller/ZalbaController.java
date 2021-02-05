@@ -26,6 +26,7 @@ import pojo.ZalbaNaOdlukuDTO;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/complaint")
@@ -140,6 +141,7 @@ public class ZalbaController {
         query.stateRegex = "";
         query.submissionDateRegex = "";
         query.applicantRegex = userDetails.getId();
+
         return new ResponseEntity<>(zalbaNaCutanjeService.queryRDF(query).toString(), HttpStatus.OK);
 
 

@@ -32,9 +32,15 @@ public class ZalbaPortImpl extends SpringBeanAutowiringSupport implements ZalbaI
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 
 		ArrayList<ZalbaNaOdluku> zalbe = new ArrayList<ZalbaNaOdluku>();
+		try{
+			zalbe = zalbaNaOdlukuService.getAllXMLInCollection();
+		}catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
 		// zalbe = pozvati metodu iz servisa
 		try {
-			zalbaNaOdlukuService.getList();
+			//zalbaNaOdlukuService.getList();
 			System.out.println("moze");
 		} catch (Exception e){
 			System.out.println("ne moze");

@@ -29,6 +29,7 @@ import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -272,6 +273,10 @@ public class ZalbaNaOdlukuService extends AbsService{
         }
 
         return null;
+    }
+
+    public ArrayList<ZalbaNaOdluku> getAllXMLInCollection() throws Exception {
+        return zalbaNaOdlukuRepository.getAllXMLInCollection();
     }
 
     public ByteArrayOutputStream queryRDF(ComplaintsAdvanceSearchQuery query) {

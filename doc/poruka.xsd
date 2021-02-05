@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/poruka" xmlns:poruka="http://ftn.uns.ac.rs/poruka">
+
+    <xs:element name="Poruka">
+        <xs:complexType>
+            <xs:attribute name="Telo" type="xs:string"/>
+            <xs:attribute name="Vreme" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

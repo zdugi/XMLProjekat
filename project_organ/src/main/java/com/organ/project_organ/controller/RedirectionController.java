@@ -1,6 +1,8 @@
 package com.organ.project_organ.controller;
 
+import com.organ.project_organ.service.OdbijeniZahteviService;
 import com.organ.project_organ.ws.mail.MailInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +26,16 @@ public class RedirectionController {
         httpServletResponse.setStatus(302);
     }
 
+
+    @Autowired
+    private OdbijeniZahteviService odbijeniZahteviService;
+
     @GetMapping(path = "/hello", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String helloWorld() throws MalformedURLException {
+        /*
+            Mail client
+
         URL wsdlLocation = new URL("http://localhost:8099/ws/mail?wsdl");
         QName serviceName = new QName("http://soap.spring.com/ws/mail", "MailService");
         QName portName = new QName("http://soap.spring.com/ws/mail", "MailPort");
@@ -38,7 +47,12 @@ public class RedirectionController {
         if (mailI.sendMail("Naslov mejla", "Ovde ide sadrzaj mejla", new String[] {"zdravko.dugi@gmail.com", "zdugi@yandex.com"}))
             System.out.println("Uspesno poslat");
 
+         */
 
+        System.out.println(odbijeniZahteviService.declineRequest("1"));
+        System.out.println(odbijeniZahteviService.declineRequest("2"));
+        System.out.println(odbijeniZahteviService.declineRequest("3"));
+        System.out.println(odbijeniZahteviService.declineRequest("2"));
 
         return "<html><body><div style=\"margin: 80px auto; width: 457px;\"><img width=\"457\" src=\"https://i.imgur.com/0l51lap.jpeg\"/></div></body></html>";
     }
