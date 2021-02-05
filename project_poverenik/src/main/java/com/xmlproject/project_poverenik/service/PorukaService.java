@@ -58,4 +58,24 @@ public class PorukaService extends AbsService {
 
         return elements;
     }
+
+    public Poruka findByComplaint(String s) {
+        try {
+            ArrayList<Poruka> poruke = this.porukaRepository.getAllXMLInCollection();
+            for (Poruka p: poruke){
+                if (p.getTelo().contains(s))
+                    return p;
+            }
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (XMLDBException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

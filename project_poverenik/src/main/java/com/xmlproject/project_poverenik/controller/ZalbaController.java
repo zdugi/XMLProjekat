@@ -64,8 +64,8 @@ public class ZalbaController {
 
         try {
             //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaCutanjeService.getList()), HttpStatus.OK);
-            return new ResponseEntity<>(Converter.fromZalbe(zalbaNaCutanjeService.getAllXMLInCollection()), HttpStatus.OK);
-
+            //return new ResponseEntity<>(Converter.fromZalbe(zalbaNaCutanjeService.getAllXMLInCollection()), HttpStatus.OK);
+            return new ResponseEntity<>(Converter.fromZalbe(zalbaNaCutanjeService.getAllXMLInCollectionUpdateStatus()), HttpStatus.OK);
         } catch (XMLDBException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

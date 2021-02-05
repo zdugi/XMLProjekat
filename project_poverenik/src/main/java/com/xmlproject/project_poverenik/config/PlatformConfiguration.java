@@ -85,7 +85,7 @@ public class PlatformConfiguration {
         return new PorukaRepository(
                 "/example/poruka/metadata",
                 "/db/sample/poruka",
-                "com.organ.project_organ.model.poruka",
+                "com.xmlproject.project_poverenik.model.poruka",
                 textContainQuery
         );
     }

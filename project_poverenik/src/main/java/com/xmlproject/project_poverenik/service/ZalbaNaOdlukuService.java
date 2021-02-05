@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -191,7 +193,10 @@ public class ZalbaNaOdlukuService extends AbsService{
 
         TDatum datumDI = new TDatum();
 
-        datumDI.setValue("[danasnji datum]");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+        datumDI.setValue(formatter.format(date));
         datumDI.setProperty("pred:podnosenje");
         tDodatneInformacije.setDatum(datumDI);
 

@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -94,8 +95,11 @@ public class ResenjeService extends AbsService {
         Resenje resenje = factory.createResenje();
 
         TDatum datumResenja = new TDatum();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+
+        datumResenja.setValue(formatter.format(date));
         datumResenja.setProperty("pred:doneseno");
-        datumResenja.setValue("danasnji datum");
         resenje.setDatum(datumResenja);
 
         // na resnje property jel odobrava ili ne

@@ -56,7 +56,8 @@ const Messenger = Vue.component('messenger', {
         }
     },
     mounted() {
-        /*axios.get('/api/message', { headers: {'Content-Type': 'application/xml'} }).then(
+        var token = JSON.parse(localStorage.getItem('currentUser')).token;
+        axios.get('/api/message', { headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token }}).then(
             response => {
                 var dat = $.parseXML(response.data);
                 console.log(dat);
@@ -67,6 +68,6 @@ const Messenger = Vue.component('messenger', {
                     self.messages.unshift({body: body, time: time})
                 });
             }
-        );*/
+        );
     }
 });

@@ -1,6 +1,7 @@
 package com.xmlproject.project_poverenik.service;
 
 import com.itextpdf.text.DocumentException;
+import com.xmlproject.project_poverenik.model.poruka.Poruka;
 import com.xmlproject.project_poverenik.model.xml_korisnik.Korisnik;
 import com.xmlproject.project_poverenik.model.xml_opste.*;
 import com.xmlproject.project_poverenik.model.xml_opste.TTrazilac;
@@ -11,8 +12,11 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
+import com.xmlproject.project_poverenik.ws.poruka.PorukaInterface;
 import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.xmlproject.project_poverenik.service.*;
@@ -29,16 +33,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ZalbaNaCutanjeService extends AbsService {
 
     @Autowired
     private ZalbaNaCutanjeRepository zalbaNaCutanjeRepository;
+
+    @Autowired
+    private PorukaService porukaService;
 
     public ZalbaNaCutanjeService() {
         //Repository repository, String xslPath, String fontPath
@@ -160,9 +171,10 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         TDodatneInformacije tDodatneInformacije = new TDodatneInformacije();
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
         TDatum datumDI = new TDatum();
-
-        datumDI.setValue("[ovde ce se generisati vrednost]");
+        datumDI.setValue(formatter.format(date));
         datumDI.setProperty("pred:podnosenje");
 
         tDodatneInformacije.setDatum(datumDI);
@@ -281,5 +293,82 @@ public class ZalbaNaCutanjeService extends AbsService {
 
     public ArrayList<?> getAllXMLInCollection() throws Exception {
         return zalbaNaCutanjeRepository.getAllXMLInCollection();
+    }
+
+    public ArrayList<?> getAllXMLInCollectionUpdateStatus() throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        ArrayList<ZalbaNaCutanje> zalbe = zalbaNaCutanjeRepository.getAllXMLInCollection();
+        String danasString = formatter.format(new Date());
+        Date danasnjiDatum = formatter.parse(danasString);
+
+        for (ZalbaNaCutanje zalba: zalbe){
+            if (zalba.getStatus().getValue().equals("нова")){
+                Date datumZalbe = formatter.parse(zalba.getDodatneInformacije().getDatum().getValue());
+                long diffInMillies = Math.abs(danasnjiDatum.getTime() - datumZalbe.getTime());
+                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                if (diff > 2){
+                    // isteklo je vreme da sluzbenik obavesti organ, sistem obavestava organ
+                    // poslati poruku
+                    String status = "чека се одговор органа власти";
+                    ZalbaNaCutanje.Status statusObj = new ZalbaNaCutanje.Status();
+                    statusObj.setValue(status);
+                    zalba.setStatus(statusObj);
+                    sendMessageBruteForce(zalba.getId(), status);
+                    this.zalbaNaCutanjeRepository.setPrihvaceno(zalba.getId(), status);
+                }
+            }
+            else if (zalba.getStatus().getValue().equals("чека се одговор органа власти")){
+                // ako je proteklo vrijeme, postavlja se na
+                // чека решење
+                Poruka poruka;
+                try {
+                    poruka = porukaService.findByComplaint("Poverenik: Podneta je zalba http://localhost:8081/api/complaint/pdf/" + zalba.getId().substring(0, zalba.getId().length() - 4));
+                    poruka.getVreme();
+                } catch(Exception e){
+                    continue;
+                }
+                    Date datum = new Date(poruka.getVreme().longValue());
+                    String dateStr = formatter.format(datum);
+                    Date datumPoruke = formatter.parse(dateStr);
+                    long diffInMillies = Math.abs(danasnjiDatum.getTime() - datumPoruke.getTime());
+                    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+                    if (diff > 5) {
+                        String status = "чека решење";
+                        ZalbaNaCutanje.Status statusObj = new ZalbaNaCutanje.Status();
+                        statusObj.setValue(status);
+                        zalba.setStatus(statusObj);
+                        sendMessageBruteForce(zalba.getId(), status);
+                        this.zalbaNaCutanjeRepository.setPrihvaceno(zalba.getId(), status);
+                    }
+            }
+        }
+        return zalbe;
+    }
+
+    private boolean sendMessageBruteForce(String id, String status) throws Exception {
+        URL wsdlLocation = new URL("http://localhost:8089/ws/message?wsdl");
+        QName serviceName = new QName("http://soap.spring.com/ws/message", "PorukaService");
+        QName portName = new QName("http://soap.spring.com/ws/message", "PorukaPort");
+        javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+        PorukaInterface porukaI = service.getPort(portName, PorukaInterface.class);
+        Poruka msg = new Poruka();
+        msg.setTelo("");
+        try {
+            String link = "";
+            this.setPrihvaceno(id.substring(0, id.length() - 4), status);
+            link = "http://localhost:8081/api/complaint/pdf/" + id;
+
+            String mess = "Podneta je zalba " + link + ". Molimo vas da se u roku od 5 dana izjasnite da li" +
+                    " zalbu odbijate ili prihvatate.";
+            msg.setTelo("Poverenik: " + mess);
+        }
+        catch (Exception e){
+        }
+        msg.setVreme(BigInteger.valueOf(System.currentTimeMillis() / 1000L));
+        if(!porukaI.sendMessage(msg))
+            return false;
+        porukaService.saveMessage(msg);
+        return true;
     }
 }
