@@ -71,7 +71,7 @@ public class AuthenticationController {
             userService.registerUser(userDTO);
             return ResponseEntity.status(HttpStatus.OK).build();
     	} catch (Exception e) {
-
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     	}
     }

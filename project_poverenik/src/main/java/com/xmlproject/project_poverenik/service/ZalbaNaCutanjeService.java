@@ -9,6 +9,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ObjectFactory
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TRazloziZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
+import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ZalbaNaCutanjeRepository;
 import com.xmlproject.project_poverenik.ws.zahtev.ZahtevInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -275,5 +277,9 @@ public class ZalbaNaCutanjeService extends AbsService {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<?> getAllXMLInCollection() throws Exception {
+        return zalbaNaCutanjeRepository.getAllXMLInCollection();
     }
 }
