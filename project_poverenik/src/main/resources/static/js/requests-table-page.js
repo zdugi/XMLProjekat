@@ -1,7 +1,8 @@
 const RequestsTablePage = Vue.component("requests-table-page-component", {
     data () {
         return {
-            complaints: []
+            complaints: [],
+            currentRole: JSON.parse(localStorage.getItem('currentUser')).roles
         }
     },
     template: `
@@ -12,13 +13,15 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                 <th colspan="2" class="text-center">Preuzimanje dokumenta</th>
                 <th colspan="2" class="text-center">Preuzimanje metapodataka</th>
             </tr>
+            <h1 v-if='currentRole == "ROLE_POVERENIK"'>ulogovan je poverenik</h1>
             <tr v-for="item in complaints">
                 <td>{{ item }}</td>
                 <td><a v-bind:href="'api/complaint/xhtml/' + item" target="_blank">XHTML</a></td>
                 <td><a v-bind:href="'api/complaint/pdf/' + item" target="_blank">PDF</a></td>
                 <td><a v-bind:href="'api/complaint/rdf/' + item" target="_blank">RDF</a></td>
                 <td><a v-bind:href="'api/complaint/json/' + item" target="_blank">JSON</a></td>
-                <td><router-link :to="'/resolution/' + item">Sastavi resenje</router-link></td>
+                <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item">Sastavi resenje</router-link></td>
+
             </tr>
         </table>
     </div>

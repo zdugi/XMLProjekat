@@ -7,6 +7,7 @@ import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
 import com.xmlproject.project_poverenik.util.Converter;
+import org.apache.jena.base.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -62,6 +63,7 @@ public class ZalbaController {
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestsIDList() {
+
         try {
             return new ResponseEntity<>(Converter.fromStringArray(zalbaNaCutanjeService.getList()), HttpStatus.OK);
         } catch (XMLDBException e) {
@@ -170,17 +172,24 @@ public class ZalbaController {
 
     @GetMapping(value = "resolution", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestsIDList2() {
-        try {
-            return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
-        } catch (XMLDBException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+
+        for (ZalbaNaOdluku z: zalbaNaOdlukuService.getAll()){
+            System.out.println(z.getId() + " " + z.getAbout());
         }
 
-        return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
+        //try {
+            //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
+            ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery("");
+            return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
+        //} catch (XMLDBException e) {
+        //    e.printStackTrace();
+        //} catch (IllegalAccessException e) {
+        //    e.printStackTrace();
+        //} catch (InstantiationException e) {
+        //    e.printStackTrace();
+        //}
+
+        //return new ResponseEntity<>("<Status>Error</Status>", HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
