@@ -12,6 +12,7 @@ import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.TTeloZalbe;
 import com.xmlproject.project_poverenik.model.xml_zalba_na_cutanje.ZalbaNaCutanje;
 import com.xmlproject.project_poverenik.model.xml_zalbanaodluku.ZalbaNaOdluku;
 import com.xmlproject.project_poverenik.repository.ResenjeRepository;
+import com.xmlproject.project_poverenik.ws.mail.MailInterface;
 import com.xmlproject.project_poverenik.ws.resenje.ResenjeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -279,6 +280,19 @@ public class ResenjeService extends AbsService {
         r.setAbout("about resenje");
 
         System.out.println(address.posaljiResenje(resenje));
+
+        URL wsdlLocation = new URL("http://localhost:8099/ws/mail?wsdl");
+        serviceName = new QName("http://soap.spring.com/ws/mail", "MailService");
+        portName = new QName("http://soap.spring.com/ws/mail", "MailPort");
+
+        service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+        MailInterface mailI = service.getPort(portName, MailInterface.class);
+
+        String putanjaDoResenja = "http://localhost:8081/api/solution/pdf/" + id + ".xml";
+        if (mailI.sendMail("Naslov mejla", "Resenje " + putanjaDoResenja, new String[] {userDetails.getUsername(), "smiljana.vojvodic@gmail.com"}))
+            System.out.println("Uspesno poslat");
+
 
 
     }

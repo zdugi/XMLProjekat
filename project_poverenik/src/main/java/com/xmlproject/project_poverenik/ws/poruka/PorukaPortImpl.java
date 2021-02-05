@@ -38,6 +38,9 @@ public class PorukaPortImpl implements PorukaInterface {
 
 	@Override
 	public boolean sendMessage(Poruka msg) {
+		// da li je prihvacena/odbijena i promijenim status
+		// split po spaceu, zadnja je prihvacena ili odbijena, predzanja je id zalbe i to provjeravamo
+		// i sacuvati u bazu
 		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
 		return true;
 	}
