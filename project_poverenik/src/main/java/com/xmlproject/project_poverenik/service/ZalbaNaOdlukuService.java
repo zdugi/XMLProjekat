@@ -287,13 +287,13 @@ public class ZalbaNaOdlukuService extends AbsService{
                 "  ?subject <http://localhost/predikati/mestoOrgana> ?mestoOrgana .\n" +
                 "  ?subject <http://localhost/predikati/drzavaOrgana> ?drzavaOrgana .\n" +
                 "  ?subject <http://localhost/predikati/potrazuje> ?trazilac .\n" +
-                "  ?subject <http://localhost/predikati/status> ?status .\n" +
+
                 "  FILTER (regex(str(?datumPodnosenja), \"%s\")) .\n" +
                 "  FILTER (regex(str(?organKomeSeUpucuje), \"%s\")) .\n" +
                 "  FILTER (regex(str(?mestoOrgana), \"%s\")) .\n" +
                 "  FILTER (regex(str(?drzavaOrgana), \"%s\")) .\n" +
                 "  FILTER (regex(str(?trazilac), \"%s\")) .\n" +
-                "  FILTER (regex(str(?status), \"%s\")) .\n" +
+
                 "}\n" +
                 "LIMIT 100";
 
@@ -304,8 +304,8 @@ public class ZalbaNaOdlukuService extends AbsService{
                 query.authorityRegex,
                 query.placeRegex,
                 query.stateRegex,
-                query.applicantRegex,
-                "");
+                query.applicantRegex
+                );
 
         return zalbaNaOdlukuRepository.queryRDF(sparqlQuery);
     }

@@ -18,10 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
-import pojo.ComplaintsAdvanceSearchQuery;
-import pojo.ComplaintsListDTO;
-import pojo.ZalbaNaCutanjeDTO;
-import pojo.ZalbaNaOdlukuDTO;
+import pojo.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -66,12 +63,16 @@ public class ZalbaController {
     public ResponseEntity<?> getRequestsIDList() {
 
         try {
-            return new ResponseEntity<>(Converter.fromStringArray(zalbaNaCutanjeService.getList()), HttpStatus.OK);
+            //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaCutanjeService.getList()), HttpStatus.OK);
+            return new ResponseEntity<>(Converter.fromZalbe(zalbaNaCutanjeService.getAllXMLInCollection()), HttpStatus.OK);
+
         } catch (XMLDBException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -173,12 +174,23 @@ public class ZalbaController {
     }
 
     @GetMapping(value = "resolution", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> getRequestsIDList2() {
+    public ResponseEntity<?> getRequestsIDList2() throws Exception {
+
+        for (ZalbaNaOdluku z: zalbaNaOdlukuService.getAllXMLInCollection()){
+            System.out.println(z.getId() +  " " + z.getAbout());
+        }
 
         //try {
             //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
-            ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery("");
-            return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
+            //ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery("");
+
+        ComplaintsExtendedDTO cs = Converter.fromZalbe(zalbaNaOdlukuService.getAllXMLInCollection());
+        for (ComplaintsExtendedDTO.Complaint c: cs.complaint){
+            System.out.println(c.value  + "  " + c.status);
+        }
+        return new ResponseEntity<>(Converter.fromZalbe(zalbaNaOdlukuService.getAllXMLInCollection()), HttpStatus.OK);
+
+//        return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
         //} catch (XMLDBException e) {
         //    e.printStackTrace();
         //} catch (IllegalAccessException e) {

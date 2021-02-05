@@ -12,6 +12,8 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <th>Sifra žalbi na odluku</th>
                 <th colspan="2" class="text-center">Preuzimanje dokumenta</th>
                 <th colspan="2" class="text-center">Preuzimanje metapodataka</th>
+                <th colspan="1" class="text-center">Status</th>
+                <th colspan="1" class="text-center">Sastavi resenje</th>
             </tr>
             <tr v-for="item in complaints">
                 <td>{{ item.id }}</td>
@@ -19,8 +21,12 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <td><a v-bind:href="'api/complaint/resolution/pdf/' + item.id" target="_blank">PDF</a></td>
                 <td><a v-bind:href="'api/complaint/resolution/rdf/' + item.id" target="_blank">RDF</a></td>
                 <td><a v-bind:href="'api/complaint/resolution/json/' + item.id" target="_blank">JSON</a></td>
+                <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">Sastavi resenje</router-link></td>
-                <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">{{item.status}}</router-link></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><router-link :to="'/resolution/обавестиорган'">Obavesti organ vlasti</router-link></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Odbijena ili prihvacena</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><button>Sastavi resenje</button></td>
 
             </tr>
         </table>
@@ -38,15 +44,24 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                     console.log(xmlDoc);
                     var self = this;
                     xmlDoc = $.parseXML(response.data);
-                    results = $(xmlDoc).find('result');
+                    results = $(xmlDoc).find('complaint');
                     console.log(response.data);
-                    $(results).each(function(){
-                        requestUri = $(this).find('[name="subject"]').find('uri').text();
-                        let c = {"id": requestUri.substring(requestUri.lastIndexOf("/") + 1) + ".xml",
-                                 "status": $(this).find('[name="status"]').find('literal').text()};
+                     $(xmlDoc).find('complaint').each(function(){
+                    //$(results).each(function(){
+                        console.log($(this).text());
+
+                        let id = $(this).find('value').text();
+                        let status =  $(this).find('status').text();
+                        console.log("s" + status + "s");
+
+                        //console.log($(this).textContent);
+                        //console.log($(this).attributes["status"].value);
+                        //requestUri = $(this).find('[name="subject"]').find('uri').text();
+                        let c = {"id": id + ".xml",
+                                 "status": status};
                         self.complaints.push(c);
-                        status = $(this).find('[name="status"]').find('literal').text();
-                        console.log("status " + status);
+                        //status = $(this).find('[name="status"]').find('literal').text();
+                        //console.log("status " + status);
                     });
                     //$(xmlDoc).find('complaint').each(function(){
                     //     self.complaints.push($(this).text());

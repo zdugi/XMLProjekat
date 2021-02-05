@@ -20,13 +20,4 @@ public class ComplaintsAdvanceSearchQuery {
     @XmlElement
     public String applicantRegex;
 
-    public ComplaintsAdvanceSearchQuery(){}
-
-    public ComplaintsAdvanceSearchQuery(String s){
-        this.applicantRegex = "";
-        this.authorityRegex = "";
-        this.placeRegex = "";
-        this.stateRegex = "";
-        this.submissionDateRegex = "";
-    }
 }
