@@ -5,6 +5,7 @@ Vue.component('menu-component', {
         <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
          <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
          <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
+          <li><router-link to="/reports-list">Listanje izvestaja</router-link></li>
          <li><router-link to='/create-resolution'>Kreiraj resenje</router-link></li>
         <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
          <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
