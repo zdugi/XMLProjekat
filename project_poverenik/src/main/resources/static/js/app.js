@@ -15,6 +15,7 @@ const router = new VueRouter({
         { path: '/resolution-list', component: ResolutionTablePage },
             { path: '/advance-search-resolution', component: ResolutionsAdvanceSearchPage},
         { path: '/', component: LoginPage },
+        { path: '/register', component: RegisterPage },
          { path: '/resolution-search', component: ResolutionSearchPage },
          { path: '/resolution/:id', component: NewResolutionPage },
 

@@ -15,7 +15,6 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                 <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Status</th>
                 <th v-if='currentRole == "ROLE_POVERENIK"' colspan="1" class="text-center">Sastavi resenje</th>
             </tr>
-            <h1 v-if='currentRole == "ROLE_POVERENIK"'>ulogovan je poverenik</h1>
             <tr v-for="item in complaints">
                  <td>{{ item.id }}</td>
                  <td><a v-bind:href="'api/complaint/xhtml/' + item.id" target="_blank">XHTML</a></td>
