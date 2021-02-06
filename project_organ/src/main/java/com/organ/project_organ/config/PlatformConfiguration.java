@@ -110,4 +110,16 @@ public class PlatformConfiguration implements WebMvcConfigurer {
                 textContainQuery
         );
     }
+
+    @Bean
+    public ResenjeRepository resenjeRepository() {
+        String textContainQuery = "";
+
+        return new ResenjeRepository(
+                "/example/resenje/metadata",
+                "/db/sample/resenje",
+                "com.organ.project_organ.model.xml_resenje",
+                textContainQuery
+        );
+    }
 }

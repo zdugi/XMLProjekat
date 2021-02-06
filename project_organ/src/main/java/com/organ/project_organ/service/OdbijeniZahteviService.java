@@ -5,6 +5,7 @@ import com.organ.project_organ.repository.impl.OdbijeniZahteviRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,20 @@ public class OdbijeniZahteviService extends AbsService {
     public OdbijeniZahteviService() {
         super("", "");
     }
+
+    @PostConstruct
+    public void init() {
+        try {
+            odbijeniZahteviRepository.getOneXML(arrayId);
+        } catch (Exception exception) {
+            try {
+                odbijeniZahteviRepository.save(arrayId, new OdbijeniZahtevi());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     public ByteArrayOutputStream getOneRDF(String id) throws Exception {
