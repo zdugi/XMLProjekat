@@ -37,11 +37,3 @@ cxf.path=/ws/
 ```
 
 **NAPOMENA**: Klijentske aplikacije čine isključivo statičke datoteke, pa su za njihovo serviranje iskorišćeni serveri platformi - zbog organičenja resursa. Očuvana je logička struktura zadata u specifikaciji (RESTful komunikacija korišćenjem XML datoteka).
-
-## Registracija na sistem
-
-Platforma organa vlasti sadrži ugrađen sistem za registraciju na klijentskoj strani, dok je na platformi poverenika potrebno zahtev poslati eksterno (korišćenjem Postmana).
-
-<code> ... kod za gradjanina ... </code>
-
-<code> ... kod za poverenika ... </code>
