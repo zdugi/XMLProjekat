@@ -2,13 +2,14 @@
 
 ## Portovi
 
+DB
+- 8080
+
 Organ
-- platforma 8089
-- baza 8111
+- 8089
 
 Poverenik
-- platforma 8081
-- baza 8080
+- 8081
 
 MailServer
 - 8099
@@ -37,3 +38,5 @@ cxf.path=/ws/
 ```
 
 **NAPOMENA**: Klijentske aplikacije čine isključivo statičke datoteke, pa su za njihovo serviranje iskorišćeni serveri platformi - zbog organičenja resursa. Očuvana je logička struktura zadata u specifikaciji (RESTful komunikacija korišćenjem XML datoteka).
+
+**NAPOMENA**: Zbog ograničenih resursa, projekat je konfigurisan tako da se konektuje na jedan Tomcat server na kom su razdvojene baze za svaku platformu da bi se zadovoljila logička struktura zadata u specifikaciji.
