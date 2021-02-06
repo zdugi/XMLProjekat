@@ -36,8 +36,8 @@ public class IzvestajPortImpl implements IzvestajInterface {
 	@Override
 	public boolean sendReport(Izvestaj report) {
 		String[] parts = report.getAbout().split("/");
-		//String id = parts[parts.length - 1];
-		String id = UUID.randomUUID().toString();
+		String id = parts[parts.length - 1];
+		//String id = UUID.randomUUID().toString();
 		try {
 			izvestajRepository.save(id, report);
 		} catch (Exception e) {

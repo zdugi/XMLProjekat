@@ -7,11 +7,13 @@
 package com.xmlproject.project_poverenik.ws.poruka;
 
 import com.xmlproject.project_poverenik.model.poruka.Poruka;
+import com.xmlproject.project_poverenik.repository.PorukaRepository;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -35,8 +37,8 @@ import javax.jws.soap.SOAPBinding;
                       endpointInterface = "com.xmlproject.project_poverenik.ws.poruka.PorukaInterface")
 @Component
 public class PorukaPortImpl implements PorukaInterface {
-	//@Autowired
-	//private PorukaService porukaService;
+	@Autowired
+	private PorukaRepository porukaRepository;
 
 	@Autowired
 	private ZalbaNaCutanjeService zalbaNaCutanjeService;
@@ -70,6 +72,12 @@ public class PorukaPortImpl implements PorukaInterface {
 
 		}
 		// upisati poruku
+		String id = UUID.randomUUID().toString();
+		try {
+			porukaRepository.save(id,msg);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 
 
 		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());

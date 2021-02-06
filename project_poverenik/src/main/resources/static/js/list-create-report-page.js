@@ -39,7 +39,7 @@ const ListCreateReportPage = Vue.component('list-create-report-page-component', 
                             });
                         },
                         error => {
-                            alert('Doslo je do greske prilikom ucitavanja izvestaja.');
+                            alert('Ne postoje instance izveštaja u bazi.');
                         });
         }
     },

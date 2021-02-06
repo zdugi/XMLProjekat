@@ -228,7 +228,7 @@ public class ZahtevService extends AbsService {
     }
 
     public ByteArrayOutputStream queryRDF(RequestsAdvanceSearchQuery query) {
-        String sparqlQuery = "SELECT * FROM <http://localhost:8111/fuseki/EDataset/data/example/zahtev/metadata>\n" +
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fusekiOrgan/EDataset2/data/example/zahtev/metadata>\n" +
                 "WHERE {\n" +
                 "  ?subject <http://localhost/predikati/podnosenje> ?datumPodnosenja .\n" +
                 "  ?subject <http://localhost/predikati/upucujeSe> ?organKomeSeUpucuje .\n" +
