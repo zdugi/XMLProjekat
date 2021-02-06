@@ -6,7 +6,7 @@ const ListCreateReportPage = Vue.component('list-create-report-page-component', 
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <div class="display-table">
 
         <table>

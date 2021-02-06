@@ -8,6 +8,7 @@ const Messenger = Vue.component('messenger', {
         }
     },
     template: `
+    <div class="div-klasa">
     <div class="messenger">
         <div class="mwrap">
             <h3>Poruke</h3>
@@ -18,6 +19,7 @@ const Messenger = Vue.component('messenger', {
                 <input v-on:keyup.enter="send()" v-model="msg" type="text" placeholder="Posaljite poruku sluzbeniku.." />
             </div>
         </div>
+    </div>
     </div>
     `,
     methods: {

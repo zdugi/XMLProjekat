@@ -8,7 +8,7 @@ const ReportsAdvanceSearchPage = Vue.component("reports-advance-search-page-comp
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
                <div class="query-box">
                    <input v-model="ukupno" type="text" placeholder="Broj podnetih...">
                    <input v-model="odbijeni" type="text" placeholder="Broj odbijenih...">
