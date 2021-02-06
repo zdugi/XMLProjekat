@@ -3,6 +3,9 @@ const GradjaninPage = Vue.component('gradjanin-page', {
 
     `,
      mounted() {
+        if (!localStorage.getItem('currentUser'))
+             this.$router.push({ path: '/' });
+
          //location.reload();
      }
 })

@@ -3,6 +3,9 @@ const PoverenikPage = Vue.component('poverenik-page', {
 
     `,
      mounted() {
+     if (!localStorage.getItem('currentUser'))
+           this.$router.push({ path: '/' });
+
          //location.reload();
      }
 })

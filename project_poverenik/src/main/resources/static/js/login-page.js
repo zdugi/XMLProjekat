@@ -16,6 +16,14 @@ const LoginPage = Vue.component("login-page", {
     		<p class="text-danger"><i style="display:none" id="ikonica" class="fas fa-exclamation-circle"></i><span id="greskaKI1"></span></p>
     	</div>
     `,
+    mounted() {
+        if (localStorage.getItem("currentUser")) {
+            let role = JSON.parse(localStorage.getItem('currentUser')).roles;
+            if (role === "ROLE_USER") this.$router.push({ path: '/gradjanin' });
+            if (role === "ROLE_POVERENIK") this.$router.push({ path: '/poverenik' });
+        }
+
+    },
     methods: {
             login(){
             		this.sakrij_greske_log();
