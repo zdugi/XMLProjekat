@@ -6,7 +6,7 @@ const ResolutionSearchPage = Vue.component("res-search-page-component", {
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
            <div class="query-box">
                <input v-model="query" type="text" placeholder="Enter query..">
                <button v-on:click="submitQuery">Search</button>

@@ -6,7 +6,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <table class="display-table">
             <tr>
                 <th>Sifra žalbi na odluku</th>

@@ -10,7 +10,7 @@ const RequestsAdvanceSearchPage = Vue.component("requests-advance-search-page-co
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
                <div class="query-box">
                    <input v-model="datum" type="text" placeholder="Datum podnošenja...">
                    <input v-model="organ" type="text" placeholder="Organ kom se podnosi...">

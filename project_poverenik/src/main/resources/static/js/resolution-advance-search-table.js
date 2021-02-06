@@ -12,7 +12,7 @@ const ResolutionsAdvanceSearchPage = Vue.component("resolutions-advance-search-p
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
                <div class="query-box">
                 <input v-model="resenjeZa" type="text" placeholder="ID zalbe...">
                 <input v-model="doneseno" type="text" placeholder="Datum donosenja...">

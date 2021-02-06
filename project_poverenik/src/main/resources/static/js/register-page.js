@@ -15,6 +15,7 @@ const RegisterPage = Vue.component('register-page', {
         }
     },
     template: `
+    <div class="div-klasa">
     <div class="registration-box">
         <h2>Super Registracija</h2>
         <form method="post" @submit="checkForm">
@@ -34,6 +35,7 @@ const RegisterPage = Vue.component('register-page', {
             </select>
             <button style="width: 100%;">Registruj se</button>
         </form>
+    </div>
     </div>
     `,
     methods: {

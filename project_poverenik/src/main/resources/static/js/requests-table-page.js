@@ -6,7 +6,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <table class="display-table">
             <tr>
                 <th>Sifra žalbi</th>
