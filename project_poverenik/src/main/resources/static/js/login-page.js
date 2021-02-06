@@ -1,6 +1,6 @@
 const LoginPage = Vue.component("login-page", {
     template: `
-    <div style="max-width: 500px; margin:auto; ">
+    <div class="standard" style="max-width: 500px; margin:auto; ">
     <h1 style="max-width: 500px; margin:auto; margin-top:50px; margin-bottom:100px;"><b>Login page</b></h1>
     		<form id = "log_elem" >
     			<label for="email">Email </label>

@@ -15,7 +15,7 @@ const RegisterPage = Vue.component('register-page', {
         }
     },
     template: `
-    <div class="div-klasa">
+    <div class="standard">
     <div class="registration-box">
         <h2>Super Registracija</h2>
         <form method="post" @submit="checkForm">

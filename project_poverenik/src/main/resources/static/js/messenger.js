@@ -8,7 +8,7 @@ const Messenger = Vue.component('messenger', {
         }
     },
     template: `
-    <div class="div-klasa">
+    <div class="div-klasa inline-div">
     <div class="messenger">
         <div class="mwrap">
             <h3>Poruke</h3>

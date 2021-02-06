@@ -6,9 +6,9 @@ Vue.component('menu-component', {
         }
     },
     template: `
-    <nav role="navigation">
+    <nav role="navigation" class="nav-bar-left" v-if="checkUser()">
     <ul v-if="checkUser()==='ROLE_POVERENIK'">
-        <li><router-link to="/requests-table-page">Zalbe na cutanje</router-link>
+        <li><router-link to="/requests-table-page"><b>Zalbe na cutanje</b></router-link>
             <ul class="dropdown">
                <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
                 <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
@@ -16,7 +16,7 @@ Vue.component('menu-component', {
 
             </ul>
         </li>
-        <li><router-link to="/complaint-res-list">Zalbe na odluku</router-link>
+        <li><router-link to="/complaint-res-list"><b>Zalbe na odluku</b></router-link>
            <ul class="dropdown">
              <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
               <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
@@ -24,7 +24,7 @@ Vue.component('menu-component', {
             </ul>
         </li>
 
-        <li><router-link to="/reports-list">Izvestaji</router-link>
+        <li><router-link to="/reports-list"><b>Izvestaji</b></router-link>
            <ul class="dropdown">
                 <li><router-link to="/reports-list">Listanje izvestaja</router-link></li>
                  <li><router-link to="/reports-search">Pretraga izvestaja</router-link></li>
@@ -32,7 +32,7 @@ Vue.component('menu-component', {
             </ul>
         </li>
 
-        <li><router-link to="/resolution-list">Resenja</router-link>
+        <li><router-link to="/resolution-list"><b>Resenja</b></router-link>
             <ul class="dropdown">
                 <li><router-link to='/create-resolution'>Kreiraj resenje</router-link></li>
                 <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
@@ -40,13 +40,13 @@ Vue.component('menu-component', {
                 <li><router-link to="/advance-search-resolution">Napredna pretraga resenja</router-link></li>
             </ul>
          </li>
-         <li><router-link to="/messenger">Poruke</router-link></li>
+         <li><router-link to="/messenger"><b>Poruke</b></router-link></li>
 
-         <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
+         <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()"><b>Odjavi se</b></span></li>
 
     </ul>
     <ul v-if="checkUser()==='ROLE_USER'">
-            <li><router-link to="/requests-table-page">Zalbe na cutanje</router-link>
+            <li><router-link to="/requests-table-page"><b>Zalbe na cutanje</b></router-link>
                 <ul class="dropdown">
                     <li><router-link to="/zalba-na-cutanje">Kreiraj zalbu na ćutanje</router-link></li>
                     <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
@@ -54,7 +54,7 @@ Vue.component('menu-component', {
                    <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
                 </ul>
             </li>
-            <li><router-link to='/complaint-res-list'>Zalbe na odluku</router-link>
+            <li><router-link to='/complaint-res-list'><b>Zalbe na odluku</b></router-link>
                 <ul class="dropdown">
                     <li><router-link to="/zalba-na-odluku">Kreiraj zalbu na odluku</router-link></li>
                     <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
@@ -62,8 +62,8 @@ Vue.component('menu-component', {
                     <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
                 </ul>
              </li>
-             <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
-             <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
+             <li><router-link to='/resolution-list'><b>Resenja</b></router-link></li>
+             <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()"><b>Odjavi se</b></span></li>
 
         </ul>
     </nav>
