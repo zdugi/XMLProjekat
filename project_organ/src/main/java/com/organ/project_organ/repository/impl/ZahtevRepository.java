@@ -20,7 +20,7 @@ public class ZahtevRepository extends Repository<Zahtev> {
     }
 
     public String[] getRequestsListForUser(String userId) {
-        String sparqlQuery = "SELECT * FROM <http://localhost:8111/fuseki/EDataset/data/example/zahtev/metadata> " +
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fusekiOrgan/EDataset2/data/example/zahtev/metadata> " +
                 "WHERE {\n" +
                 "  ?s <http://localhost/predikati/potrazuje> <http://ftn.uns.ac.rs/user/%s>\n" +
                 "}\n" +

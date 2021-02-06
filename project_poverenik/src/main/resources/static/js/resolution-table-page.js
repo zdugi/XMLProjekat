@@ -53,7 +53,7 @@ const ResolutionTablePage = Vue.component("resolution-table-page-component", {
                              });
                          },
                          error => {
-                             alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                             alert('Ne postoje instance rešenja u bazi.');
                          });
 
          }

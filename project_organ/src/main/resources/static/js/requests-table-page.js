@@ -40,7 +40,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                     });
                 },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zahteva.');
+                    alert('Ne postoje instance zahteva u bazi.');
                 });
     },
     methods : {

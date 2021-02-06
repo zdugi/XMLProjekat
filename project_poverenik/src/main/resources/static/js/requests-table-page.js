@@ -78,7 +78,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                          //console.log("status " + status);
                      });              },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zahteva.');
+                    alert('Ne postoje instance žalbe na odluku u bazi.');
                 });
 
     }else{
@@ -93,7 +93,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                         });
                        },
                         error => {
-                            alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                            alert('Ne postoje instance žalbe na odluku u bazi.');
                         });
 
         }

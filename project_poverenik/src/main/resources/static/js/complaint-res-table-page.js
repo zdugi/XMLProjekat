@@ -83,7 +83,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                     //
                 },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                    alert('Ne postoje instance žalbi na ćutanje u bazi.');
                 });
     }else{
     axios.get("/api/complaint/resolution/user" , {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
@@ -99,7 +99,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                         });
                     },
                     error => {
-                        alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                        alert('Ne postoje instance žalbi na ćutanje u bazi.');
                     });
 
     }
