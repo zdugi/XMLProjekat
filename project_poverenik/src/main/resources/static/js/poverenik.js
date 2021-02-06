@@ -1,6 +1,7 @@
 const PoverenikPage = Vue.component('poverenik-page', {
-    template: `
-
+    template: `<div>
+    <messenger></messenger>
+    </div>
     `,
      mounted() {
      if (!localStorage.getItem('currentUser'))

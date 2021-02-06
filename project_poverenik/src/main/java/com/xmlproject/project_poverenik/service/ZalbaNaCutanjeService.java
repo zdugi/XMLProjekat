@@ -327,7 +327,7 @@ public class ZalbaNaCutanjeService extends AbsService {
                 } catch(Exception e){
                     continue;
                 }
-                    Date datum = new Date(poruka.getVreme().longValue());
+                    Date datum = new Date(poruka.getVreme().longValue()*1000);
                     String dateStr = formatter.format(datum);
                     Date datumPoruke = formatter.parse(dateStr);
                     long diffInMillies = Math.abs(danasnjiDatum.getTime() - datumPoruke.getTime());
