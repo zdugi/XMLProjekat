@@ -11,6 +11,82 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="js/xonomy/xonomy.js"></script>
         <style>
+
+/*                a {
+  text-decoration: none;
+}
+
+nav {
+}
+
+ul {
+  background: purple;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+li {
+  color: #fff;
+  background: purple;
+  display: block;
+  float: left;
+  padding: 1rem;
+  position: relative;
+  text-decoration: none;
+  transition-duration: 0.5s;
+}
+
+li a {
+  color: #fff;
+}
+
+li:hover {
+  background: black;
+  cursor: pointer;
+}
+
+ul li ul {
+  background: orange;
+  visibility: hidden;
+  opacity: 0;
+  min-width: 5rem;
+  position: absolute;
+  transition: all 0.5s ease;
+  margin-top: 1rem;
+  left: 0;
+  display: none;
+}
+
+ul li:hover > ul,
+ul li ul:hover {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+ul li ul li {
+  clear: both;
+  width: 100%;
+}*/             .nav-bar-left {
+                     width: 350px;
+                     margin-top: 50px;
+                     margin-left: 30px;
+                     margin-right: 50px;
+                     padding-right: 50px;
+                     display: inline-block;
+                     vertical-align: top;
+                }
+                .standard {
+                display: block !important;
+
+                }
+
+                .inline-div{
+                    display: inline-block;
+                    vertical-align: top;
+                }
+
                 .div-klasa {
                     margin-top:100px;
                 }
@@ -96,7 +172,8 @@
     </head>
     <body>
     <div id="app">
-        <router-view></router-view>
+        <menu-component></menu-component>
+        <router-view class="inline-div"></router-view>
 
     </div>
     <script src="js/home-page.js"></script>
@@ -113,11 +190,15 @@
     <script src="js/complaint-res-search-page.js"></script>
     <script src="js/complaint-res-table-page.js"></script>
     <script src="js/complaint-res-advance-search-page.js"></script>
+    <script src="js/kreiraj-resenje.js"></script>
     <script src="js/resenje.js"></script>
     <script src="js/resolution-table-page.js"></script>
     <script src="js/login-page.js"></script>
     <script src="js/register-page.js"></script>
     <script src="js/resolution-search-page.js"></script>
+    <script src="js/reports-search-page.js"></script>
+    <script src="js/reports-advance-search-page.js"></script>
+    <script src="js/list-create-report-page.js"></script>
     <script src="js/messenger.js"></script>
     <script src="js/app.js"></script>
 

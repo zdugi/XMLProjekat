@@ -6,7 +6,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <table class="display-table">
             <tr>
                 <th>Sifra žalbi na odluku</th>
@@ -22,11 +22,11 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <td><a v-bind:href="'api/complaint/resolution/rdf/' + item.id" target="_blank">RDF</a></td>
                 <td><a v-bind:href="'api/complaint/resolution/json/' + item.id" target="_blank">JSON</a></td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
-                <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">Sastavi resenje</router-link></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><button  @click='obavestiOrgan(item.id)'>Obavesti organ vlasti</button></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Zalba je {{item.status}}</button></td>
+                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "орган је уважио жалбу"'><button  disabled="true">Organ je uvazio zalbu</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Resenje je sastavljeno</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><button>Sastavi resenje</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><router-link :to="'/resolution/' + item.id" tag="button">Sastavi resenje</router-link></td>
 
             </tr>
         </table>
@@ -83,7 +83,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                     //
                 },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                    alert('Ne postoje instance žalbi na ćutanje u bazi.');
                 });
     }else{
     axios.get("/api/complaint/resolution/user" , {headers: {'Content-Type': 'application/xml', 'Authorization' : 'Bearer ' + token}}).then(
@@ -99,7 +99,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                         });
                     },
                     error => {
-                        alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                        alert('Ne postoje instance žalbi na ćutanje u bazi.');
                     });
 
     }

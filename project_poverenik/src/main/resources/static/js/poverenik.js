@@ -1,5 +1,12 @@
 const PoverenikPage = Vue.component('poverenik-page', {
-    template: `
-        <menu-component></menu-component>
-    `
+    template: `<div>
+    <messenger></messenger>
+    </div>
+    `,
+     mounted() {
+     if (!localStorage.getItem('currentUser'))
+           this.$router.push({ path: '/' });
+
+         //location.reload();
+     }
 })

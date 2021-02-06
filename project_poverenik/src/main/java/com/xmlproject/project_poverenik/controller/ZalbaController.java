@@ -184,11 +184,9 @@ public class ZalbaController {
             //return new ResponseEntity<>(Converter.fromStringArray(zalbaNaOdlukuService.getList()), HttpStatus.OK);
             //ComplaintsAdvanceSearchQuery query = new ComplaintsAdvanceSearchQuery("");
 
-        ComplaintsExtendedDTO cs = Converter.fromZalbe(zalbaNaOdlukuService.getAllXMLInCollection());
-        for (ComplaintsExtendedDTO.Complaint c: cs.complaint){
-            System.out.println(c.value  + "  " + c.status);
-        }
-        return new ResponseEntity<>(Converter.fromZalbe(zalbaNaOdlukuService.getAllXMLInCollection()), HttpStatus.OK);
+
+        return new ResponseEntity<>(Converter.fromZalbe(zalbaNaOdlukuService.getAllXMLInCollectionUpdateStatus()), HttpStatus.OK);
+
 
 //        return new ResponseEntity<>(zalbaNaOdlukuService.queryRDF(query).toString(), HttpStatus.OK);
         //} catch (XMLDBException e) {

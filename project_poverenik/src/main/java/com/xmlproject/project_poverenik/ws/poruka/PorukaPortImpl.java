@@ -7,11 +7,13 @@
 package com.xmlproject.project_poverenik.ws.poruka;
 
 import com.xmlproject.project_poverenik.model.poruka.Poruka;
+import com.xmlproject.project_poverenik.repository.PorukaRepository;
 import com.xmlproject.project_poverenik.service.ZalbaNaCutanjeService;
 import com.xmlproject.project_poverenik.service.ZalbaNaOdlukuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -35,8 +37,8 @@ import javax.jws.soap.SOAPBinding;
                       endpointInterface = "com.xmlproject.project_poverenik.ws.poruka.PorukaInterface")
 @Component
 public class PorukaPortImpl implements PorukaInterface {
-	//@Autowired
-	//private PorukaService porukaService;
+	@Autowired
+	private PorukaRepository porukaRepository;
 
 	@Autowired
 	private ZalbaNaCutanjeService zalbaNaCutanjeService;
@@ -50,30 +52,43 @@ public class PorukaPortImpl implements PorukaInterface {
 		// split po spaceu, zadnja je prihvacena ili odbijena, predzanja je id zalbe i to provjeravamo
 		// i sacuvati u bazu
 		// format primljene poruke: "Zalba na "["odluku"|"cutanje"] [id zalbe] ['prihvacena'|'odbijena']
+		Boolean updated = false;
 		try {
 			String[] delovi = msg.getTelo().split(" ");
 			String prihvacena = delovi[delovi.length - 1];
 			String idZalbe = delovi[delovi.length - 2];
 			String odluka = delovi[delovi.length - 3];
 			String status;
-			if (prihvacena.equals("prihvacena")) status = "прихваћена";
+			if (prihvacena.equals("prihvacena")) status = "орган је уважио жалбу";
 				else status = "чека решење";
 
-			if (odluka.equals("odluku")){
+			try{
 				zalbaNaOdlukuService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+				updated = true;
 			}
-			if (odluka.equals("cutanje")){
+			catch (Exception e) {
+			}
+			try{
 				zalbaNaCutanjeService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+				updated = true;
 			}
+			catch (Exception e) {
 
+			}
 		}catch (Exception e) {
 
 		}
 		// upisati poruku
+		String id = UUID.randomUUID().toString();
+		try {
+			porukaRepository.save(id,msg);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 
 
 		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
-		return true;
+		return updated;
 	}
 
 }

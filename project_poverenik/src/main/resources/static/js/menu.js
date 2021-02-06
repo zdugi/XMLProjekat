@@ -1,37 +1,128 @@
 
 Vue.component('menu-component', {
+    data: function() {
+        return {
+            user: localStorage.getItem("currentUser")
+        }
+    },
     template: `
-    <ul>
-        <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
-         <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
-         <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
-         <li><router-link to='/create-resolution'>Kreiraj resenje</router-link></li>
-        <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
-         <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
-         <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
-        <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
-        <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
-         <li><router-link to="/advance-search-resolution">Napredna pretraga resenja</router-link></li>
-        <li><router-link to="/messenger">Poruke</router-link></li>
+    <nav role="navigation" class="nav-bar-left" v-if="checkUser()">
+    <ul v-if="checkUser()==='ROLE_POVERENIK'">
+        <li><router-link to="/requests-table-page"><b>Zalbe na cutanje</b></router-link>
+            <ul class="dropdown">
+               <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
+                <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
+              <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
 
-         <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
+            </ul>
+        </li>
+        <li><router-link to="/complaint-res-list"><b>Zalbe na odluku</b></router-link>
+           <ul class="dropdown">
+             <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
+              <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
+              <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
+            </ul>
+        </li>
+
+        <li><router-link to="/reports-list"><b>Izvestaji</b></router-link>
+           <ul class="dropdown">
+                <li><router-link to="/reports-list">Listanje izvestaja</router-link></li>
+                 <li><router-link to="/reports-search">Pretraga izvestaja</router-link></li>
+                <li><router-link to="/reports-advance-search">Napredna pretraga izvestaja</router-link></li>
+            </ul>
+        </li>
+
+        <li><router-link to="/resolution-list"><b>Resenja</b></router-link>
+            <ul class="dropdown">
+                <li><router-link to='/new-resolution'>Kreiraj resenje</router-link></li>
+                <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
+                <li><router-link to='/resolution-search'>Pretraga resenja</router-link></li>
+                <li><router-link to="/advance-search-resolution">Napredna pretraga resenja</router-link></li>
+            </ul>
+         </li>
+         <li><router-link to="/messenger"><b>Poruke</b></router-link></li>
+
+         <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()"><b>Odjavi se</b></span></li>
 
     </ul>
+    <ul v-if="checkUser()==='ROLE_USER'">
+            <li><router-link to="/requests-table-page"><b>Zalbe na cutanje</b></router-link>
+                <ul class="dropdown">
+                    <li><router-link to="/zalba-na-cutanje">Kreiraj zalbu na ćutanje</router-link></li>
+                    <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
+                    <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
+                   <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
+                </ul>
+            </li>
+            <li><router-link to='/complaint-res-list'><b>Zalbe na odluku</b></router-link>
+                <ul class="dropdown">
+                    <li><router-link to="/zalba-na-odluku">Kreiraj zalbu na odluku</router-link></li>
+                    <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
+                    <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
+                    <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
+                </ul>
+             </li>
+             <li><router-link to='/resolution-list'><b>Resenja</b></router-link></li>
+             <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()"><b>Odjavi se</b></span></li>
+
+        </ul>
+    </nav>
     `,
          methods: {
                  logout() {
                      localStorage.removeItem('currentUser');
                      axios.defaults.headers.common['Authorization'] = '';
                      this.$router.push({ path: '/' });
+                 },
+                 checkUser(){
+                    user = localStorage.getItem("currentUser");
+                   if (!user){
+                   return false;
+                   }
+                   console.log("uloga " + JSON.parse(localStorage.getItem('currentUser')).roles)
+                   return JSON.parse(localStorage.getItem('currentUser')).roles;
+
                  }
              },
              mounted() {
-                 if (!localStorage.getItem('currentUser'))
+                 console.log(localStorage.getItem("currentUser") + " korisnik");
+                 /*if (!localStorage.getItem('currentUser')){
                      this.$router.push({ path: '/' });
+
+                 }
 
                  var user = JSON.parse(localStorage.getItem('currentUser'));
 
                  if (user.roles == 'ROLE_USER')
-                     this.$router.push({ path: '/gradjanin' });
-             }
+                     this.$router.push({ path: '/gradjanin' });*/
+             },watch: {
+
+                $route (to, from){
+                        console.log(to  + "  " + from + " pratim rutu");
+                        console.log(to);
+                        if (to.path === "/gradjanin"){
+                            console.log("uso u if");
+                            this.user = JSON.parse(localStorage.getItem("currentUser"));
+                            this.$mount();
+                            this.$forceUpdate();
+                            this.$mount();
+                            }
+
+                        if (to.path === "/poverenik"){
+                            console.log("uso u if");
+                            this.user = JSON.parse(localStorage.getItem("currentUser"));
+                            this.$mount();
+                            this.$forceUpdate();
+                            this.$mount();
+                            }
+                        if (to.path === "/"){
+                            console.log("uso u if");
+                            this.user = JSON.parse(localStorage.getItem("currentUser"));
+                            this.$mount();
+                            this.$forceUpdate();
+                            this.$mount();
+                            }
+                    }
+
+               }
 })

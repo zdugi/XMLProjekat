@@ -5,7 +5,7 @@ const ResolutionTablePage = Vue.component("resolution-table-page-component", {
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <table class="display-table">
             <tr>
                 <th>Sifra resenja</th>
@@ -53,7 +53,7 @@ const ResolutionTablePage = Vue.component("resolution-table-page-component", {
                              });
                          },
                          error => {
-                             alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                             alert('Ne postoje instance rešenja u bazi.');
                          });
 
          }

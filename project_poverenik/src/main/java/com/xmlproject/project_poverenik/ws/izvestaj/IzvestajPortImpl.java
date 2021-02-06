@@ -7,8 +7,11 @@
 package com.xmlproject.project_poverenik.ws.izvestaj;
 
 import com.xmlproject.project_poverenik.model.xml_izvestaj.Izvestaj;
+import com.xmlproject.project_poverenik.repository.IzvestajRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -27,13 +30,21 @@ import javax.jws.soap.SOAPBinding;
 @Component
 public class IzvestajPortImpl implements IzvestajInterface {
 
-    private static final Logger LOG = Logger.getLogger(IzvestajPortImpl.class.getName());
+    @Autowired
+	private IzvestajRepository izvestajRepository;
 
 	@Override
 	public boolean sendReport(Izvestaj report) {
-		LOG.info(">>>>>>>>>>>>>> Primljen je izvestaj od organa vlasti");
-		LOG.info("Dopuniti implementaciju u com/xmlproject/project_poverenik/ws/izvestaj/IzvestajPortImpl.java");
-		LOG.info("Dobijena vrednost: " + report.getPodnetiZahtevi().getValue());
+		String[] parts = report.getAbout().split("/");
+		String id = parts[parts.length - 1];
+		//String id = UUID.randomUUID().toString();
+		try {
+			izvestajRepository.save(id, report);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
 		return false;
 	}
 

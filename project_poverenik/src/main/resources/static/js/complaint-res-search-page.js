@@ -6,7 +6,7 @@ const ComplaintResolutionSearchPage = Vue.component("complaint-res-search-page-c
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
            <div class="query-box">
                <input v-model="query" type="text" placeholder="Enter query..">
                <button v-on:click="submitQuery">Search</button>

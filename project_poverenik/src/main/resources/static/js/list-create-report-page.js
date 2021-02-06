@@ -6,11 +6,8 @@ const ListCreateReportPage = Vue.component('list-create-report-page-component', 
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <div class="display-table">
-            <button v-on:click="generate" :disabled="disableButton">
-                <i v-if="disableButton" class="fa fa-circle-o-notch fa-spin"></i> Izgenerisi izvestaj
-            </button>
 
         <table>
                 <tr>
@@ -30,22 +27,14 @@ const ListCreateReportPage = Vue.component('list-create-report-page-component', 
     </div>
     `,
     methods: {
-        generate() {
-            this.disableButton = true;
-            axios.post('/api/reports/generate', {headers: {'Content-Type': 'application/xml'}}).then(
-            response => {
-                this.disableButton = false;
-                var xmlDoc = $.parseXML(response.data);
-                this.reports.unshift($(xmlDoc).find('Response').text())
-                alert('Izvestaj je uspesno izgenerisan.');
-            })
-        },
+
         getAll() {
-            axios.get("/api/reports", {headers: {'Content-Type': 'application/xml'}}).then(
+        var token = JSON.parse(localStorage.getItem('currentUser')).token;
+            axios.get("/api/reports", {headers: {'Content-Type': 'application/xml','Authorization' : 'Bearer ' + token}}).then(
                         response => {
                             var xmlDoc = $.parseXML(response.data);
                             var self = this;
-                            $(xmlDoc).find('resource').each(function(){
+                            $(xmlDoc).find('complaint').each(function(){
                                 self.reports.push($(this).text());
                             });
                         },

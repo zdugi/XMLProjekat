@@ -191,7 +191,7 @@ public class ZalbaNaCutanjeService extends AbsService {
 
         com.xmlproject.project_poverenik.model.xml_opste.TTrazilac trazilac = new TTrazilac();
         trazilac.setAdresa(tAdresa);
-        trazilac.setKontakt("[uzimam iz sesije]");      // staviti kontakt podnosioca/ulogovanog, ja ga nemam u bazi
+        trazilac.setKontakt(userDetails.getLicneInformacije().getKontakt());      // staviti kontakt podnosioca/ulogovanog, ja ga nemam u bazi
         trazilac.setOsoba(osoba);                       // pa bi puklo da uradim .getContact()
 
         tDodatneInformacije.setTrazilac(trazilac);
@@ -327,7 +327,7 @@ public class ZalbaNaCutanjeService extends AbsService {
                 } catch(Exception e){
                     continue;
                 }
-                    Date datum = new Date(poruka.getVreme().longValue());
+                    Date datum = new Date(poruka.getVreme().longValue()*1000);
                     String dateStr = formatter.format(datum);
                     Date datumPoruke = formatter.parse(dateStr);
                     long diffInMillies = Math.abs(danasnjiDatum.getTime() - datumPoruke.getTime());

@@ -2,9 +2,9 @@ NewResolutionPage = Vue.component("resenje", {
                         template: `
                         <div>
                             <div class="editor-box">
-                                    <h2>Slanje resenja</h2>
+                                    <h3>Slanje resenja</h3>
+                                     <p> Zalba: {{ idZalbe }}</p>
                                     <div id="editor"></div>
-                                    <p> Id zalbe: {{ idZalbe }}</p>
                                     <button v-on:click="submit()">Posalji resenje</button>
                             </div>
                         </div>
@@ -20,10 +20,15 @@ NewResolutionPage = Vue.component("resenje", {
                         },
                         data() {
                             let x = window.location.hash.split('/');
-
+                            let type = x[x.length - 1];
+                            let addon = "";
+                            //if (type ==="odluka"){
+                            //    addon = "resolution/";
+                            ///}
                             return {
                                 //idZalbe: "idazlbe"
-                                idZalbe: x[x.length - 1]
+                                idZalbe: x[x.length - 1],
+                                link: "http://localhost:8081/" + addon + "pdf/" + x[x.length - 1]
                             }
                         },
                         mounted() {

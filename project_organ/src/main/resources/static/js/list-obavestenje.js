@@ -34,7 +34,7 @@ const RequestsTablePageObavestenje = Vue.component("list-obavestenje", {
                     });
                 },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zahteva.');
+                    alert('Ne postoje instance obaveštenja u bazi.');
                 });
     }
 })

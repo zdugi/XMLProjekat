@@ -6,7 +6,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
         }
     },
     template: `
-    <div>
+    <div class="div-klasa">
         <table class="display-table">
             <tr>
                 <th>Sifra žalbi</th>
@@ -22,11 +22,11 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                  <td><a v-bind:href="'api/complaint/rdf/' + item.id" target="_blank">RDF</a></td>
                  <td><a v-bind:href="'api/complaint/json/' + item.id" target="_blank">JSON</a></td>
                  <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
-                 <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">Sastavi resenje</router-link></td><td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><router-link :to="'/resolution/обавестиорган'">Obavesti organ vlasti</router-link></td>
                  <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><button  @click='obavestiOrgan(item.id)'>Obavesti organ vlasti</button></td>
-                 <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Zalba je {{item.status}}</button></td>
+                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "орган је уважио жалбу"'><button  disabled="true">Organ je uvazio zalbu</button></td>
+                 <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Resenje je sastavljeno</button></td>
                  <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
-                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><button>Sastavi resenje</button></td>
+                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><router-link :to="'/resolution/' + item.id" tag="button">Sastavi resenje</router-link></td>
 
             </tr>
         </table>
@@ -78,7 +78,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                          //console.log("status " + status);
                      });              },
                 error => {
-                    alert('Doslo je do greske prilikom slanja zahteva.');
+                    alert('Ne postoje instance žalbe na odluku u bazi.');
                 });
 
     }else{
@@ -93,7 +93,7 @@ const RequestsTablePage = Vue.component("requests-table-page-component", {
                         });
                        },
                         error => {
-                            alert('Doslo je do greske prilikom slanja zalbe na odluku.');
+                            alert('Ne postoje instance žalbe na odluku u bazi.');
                         });
 
         }

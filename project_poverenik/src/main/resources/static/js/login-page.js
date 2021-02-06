@@ -1,6 +1,6 @@
 const LoginPage = Vue.component("login-page", {
     template: `
-    <div style="max-width: 500px; margin:auto; ">
+    <div class="standard" style="max-width: 500px; margin:auto; ">
     <h1 style="max-width: 500px; margin:auto; margin-top:50px; margin-bottom:100px;"><b>Login page</b></h1>
     		<form id = "log_elem" >
     			<label for="email">Email </label>
@@ -16,6 +16,14 @@ const LoginPage = Vue.component("login-page", {
     		<p class="text-danger"><i style="display:none" id="ikonica" class="fas fa-exclamation-circle"></i><span id="greskaKI1"></span></p>
     	</div>
     `,
+    mounted() {
+        if (localStorage.getItem("currentUser")) {
+            let role = JSON.parse(localStorage.getItem('currentUser')).roles;
+            if (role === "ROLE_USER") this.$router.push({ path: '/gradjanin' });
+            if (role === "ROLE_POVERENIK") this.$router.push({ path: '/poverenik' });
+        }
+
+    },
     methods: {
             login(){
             		this.sakrij_greske_log();
@@ -45,9 +53,13 @@ const LoginPage = Vue.component("login-page", {
                            	//document.cookie = "user=" + response.data.access_token;
                            	if(decodedJwtData['User-role'] === "ROLE_POVERENIK"){
                            	    router.push("/poverenik")
+                           	    //location.reload();
+                           	    //router.push("/")
                            	}
                            	else{
+                           	    //location.reload();
                            	    router.push("/gradjanin")
+                           	    //router.push("/")
                            	}
                         }).catch((error)=>{
                           	document.getElementById("greskaKI1").innerText = "Pogresan imejl/lozinka!";

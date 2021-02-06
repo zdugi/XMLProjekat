@@ -162,7 +162,7 @@ public class IzvestajService extends AbsService {
     }
 
     public ByteArrayOutputStream queryRDF(ReportsAdvanceSearchQuery query) {
-        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fuseki/EDataset/data/example/izvestaj/metadata>\n" +
+        String sparqlQuery = "SELECT * FROM <http://localhost:8080/fusekiOrgan/EDataset2/data/example/izvestaj/metadata>\n" +
                 "WHERE {\n" +
                 "  ?subject <http://localhost/predikati/brojPod> ?brojPodnetih .\n" +
                 "  ?subject <http://localhost/predikati/odbijeniZahtevi> ?brojOdbijenihZahteva .\n" +
