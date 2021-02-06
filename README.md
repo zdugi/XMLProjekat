@@ -21,8 +21,8 @@ MailServer
 Za pokretanje pojedinačne platforme, potrebno je:
 - pokrenuti pribavljanje Maven paketa
 - uključiti ručno dodatne biblioteke iz **libs** direktorijuma
-- podići Tomcat server sa instancama Fuseki i Exists bazama
-- kreirati dataset **EDataset** u Fusekiju
+- podići Tomcat server sa instancama Fuseki i Exists bazama (potrebno je da u TomEE postoji exist.war i fuseki.war za bazu aplikacije poverenika i existOrgan.war i fusekiOrgan.war za bazu aplikacije organa vlasti )
+- kreirati dataset **EDataset** u Fusekiju kao dataset na endpoint-u 8080/fuseki i **EDataset2** kao dataset na endpoint-u 8080/fusekiOrgan
 
 Za pokretanje Mail servera, potrebno je:
 - pokrenuti pribavljanje Maven paketa
