@@ -22,11 +22,10 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <td><a v-bind:href="'api/complaint/resolution/rdf/' + item.id" target="_blank">RDF</a></td>
                 <td><a v-bind:href="'api/complaint/resolution/json/' + item.id" target="_blank">JSON</a></td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
-                <td v-if='currentRole == "ROLE_POVERENIK"'><router-link :to="'/resolution/' + item.id">Sastavi resenje</router-link></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><button  @click='obavestiOrgan(item.id)'>Obavesti organ vlasti</button></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Zalba je {{item.status}}</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Resenje je sastavljeno</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
-                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><button>Sastavi resenje</button></td>
+                <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><router-link :to="'/resolution/' + item.id" tag="button">Sastavi resenje</router-link></td>
 
             </tr>
         </table>
