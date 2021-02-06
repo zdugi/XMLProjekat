@@ -83,7 +83,7 @@
 
                 <p class="center underline"><xsl:value-of select="//zalbanaodluku:OrganDonosilacOdluke/opste:Naziv"/></p>
                 <p class="center">(назив органа који је донео одлуку)</p>
-                <p>Broj nesto od nesto</p>
+
                 <br/>
                 <p>Наведеном одлуком органа власти (решењем, закључком, обавештењем у писаној форми са елементима одлуке) , супротно закону,
                     одбијен-одбачен је мој захтев који сам поднео/ла-упутио/ла дана
