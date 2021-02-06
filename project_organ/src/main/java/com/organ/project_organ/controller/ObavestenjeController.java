@@ -18,6 +18,7 @@ import org.xmldb.api.base.XMLDBException;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/notification")
@@ -28,6 +29,7 @@ public class ObavestenjeController {
 
     @Autowired
     private ZahtevService zahtevService;
+
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequest(){
@@ -58,19 +60,19 @@ public class ObavestenjeController {
     }
 
     @GetMapping(path = "/xhtml/{id}")
-    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws FileNotFoundException {
+    public ResponseEntity<?> getRequestHTML(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(
-                obavestenjeService.generateHTML(id).toString(), HttpStatus.OK);
+                obavestenjeService.generateHTML(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/rdf/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> getRequestRDF(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(obavestenjeService.getOneRDF(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(obavestenjeService.getOneRDF(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @GetMapping(path = "/json/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRequestJSON(@PathVariable String id) throws Exception {
-        return new ResponseEntity<>(obavestenjeService.getOneJSON(id).toString(), HttpStatus.OK);
+        return new ResponseEntity<>(obavestenjeService.getOneJSON(id).toString().getBytes("UTF-8"), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)

@@ -11,6 +11,8 @@ import com.organ.project_organ.pojo.ObavestenjeDTO;
 import com.organ.project_organ.pojo.OpcijaObavestenjeDTO;
 import com.organ.project_organ.pojo.OrganDTO;
 import com.organ.project_organ.repository.impl.ObavestenjeRepository;
+import com.organ.project_organ.security.service.UserService;
+import com.organ.project_organ.ws.mail.MailInterface;
 import org.apache.jena.assembler.JA;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +39,9 @@ public class ObavestenjeService extends AbsService{
 
     @Autowired
     public ObavestenjeRepository obavestenjeRepository;
+
+    @Autowired
+    public UserService userService;
 
     public ObavestenjeService(){
         super("src/main/resources/obavestenje_tmp.xsl","src/main/resources/FreeSans.ttf");
@@ -183,6 +189,30 @@ public class ObavestenjeService extends AbsService{
         obavestenje.setRel("pred:odgovorNa");
 
         obavestenjeRepository.save(id, obavestenje);
+        try{
+            URL wsdlLocation = new URL("http://localhost:8099/ws/mail?wsdl");
+            QName serviceName = new QName("http://soap.spring.com/ws/mail", "MailService");
+            QName portName = new QName("http://soap.spring.com/ws/mail", "MailPort");
+
+            javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlLocation, serviceName);
+
+            MailInterface mailI = service.getPort(portName, MailInterface.class);
+
+            String link = "http://localhost:8089/api/notification/pdf/"+id;
+            String linkHTML = "http://localhost:8089/api/notification/html"+id;
+
+            String body = "Obavestenje za zahtev je na linkovima \n"+link+"\n"+linkHTML;
+
+
+            String email = userService.findByNameAndSurname(zahtev.getDodatneInformacije().getTrazilac().getOsoba().getIme(), zahtev.getDodatneInformacije().getTrazilac().getOsoba().getPrezime());
+
+           if (mailI.sendMail("Naslov mejla", body, new String[] {email}))
+                System.out.println("Uspesno poslat");
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
+
     }
 
     public StringWriter generateHTML(String id) throws FileNotFoundException {

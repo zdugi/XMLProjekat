@@ -126,7 +126,7 @@ const CreateObavestenje = Vue.component("create-response/:zahtev", {
         var xml =
         `<obavestenje naziv = '' brojPredmeta =''>
             <zakon naziv=''></zakon>
-            <teloObavestenja godina ='' dan='' sati='' pocetniSati='' zavrsniSati='' kancelarija='' suma='' >
+            <teloObavestenja opis ='' godina ='' dan='' sati='' pocetniSati='' zavrsniSati='' kancelarija='' suma='' >
                 <adresa ulica='' broj='' mesto='' postanskiBroj='' drzava='' />
             </teloObavestenja>
             <opcija cekiran='false' tekst='архиви'/>

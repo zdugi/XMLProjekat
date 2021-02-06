@@ -89,4 +89,18 @@ public class UserService implements UserDetailsService {
         userRepository.save(id, newUser);
     }
 
+    public String findByNameAndSurname(String ime, String prezime) throws Exception {
+    	String email = "";
+    	for(String k : userRepository.listResources()){
+			System.out.println(k);
+			Korisnik korisnik = userRepository.getOneXML(k);
+			if(korisnik.getLicneInformacije().getOsoba().getIme().equals(ime) && korisnik.getLicneInformacije().getOsoba().getPrezime().equals(prezime))
+			{
+				email = korisnik.getUsername();
+				return email;
+			}
+		}
+    	return email;
+	}
+
 }
