@@ -46,15 +46,23 @@ Vue.component('menu-component', {
 
     </ul>
     <ul v-if="checkUser()==='ROLE_USER'">
-            <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
-             <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
+            <li><router-link to="/requests-table-page">Zalbe na cutanje</router-link>
+                <ul class="dropdown">
+                    <li><router-link to="/zalba-na-cutanje">Kreiraj zalbu na ćutanje</router-link></li>
+                    <li><router-link to="/requests-table-page">Listanje zalbi na cutanje</router-link></li>
+                    <li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
+                   <li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
+                </ul>
+            </li>
+            <li><router-link to='/complaint-res-list'>Zalbe na odluku</router-link>
+                <ul class="dropdown">
+                    <li><router-link to="/zalba-na-odluku">Kreiraj zalbu na odluku</router-link></li>
+                    <li><router-link to='/complaint-res-list'>Listanje zalbi na odluku</router-link></li>
+                    <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
+                    <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
+                </ul>
+             </li>
              <li><router-link to='/resolution-list'>Listanje resenja</router-link></li>
-             li><router-link to="/search">Pretraga zalbi na cutanje</router-link></li>
-             <li><router-link to="/search-complaint-res">Pretraga zalbi na odluku</router-link></li>
-             li><router-link to="/advance-search">Napredna pretraga zalbi na cutanje</router-link></li>
-            <li><router-link to="/advance-search-complaint-res">Napredna pretraga zalbi na odluku</router-link></li>
-             <li><router-link to="/zalba-na-cutanje">Kreiraj zalbu na ćutanje</router-link></li>
-             <li><router-link to="/zalba-na-odluku">Kreiraj zalbu na odluku</router-link></li>
              <li><span style="color: #9b4dca;text-decoration: none;cursor: pointer;" v-on:click="logout()">Odjavi se</span></li>
 
         </ul>
