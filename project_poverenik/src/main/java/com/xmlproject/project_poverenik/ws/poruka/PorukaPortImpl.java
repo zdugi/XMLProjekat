@@ -50,22 +50,29 @@ public class PorukaPortImpl implements PorukaInterface {
 		// split po spaceu, zadnja je prihvacena ili odbijena, predzanja je id zalbe i to provjeravamo
 		// i sacuvati u bazu
 		// format primljene poruke: "Zalba na "["odluku"|"cutanje"] [id zalbe] ['prihvacena'|'odbijena']
+		Boolean updated = false;
 		try {
 			String[] delovi = msg.getTelo().split(" ");
 			String prihvacena = delovi[delovi.length - 1];
 			String idZalbe = delovi[delovi.length - 2];
 			String odluka = delovi[delovi.length - 3];
 			String status;
-			if (prihvacena.equals("prihvacena")) status = "прихваћена";
+			if (prihvacena.equals("prihvacena")) status = "орган је уважио жалбу";
 				else status = "чека решење";
 
-			if (odluka.equals("odluku")){
+			try{
 				zalbaNaOdlukuService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+				updated = true;
 			}
-			if (odluka.equals("cutanje")){
+			catch (Exception e) {
+			}
+			try{
 				zalbaNaCutanjeService.setPrihvaceno(idZalbe.substring(0, idZalbe.length() - 4), status);
+				updated = true;
 			}
+			catch (Exception e) {
 
+			}
 		}catch (Exception e) {
 
 		}
@@ -73,7 +80,7 @@ public class PorukaPortImpl implements PorukaInterface {
 
 
 		System.out.println("[" + msg.getVreme() + "] Nova poruka: " + msg.getTelo());
-		return true;
+		return updated;
 	}
 
 }

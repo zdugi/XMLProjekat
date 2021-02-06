@@ -23,6 +23,7 @@ const ComplaintResolutionTablePage = Vue.component("complaint-res-table-page-com
                 <td><a v-bind:href="'api/complaint/resolution/json/' + item.id" target="_blank">JSON</a></td>
                 <td v-if='currentRole == "ROLE_POVERENIK"'>{{item.status}}</td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "нова"'><button  @click='obavestiOrgan(item.id)'>Obavesti organ vlasti</button></td>
+                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "орган је уважио жалбу"'><button  disabled="true">Organ je uvazio zalbu</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && (item.status=="oдбијена" || item.status == "прихваћена")'><button disabled="true">Resenje je sastavljeno</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека се одговор органа власти"'><button disabled="true">Sastavi resenje</button></td>
                 <td v-if='currentRole == "ROLE_POVERENIK" && item.status == "чека решење"'><router-link :to="'/resolution/' + item.id" tag="button">Sastavi resenje</router-link></td>
