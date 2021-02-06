@@ -18,6 +18,7 @@ const router = new VueRouter({
         { path: '/', component: LoginPage },
         { path: '/register', component: RegisterPage },
          { path: '/resolution-search', component: ResolutionSearchPage },
+         { path: '/new-resolution', component: KreirajResenje },
          { path: '/resolution/:id', component: NewResolutionPage },
          { path: '/reports-search', component: ReportsSearchPage },
          { path: '/reports-advance-search', component: ReportsAdvanceSearchPage },
