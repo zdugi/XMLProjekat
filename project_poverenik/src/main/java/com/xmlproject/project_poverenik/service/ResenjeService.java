@@ -130,6 +130,7 @@ public class ResenjeService extends AbsService {
         TOsoba zalilac = new TOsoba();
         TOrgan organDonosilacOdluke = new TOrgan();
         TDatum datumPodnosenjaZalbe;
+        String datumPodnosenjaZahtevaString = "";
         if (zalbaNaCutanje == null){
             datumPodnosenjaZalbe = zalbaNaOdluku.getDodatneInformacije().getDatum();
         }
@@ -160,6 +161,9 @@ public class ResenjeService extends AbsService {
                     System.out.println("Organ donosilac odluke: " + organDonosilacOdluke.getNaziv());
                 } else if (zalbaNaCutanje != null && tagName.equals("Organ")){
                     organDonosilacOdluke = (TOrgan) ser.getValue();
+                } else if (tagName.equals("Datum_podnosenja_zahteva")) {
+                    TDatum d = (TDatum) ser.getValue();
+                    datumPodnosenjaZahtevaString = d.getValue();
                 }
                 else {
                     continue;
@@ -198,7 +202,7 @@ public class ResenjeService extends AbsService {
                 // mozda i ovo sa fronta da se posalje
         TDatum datumPodnosenjaZahteva = new TDatum();
         datumPodnosenjaZahteva.setProperty("pred:datumPodnosenjaZahteva");
-        datumPodnosenjaZahteva.setValue("datum podnosenja zahteva, to mi treba iz soapa");
+        datumPodnosenjaZahteva.setValue(datumPodnosenjaZahtevaString);
         JAXBElement<TDatum> datumPodnosenjaZahtevaJ = new JAXBElement<TDatum>(new QName("http://ftn.uns.ac.rs/xml_resenje", "DatumPodnosenja"), TDatum.class, datumPodnosenjaZahteva);
         tUvod.getContent().add(datumPodnosenjaZahtevaJ);
         //tUvod.getContent().add("datum podnosenja zahteva");             // ovo mi treba preko soapa
