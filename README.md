@@ -1,5 +1,7 @@
 # XMLProjekat
 
+Video prezentacija projekta se nalazi u fajlu **xml_tim6_video.mp4** 
+
 ## Portovi
 
 DB
