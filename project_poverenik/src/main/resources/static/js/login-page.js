@@ -45,9 +45,13 @@ const LoginPage = Vue.component("login-page", {
                            	//document.cookie = "user=" + response.data.access_token;
                            	if(decodedJwtData['User-role'] === "ROLE_POVERENIK"){
                            	    router.push("/poverenik")
+                           	    //location.reload();
+                           	    //router.push("/")
                            	}
                            	else{
+                           	    //location.reload();
                            	    router.push("/gradjanin")
+                           	    //router.push("/")
                            	}
                         }).catch((error)=>{
                           	document.getElementById("greskaKI1").innerText = "Pogresan imejl/lozinka!";
